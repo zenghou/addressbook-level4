@@ -759,6 +759,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |add an event to the addressbook |I can easily save appointments to the addressbook's calendar
 
+|`* * *` |user |execute commands interactively |I don't need to remember all the commands
+
+|`* * *` |user |open a save file in other directory |I can have multiple addressbooks and share with other users
+
 |`* *` |user |hide link:#private-contact-detail[private contact details] by default |minimize chance of someone else seeing them by accident
 
 |`* *` |user |be reminded of my contact's birthday |I can remember their birthdays easily
