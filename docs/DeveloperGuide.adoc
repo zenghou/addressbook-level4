@@ -742,6 +742,15 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 (For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
+=== Use case: Help
+
+*MSS*
+
+1.  User requests for help guide
+2.  AddressBook shows list of commands (help page) on a new window
++
+Use case ends.
+
 === Use case: Delete person
 
 *MSS*
