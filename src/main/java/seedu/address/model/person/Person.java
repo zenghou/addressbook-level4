@@ -10,7 +10,6 @@ import java.util.Set;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagNotFoundException;
 import seedu.address.model.tag.UniqueTagList;
 
 /**
@@ -135,11 +134,7 @@ public class Person implements ReadOnlyPerson {
      */
     @Override
     public void removeTag(Tag tag) {
-        try {
-            tags.getValue().removeTag(tag);
-        } catch (TagNotFoundException e) {
-            e.printStackTrace();
-        }
+        tags.getValue().removeTag(tag);
     }
 
     @Override

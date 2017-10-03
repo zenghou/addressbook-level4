@@ -15,7 +15,6 @@ import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.model.tag.TagNotFoundException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -68,7 +67,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void removeTag (Tag tag) throws TagNotFoundException {
+    public synchronized void removeTag (Tag tag) {
         addressBook.deleteTag(tag);
         indicateAddressBookChanged();
     }
