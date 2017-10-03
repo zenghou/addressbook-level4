@@ -13,6 +13,7 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.TagNotFoundException;
 
 /**
  * A list of persons that enforces uniqueness between its elements and does not allow nulls.
@@ -52,8 +53,11 @@ public class UniquePersonList implements Iterable<Person> {
     /**
      * Remove a specified Tag from all Persons
      */
-    public void removeTag(Tag tag) {
+    public void removeTag(Tag tag) throws TagNotFoundException {
         requireNonNull(tag);
+        if (!internalList.contains(tag)) {
+            throw new TagNotFoundException();
+        }
         for (Person each_person: internalList) {
             each_person.removeTag(tag);
         }

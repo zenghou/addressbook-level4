@@ -60,7 +60,10 @@ public class UniqueTagList implements Iterable<Tag> {
     /**
      * Removes the specified Tag in this list
      */
-    public void removeTag(Tag t) {
+    public void removeTag(Tag t) throws TagNotFoundException {
+        if (!internalList.contains(t)){
+            throw new TagNotFoundException();
+        }
         internalList.removeAll(t);
         assert CollectionUtil.elementsAreUnique(internalList);
     }
