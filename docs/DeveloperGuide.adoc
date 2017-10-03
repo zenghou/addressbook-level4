@@ -901,6 +901,15 @@ Use case ends.
 +
 Use case resumes at step 2.
 
+=== Use case: History
+
+*MSS*
+
+1.  User requests show history of previous commands
+2.  AddressBook shows history of previous commands since the programme started
++
+Use case ends.
+
 {More to be added}
 
 [appendix]
