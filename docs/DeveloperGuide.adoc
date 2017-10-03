@@ -948,6 +948,15 @@ Use case ends.
 +
 Use case ends.
 
+=== Use case: Clear
+
+*MSS*
+
+1.  User requests to delete all existing persons
+2.  AddressBook delete all persons
++
+Use case ends.
+
 {More to be added}
 
 [appendix]
