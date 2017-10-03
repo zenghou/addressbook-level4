@@ -800,6 +800,38 @@ Use case ends.
 +
 Use case ends.
 
+=== Use case: Edit person
+
+*MSS*
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+3.  User requests to edit a specific person in the list
+4.  AddressBook edits the person and shows the updated list of persons
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+* 3b. No field is edited or input format is wrong.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
 === Use case: Delete person
 
 *MSS*
