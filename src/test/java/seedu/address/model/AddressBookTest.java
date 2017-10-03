@@ -19,11 +19,9 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagNotFoundException;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PersonBuilder;
 
@@ -76,19 +74,17 @@ public class AddressBookTest {
         addressBook.getTagList().remove(0);
     }
 
-    @Test(expected = TagNotFoundException.class)
-    public void deleteTag_withoutValidTag_throwsTagNotFoundException() throws TagNotFoundException {
+    @Test
+    public void deleteTag_withoutValidTag() {
         addressBook.deleteTag(new TagStub().getStub());
+        AddressBook addressBookNew = new AddressBook();
+        assertEquals(addressBook, addressBookNew);
     }
 
     @Test
     public void deleteTag_withValidTag() {
         AddressBook withDefaultTag = new AddressBookBuilder().withPerson(new PersonBuilder().build()).build();
-        try {
-            withDefaultTag.deleteTag(new TagStub().getStub());
-        } catch (TagNotFoundException e) {
-            e.printStackTrace();
-        }
+        withDefaultTag.deleteTag(new TagStub().getStub());
         // both Person and UniqueTagList should not contain "friend" tag
         assertTrue(withDefaultTag.getTagList().isEmpty());
         // check the tag of the only person in address book
