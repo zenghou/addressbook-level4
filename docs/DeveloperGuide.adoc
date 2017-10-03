@@ -751,6 +751,39 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 +
 Use case ends.
 
+=== Use case: Add person
+
+*MSS*
+
+1.  User requests to add a person with the person’s name, phone, email, address , and (optional) tags
+2.  AddressBook adds the person
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The person already exists
++
+[none]
+** 2a1. AddressBook shows an error message.
++
+Use case ends.
+
+* 2b. The added person has missing details
++
+[none]
+** 2b1. AddressBook shows an error message.
++
+Use case ends.
+
+* 2c. The added person has wrong entry format
++
+[none]
+** 2c1. AddressBook shows an error message.
++
+Use case ends.
+
 === Use case: Delete person
 
 *MSS*
