@@ -957,6 +957,15 @@ Use case ends.
 +
 Use case ends.
 
+=== Use case: Exit
+
+*MSS*
+
+1.  User requests to exit the programme
+2.  AddressBook exits
++
+Use case ends.
+
 {More to be added}
 
 [appendix]
