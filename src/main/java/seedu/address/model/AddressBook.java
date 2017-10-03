@@ -15,6 +15,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.exceptions.TagNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -160,6 +161,13 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
         tags.add(t);
+    }
+
+    public void deleteTag(Tag tag) throws TagNotFoundException {
+        // TODO: remove tags from UniqueTagList and from all Persons
+        tags.removeTag(tag);
+        persons.removeTag(tag);
+
     }
 
     //// util methods
