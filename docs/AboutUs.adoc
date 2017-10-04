@@ -20,12 +20,12 @@ Responsibilities: Model + UI
 
 '''
 
-=== John Roe
-image::lejolly.jpg[width="150", align="left"]
-{empty}[http://github.com/lejolly[github]] [<<johndoe#, portfolio>>]
+=== Denny Sunarjo
+image::dennysunarjo.jpg[width="150", align="left"]
+{empty}[http://github.com/sunarjo-denny[github]] [<<dennysunarjo#, portfolio>>]
 
-Role: Team Lead +
-Responsibilities: UI
+Role: Developer +
+Responsibilities: Logic + UI
 
 '''
 
