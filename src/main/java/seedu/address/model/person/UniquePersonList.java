@@ -54,8 +54,8 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public void removeTag(Tag tag) {
         requireNonNull(tag);
-        for (Person each_person: internalList) {
-            each_person.removeTag(tag);
+        for (Person eachPerson: internalList) {
+            eachPerson.removeTag(tag);
         }
     }
 
