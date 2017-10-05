@@ -13,7 +13,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.ReadOnlyPerson;
 
 @XmlRootElement(name = "personList")
-public class XmlSerializablePersonList {
+public class XmlSerializablePersonList extends XmlSerializableData {
 
     @XmlElement
     private List<XmlAdaptedPerson> persons;

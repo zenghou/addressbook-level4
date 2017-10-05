@@ -13,20 +13,12 @@ import seedu.address.commons.util.XmlUtil;
  */
 public class XmlFileStorage {
     /**
-     * Saves the given addressbook data to the specified file.
+     * Saves the given data to the specified file.
      */
-    public static void saveDataToFile(File file, XmlSerializableAddressBook addressBook)
+    public static void saveDataToFile(File file, XmlSerializableData data)
             throws FileNotFoundException {
         try {
-            XmlUtil.saveDataToFile(file, addressBook);
-        } catch (JAXBException e) {
-            assert false : "Unexpected exception " + e.getMessage();
-        }
-    }
-
-    public static void saveDataToFile(File file, XmlSerializablePersonList persons) throws FileNotFoundException {
-        try {
-            XmlUtil.saveDataToFile(file, persons);
+            XmlUtil.saveDataToFile(file, data);
         } catch (JAXBException e) {
             assert false : "Unexpected exception " + e.getMessage();
         }
