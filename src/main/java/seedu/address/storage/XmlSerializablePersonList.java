@@ -12,6 +12,9 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.ReadOnlyPerson;
 
+/**
+ * An Immutable Person List that is serializable to xml file.
+ */
 @XmlRootElement(name = "personList")
 public class XmlSerializablePersonList extends XmlSerializableData {
 
