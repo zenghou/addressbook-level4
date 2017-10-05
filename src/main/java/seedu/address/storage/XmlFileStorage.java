@@ -24,6 +24,10 @@ public class XmlFileStorage {
         }
     }
 
+    public static void saveDataToFile(File file, XmlSerializablePersonList persons) {
+
+    }
+
     /**
      * Returns address book in the file or an empty address book
      */
