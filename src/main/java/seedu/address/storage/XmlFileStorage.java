@@ -24,8 +24,12 @@ public class XmlFileStorage {
         }
     }
 
-    public static void saveDataToFile(File file, XmlSerializablePersonList persons) {
-
+    public static void saveDataToFile(File file, XmlSerializablePersonList persons) throws FileNotFoundException {
+        try {
+            XmlUtil.saveDataToFile(file, persons);
+        } catch (JAXBException e) {
+            assert false : "Unexpected exception " + e.getMessage();
+        }
     }
 
     /**
