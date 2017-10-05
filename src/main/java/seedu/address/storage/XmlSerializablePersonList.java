@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.ReadOnlyPerson;
 
 @XmlRootElement(name = "personList")
 public class XmlSerializablePersonList {
@@ -29,13 +29,13 @@ public class XmlSerializablePersonList {
     /**
      * Conversion
      */
-    public XmlSerializablePersonList(List<Person> persons) {
+    public XmlSerializablePersonList(List<ReadOnlyPerson> persons) {
         this();
         this.persons.addAll(persons.stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
     }
 
-    public ObservableList<Person> getPersons() {
-        final ObservableList<Person> persons = this.persons.stream().map(p -> {
+    public ObservableList<ReadOnlyPerson> getPersons() {
+        final ObservableList<ReadOnlyPerson> persons = this.persons.stream().map(p -> {
             try {
                 return p.toModelType();
             } catch (IllegalValueException e) {
