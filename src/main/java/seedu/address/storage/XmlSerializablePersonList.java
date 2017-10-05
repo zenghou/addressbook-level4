@@ -27,8 +27,7 @@ public class XmlSerializablePersonList {
     }
 
     /**
-     *
-     * @param persons
+     * Conversion
      */
     public XmlSerializablePersonList(List<Person> persons) {
         this();
@@ -41,9 +40,11 @@ public class XmlSerializablePersonList {
                 return p.toModelType();
             } catch (IllegalValueException e) {
                 e.printStackTrace();
+                //TODO: better error handling
                 return null;
             }
         }).collect(Collectors.toCollection(FXCollections::observableArrayList));
         return FXCollections.unmodifiableObservableList(persons);
     }
+
 }
