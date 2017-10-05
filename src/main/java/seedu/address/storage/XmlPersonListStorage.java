@@ -9,7 +9,7 @@ import java.util.List;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.ReadOnlyPerson;
 
-public class XmlPersonListStorage implements PersonListStorage{
+public class XmlPersonListStorage implements PersonListStorage {
 
     private String filePath;
 
