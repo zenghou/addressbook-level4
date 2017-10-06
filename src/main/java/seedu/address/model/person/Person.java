@@ -22,7 +22,6 @@ public class Person implements ReadOnlyPerson {
     private ObjectProperty<Phone> phone;
     private ObjectProperty<Email> email;
     private ObjectProperty<Address> address;
-
     private ObjectProperty<UniqueTagList> tags;
 
     /**
@@ -127,6 +126,15 @@ public class Person implements ReadOnlyPerson {
         return other == this // short circuit if same object
                 || (other instanceof ReadOnlyPerson // instanceof handles nulls
                 && this.isSameStateAs((ReadOnlyPerson) other));
+    }
+
+    /**
+     * Removes the specified Tag from this person's tags
+     * @param tag
+     */
+    @Override
+    public void removeTag(Tag tag) {
+        tags.getValue().removeTag(tag);
     }
 
     @Override
