@@ -20,7 +20,7 @@ public interface PersonListStorage {
     /**
      * To be implemented
      */
-    public List<ReadOnlyPerson> readPersonList() throws DataConversionException, FileNotFoundException;
+    public List<ReadOnlyPerson> readPersonList() throws DataConversionException, IOException;
 
     /**
      * To be implemented

@@ -28,7 +28,7 @@ public class XmlPersonListStorage implements PersonListStorage {
     }
 
     @Override
-    public List<ReadOnlyPerson> readPersonList() throws DataConversionException, FileNotFoundException {
+    public List<ReadOnlyPerson> readPersonList() throws DataConversionException, IOException {
         return readPersonList(this.filePath);
     }
 
