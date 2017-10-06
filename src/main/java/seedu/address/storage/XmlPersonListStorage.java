@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
@@ -28,19 +29,22 @@ public class XmlPersonListStorage implements PersonListStorage {
     }
 
     @Override
-    public List<ReadOnlyPerson> readPersonList() throws DataConversionException, IOException {
+    public Optional<List<ReadOnlyPerson>> readPersonList() throws DataConversionException, IOException {
         return readPersonList(this.filePath);
     }
 
     @Override
-    public List<ReadOnlyPerson> readPersonList(String filePath) throws DataConversionException, FileNotFoundException {
+    public Optional<List<ReadOnlyPerson>> readPersonList(String filePath)
+        throws DataConversionException, FileNotFoundException {
         requireNonNull(filePath);
+
         File file = new File(filePath);
         if (!file.exists()) {
-            return null;
+            return Optional.empty();
         }
+        //TODO: improve method to get PersonList
         List<ReadOnlyPerson> persons = XmlFileStorage.loadPersonListFromSaveFile(new File(filePath)).getPersons();
-        return persons;
+        return Optional.of(persons);
     }
 
     @Override

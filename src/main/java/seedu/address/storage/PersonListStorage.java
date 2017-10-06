@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -20,12 +21,13 @@ public interface PersonListStorage {
     /**
      * To be implemented
      */
-    public List<ReadOnlyPerson> readPersonList() throws DataConversionException, IOException;
+    public Optional<List<ReadOnlyPerson>> readPersonList() throws DataConversionException, IOException;
 
     /**
      * To be implemented
      */
-    public List<ReadOnlyPerson> readPersonList(String filePath) throws DataConversionException, FileNotFoundException;
+    public Optional<List<ReadOnlyPerson>> readPersonList(String filePath)
+        throws DataConversionException, FileNotFoundException;
 
     /**
      * Saves the given {@link ReadOnlyPerson} to the storage.
