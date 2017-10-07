@@ -91,6 +91,31 @@ public class XmlPersonListStorageTest {
         assertEquals(originalUniquePersonList, readBack);
     }
 
+    @Test
+    public void readAndSavePersonListAsUniquePersonList() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
+        XmlPersonListStorage xmlPersonListStorage = new XmlPersonListStorage(filePath);
+        UniquePersonList originalUniquePersonList = typicalUniquePersonList;
+
+        // save in file and read back
+        xmlPersonListStorage.savePersonList(originalUniquePersonList, filePath);
+        UniquePersonList readBack = xmlPersonListStorage.readPersonList(filePath).get();
+        assertEquals(originalUniquePersonList, readBack);
+
+        // modify data and overwrite the file
+        originalUniquePersonList.add(TypicalPersons.FIONA);
+        originalUniquePersonList.add(TypicalPersons.GEORGE);
+        xmlPersonListStorage.savePersonList(originalUniquePersonList);
+        readBack = xmlPersonListStorage.readPersonList(filePath).get();
+        assertEquals(originalUniquePersonList, readBack);
+
+        // save and read without specified file path
+        originalUniquePersonList.remove(TypicalPersons.ALICE);
+        xmlPersonListStorage.savePersonList(originalUniquePersonList);
+        readBack = xmlPersonListStorage.readPersonList().get();
+        assertEquals(originalUniquePersonList, readBack);
+    }
+
     /**
      * Saves {@code persons} at specified {@code filePath}
      */
