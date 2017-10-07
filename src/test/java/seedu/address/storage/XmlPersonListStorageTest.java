@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Rule;
@@ -10,6 +11,7 @@ import org.junit.rules.TemporaryFolder;
 
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.UniquePersonList;
 
 public class XmlPersonListStorageTest {
 
@@ -24,13 +26,33 @@ public class XmlPersonListStorageTest {
     @Test
     public void savePersonList_nullPersonList_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        savePersonList(null, "SomeFile.xml");
+        savePersonListAsList(null, "SomeFile.xml");
+    }
+
+    @Test
+    public void savePersonList_nullUniquePersonList_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        savePersonListAsUniquePersonList(null, "SomeFile.xml");
+    }
+
+    @Test
+    public void savePersonList_nullFilePath_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        savePersonListAsList(new ArrayList<>(), null);
     }
 
     /**
      * Saves {@code persons} at specified {@code filePath}
      */
-    private void savePersonList(List<ReadOnlyPerson> persons, String filePath) {
+    private void savePersonListAsList(List<ReadOnlyPerson> persons, String filePath) {
+        try {
+            new XmlPersonListStorage(filePath).savePersonList(persons, addToTestDataPathIfNotNull(filePath));
+        } catch (IOException ioe) {
+            throw new AssertionError("There should not be an error writing to the file.", ioe);
+        }
+    }
+
+    private void savePersonListAsUniquePersonList(UniquePersonList persons, String filePath) {
         try {
             new XmlPersonListStorage(filePath).savePersonList(persons, addToTestDataPathIfNotNull(filePath));
         } catch (IOException ioe) {
