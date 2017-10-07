@@ -36,6 +36,16 @@ public class XmlSerializablePersonList extends XmlSerializableData {
         this.persons.addAll(persons.stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
     }
 
+    /**
+     * Conversion
+     */
+    public XmlSerializablePersonList(UniquePersonList persons) {
+        this();
+        this.persons.addAll(persons.asObservableList()
+            .stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
+
+    }
+
     public UniquePersonList getPersons() {
         final List<ReadOnlyPerson> persons = this.persons.stream().map(p -> {
             try {
