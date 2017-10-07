@@ -7,10 +7,9 @@ import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.UniquePersonList;
 
 /**
  * An Immutable Person List that is serializable to xml file.
@@ -37,8 +36,8 @@ public class XmlSerializablePersonList extends XmlSerializableData {
         this.persons.addAll(persons.stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
     }
 
-    public ObservableList<ReadOnlyPerson> getPersons() {
-        final ObservableList<ReadOnlyPerson> persons = this.persons.stream().map(p -> {
+    public UniquePersonList getPersons() {
+        final List<ReadOnlyPerson> persons = this.persons.stream().map(p -> {
             try {
                 return p.toModelType();
             } catch (IllegalValueException e) {
@@ -46,8 +45,14 @@ public class XmlSerializablePersonList extends XmlSerializableData {
                 //TODO: better error handling
                 return null;
             }
-        }).collect(Collectors.toCollection(FXCollections::observableArrayList));
-        return FXCollections.unmodifiableObservableList(persons);
+        }).collect(Collectors.toList());
+        UniquePersonList uniquePersons = new UniquePersonList();
+        try {
+            uniquePersons.setPersons(persons);
+        } catch (IllegalValueException e) {
+            //TODO: error handling
+        }
+        return uniquePersons;
     }
 
 }

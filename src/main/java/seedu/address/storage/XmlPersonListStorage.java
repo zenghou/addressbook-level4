@@ -11,6 +11,7 @@ import java.util.Optional;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.UniquePersonList;
 
 /**
  * A class to access Person data stored as an xml file on a hard disk.
@@ -29,12 +30,12 @@ public class XmlPersonListStorage implements PersonListStorage {
     }
 
     @Override
-    public Optional<List<ReadOnlyPerson>> readPersonList() throws DataConversionException, IOException {
+    public Optional<UniquePersonList> readPersonList() throws DataConversionException, IOException {
         return readPersonList(this.filePath);
     }
 
     @Override
-    public Optional<List<ReadOnlyPerson>> readPersonList(String filePath)
+    public Optional<UniquePersonList> readPersonList(String filePath)
         throws DataConversionException, FileNotFoundException {
         requireNonNull(filePath);
 
@@ -43,7 +44,7 @@ public class XmlPersonListStorage implements PersonListStorage {
             return Optional.empty();
         }
         //TODO: improve method to get PersonList
-        List<ReadOnlyPerson> persons = XmlFileStorage.loadPersonListFromSaveFile(new File(filePath)).getPersons();
+        UniquePersonList persons = XmlFileStorage.loadPersonListFromSaveFile(new File(filePath)).getPersons();
         return Optional.of(persons);
     }
 
