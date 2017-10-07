@@ -65,4 +65,20 @@ public class XmlPersonListStorage implements PersonListStorage {
         FileUtil.createIfMissing(file);
         XmlFileStorage.saveDataToFile(file, new XmlSerializablePersonList(persons));
     }
+
+    /**
+     * Similar to {@link #savePersonList(List)}
+     * @param persons represents the {@link UniquePersonList} to be saved
+     */
+    public void savePersonList(UniquePersonList persons) throws IOException {
+        savePersonList(persons, this.filePath);
+    }
+
+    /**
+     * Similar to {@link #savePersonList(UniquePersonList)}
+     * @param filePath location of the data. Cannot be null
+     */
+    public void savePersonList(UniquePersonList persons, String filePath) throws IOException {
+        savePersonList(persons.asObservableList(), filePath);
+    }
 }

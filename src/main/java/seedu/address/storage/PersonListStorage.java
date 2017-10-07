@@ -42,4 +42,14 @@ public interface PersonListStorage {
      */
     public void savePersonList(List<ReadOnlyPerson> persons, String filePath) throws IOException;
 
+    /**
+     * @see #savePersonList(List)
+     */
+    public void savePersonList(UniquePersonList persons) throws IOException;
+
+    /**
+     * @see #savePersonList(List)
+     */
+    public void savePersonList(UniquePersonList persons, String filePath) throws IOException;
+
 }
