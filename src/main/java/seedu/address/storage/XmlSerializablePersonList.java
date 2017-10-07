@@ -43,7 +43,6 @@ public class XmlSerializablePersonList extends XmlSerializableData {
         this();
         this.persons.addAll(persons.asObservableList()
             .stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
-
     }
 
     public UniquePersonList getPersons() {
