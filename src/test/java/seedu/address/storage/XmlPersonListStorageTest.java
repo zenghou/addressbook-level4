@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,35 @@ public class XmlPersonListStorageTest {
     public void savePersonList_nullFilePath_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         savePersonListAsList(new ArrayList<>(), null);
+    }
+
+    @Test
+    public void readAndSavePersonListAsList() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
+        XmlPersonListStorage xmlPersonListStorage = new XmlPersonListStorage(filePath);
+        List<ReadOnlyPerson> originalList = new ArrayList<>(typicalPersonList);
+        UniquePersonList originalUniquePersonList = new UniquePersonList();
+        originalUniquePersonList.setPersons(originalList);
+
+        // save in file and read back
+        xmlPersonListStorage.savePersonList(originalList, filePath);
+        UniquePersonList readBack = xmlPersonListStorage.readPersonList(filePath).get();
+        assertEquals(originalUniquePersonList, readBack);
+
+        // modify data and overwrite the file
+        originalList.add(TypicalPersons.FIONA);
+        originalList.add(TypicalPersons.GEORGE);
+        originalUniquePersonList.setPersons(originalList);
+        xmlPersonListStorage.savePersonList(originalList, filePath);
+        readBack = xmlPersonListStorage.readPersonList(filePath).get();
+        assertEquals(originalUniquePersonList, readBack);
+
+        // save and read without specified file path
+        originalList.remove(TypicalPersons.ALICE);
+        originalUniquePersonList.setPersons(originalList);
+        xmlPersonListStorage.savePersonList(originalList);
+        readBack = xmlPersonListStorage.readPersonList().get();
+        assertEquals(originalUniquePersonList, readBack);
     }
 
     /**
