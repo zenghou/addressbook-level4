@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -21,28 +20,12 @@ import seedu.address.testutil.TypicalPersons;
 public class XmlPersonListStorageTest {
 
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/XmlPersonListStorageTest/");
-    private static final List<ReadOnlyPerson> typicalPersonList = new ArrayList<>();
-    private static final UniquePersonList typicalUniquePersonList = new UniquePersonList();
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
-
-    @Before
-    public void init() {
-        typicalPersonList.add(TypicalPersons.ALICE);
-        typicalPersonList.add(TypicalPersons.BENSON);
-        typicalPersonList.add(TypicalPersons.CARL);
-        typicalPersonList.add(TypicalPersons.DANIEL);
-        typicalPersonList.add(TypicalPersons.ELLE);
-        try {
-            typicalUniquePersonList.setPersons(typicalPersonList);
-        } catch (IllegalValueException e) {
-            assert false : "not possible";
-        }
-    }
 
     @Test
     public void savePersonList_nullPersonList_throwsNullPointerException() {
@@ -66,7 +49,7 @@ public class XmlPersonListStorageTest {
     public void readAndSavePersonListAsList() throws Exception {
         String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
         XmlPersonListStorage xmlPersonListStorage = new XmlPersonListStorage(filePath);
-        List<ReadOnlyPerson> originalList = new ArrayList<>(typicalPersonList);
+        List<ReadOnlyPerson> originalList = new ArrayList<>(getTypicalPersonList());
         UniquePersonList originalUniquePersonList = new UniquePersonList();
         originalUniquePersonList.setPersons(originalList);
 
@@ -95,7 +78,7 @@ public class XmlPersonListStorageTest {
     public void readAndSavePersonListAsUniquePersonList() throws Exception {
         String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
         XmlPersonListStorage xmlPersonListStorage = new XmlPersonListStorage(filePath);
-        UniquePersonList originalUniquePersonList = typicalUniquePersonList;
+        UniquePersonList originalUniquePersonList = getTypicalUniquePersonList();
 
         // save in file and read back
         xmlPersonListStorage.savePersonList(originalUniquePersonList, filePath);
@@ -139,6 +122,26 @@ public class XmlPersonListStorageTest {
         return prefsFileInTestDataFolder != null
                ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
                : null;
+    }
+
+    private List<ReadOnlyPerson> getTypicalPersonList() {
+        List<ReadOnlyPerson> typicalPersonList = new ArrayList<>(5);
+        typicalPersonList.add(TypicalPersons.ALICE);
+        typicalPersonList.add(TypicalPersons.BENSON);
+        typicalPersonList.add(TypicalPersons.CARL);
+        typicalPersonList.add(TypicalPersons.DANIEL);
+        typicalPersonList.add(TypicalPersons.ELLE);
+        return typicalPersonList;
+    }
+
+    private UniquePersonList getTypicalUniquePersonList() {
+        UniquePersonList typicalUniquePersonList = new UniquePersonList();
+        try {
+            typicalUniquePersonList.setPersons(getTypicalPersonList());
+        } catch (IllegalValueException e) {
+            assert false : "not possible";
+        }
+        return typicalUniquePersonList;
     }
 
 }
