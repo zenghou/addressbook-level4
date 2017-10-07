@@ -110,6 +110,9 @@ public class XmlPersonListStorageTest {
         }
     }
 
+    /**
+     * Saves {@code persons} at specified {@code filePath}
+     */
     private void savePersonListAsUniquePersonList(UniquePersonList persons, String filePath) {
         try {
             new XmlPersonListStorage(filePath).savePersonList(persons, addToTestDataPathIfNotNull(filePath));
@@ -124,6 +127,9 @@ public class XmlPersonListStorageTest {
                : null;
     }
 
+    /**
+     * @return a list of {@link ReadOnlyPerson} for test.
+     */
     private List<ReadOnlyPerson> getTypicalPersonList() {
         List<ReadOnlyPerson> typicalPersonList = new ArrayList<>(5);
         typicalPersonList.add(TypicalPersons.ALICE);
@@ -134,6 +140,9 @@ public class XmlPersonListStorageTest {
         return typicalPersonList;
     }
 
+    /**
+     * @return a {@link UniquePersonList} for test.
+     */
     private UniquePersonList getTypicalUniquePersonList() {
         UniquePersonList typicalUniquePersonList = new UniquePersonList();
         try {

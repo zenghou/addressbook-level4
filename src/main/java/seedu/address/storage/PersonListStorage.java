@@ -20,12 +20,15 @@ public interface PersonListStorage {
     public String getPersonListFilePath();
 
     /**
-     * To be implemented
+     * Returns a list of {@link ReadOnlyPerson}.
+     *   Returns {@code Optional.empty()} if storage file is not found.
+     * @throws DataConversionException if the data in storage is not in the expected format.
+     * @throws IOException if there was any problem when reading from the storage.
      */
     public Optional<UniquePersonList> readPersonList() throws DataConversionException, IOException;
 
     /**
-     * To be implemented
+     * @see #readPersonList()
      */
     public Optional<UniquePersonList> readPersonList(String filePath)
         throws DataConversionException, FileNotFoundException;
