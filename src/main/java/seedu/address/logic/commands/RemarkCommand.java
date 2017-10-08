@@ -14,6 +14,7 @@ public class RemarkCommand extends UndoableCommand {
     public static final String COMMAND_ALIAS = "rmk";
 
     private final Index targetIndex;
+    private String remark;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the remark for a person specified in the INDEX.\n"
@@ -27,7 +28,8 @@ public class RemarkCommand extends UndoableCommand {
         throw new CommandException("Exception"); // stub exception for the time being
     }
 
-    public RemarkCommand(Index index) {
-        targetIndex = index;
+    public RemarkCommand(Index index, String remark) {
+        this.targetIndex = index;
+        this.remark = remark;
     }
 }
