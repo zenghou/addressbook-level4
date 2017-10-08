@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +44,11 @@ public class XmlPersonListStorageTest {
     public void savePersonList_nullFilePath_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         savePersonListAsList(new ArrayList<>(), null);
+    }
+
+    @Test
+    public void readMissingFile_emptyResult() throws Exception {
+        assertFalse(new XmlPersonListStorage("missingFile.xml").readPersonList().isPresent());
     }
 
     @Test
