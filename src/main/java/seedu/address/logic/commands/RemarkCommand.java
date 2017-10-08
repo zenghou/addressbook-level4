@@ -32,4 +32,22 @@ public class RemarkCommand extends UndoableCommand {
         this.targetIndex = index;
         this.remark = remark;
     }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public Index getIndex() {
+        return targetIndex;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+       if (other instanceof RemarkCommand) {
+           RemarkCommand otherObject = (RemarkCommand) other;
+           return this.getRemark().equals(otherObject.getRemark()) &&
+                   this.getIndex().equals(otherObject.getIndex());
+       }
+       return false;
+    }
 }
