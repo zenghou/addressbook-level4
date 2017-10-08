@@ -7,7 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -17,6 +19,8 @@ import seedu.address.model.person.UniquePersonList;
  * A class to access Person data stored as an xml file on a hard disk.
  */
 public class XmlPersonListStorage implements PersonListStorage {
+
+    private static final Logger logger = LogsCenter.getLogger(XmlPersonListStorage.class);
 
     private String filePath;
 
@@ -41,6 +45,7 @@ public class XmlPersonListStorage implements PersonListStorage {
 
         File file = new File(filePath);
         if (!file.exists()) {
+            logger.info("PersonList file " + filePath + " not found");
             return Optional.empty();
         }
         //TODO: improve method to get PersonList
