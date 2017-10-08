@@ -17,8 +17,8 @@ public class RemarkCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the remark for a person specified in the INDEX.\n"
-            + "Parameters: INDEX (must be a positive integer)" + PREFIX_REMARK + "[REMARK]"
-            + "Example: " + COMMAND_WORD + " 1" + PREFIX_REMARK + " Likes to drink coffee";
+            + "Parameters: INDEX (must be a positive integer) " + PREFIX_REMARK + "[REMARK]\n"
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK + " Likes to drink coffee";
 
     public static final String MESSAGE_SUCCESS = "New remark added: %1$s";
 
