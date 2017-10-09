@@ -30,7 +30,7 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
 
         try {
             index = ParserUtil.parseIndex(argumentMultimap.getPreamble());
-            remark = ParserUtil.parseRemarks(argumentMultimap.getValue(PREFIX_REMARK)).get();
+            remark = argumentMultimap.getValue(PREFIX_REMARK).get();
             return new RemarkCommand(index, remark);
         } catch (IllegalValueException ive) {
             throw new ParseException(
