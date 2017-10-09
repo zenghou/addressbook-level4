@@ -27,13 +27,10 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
         Index index;
         String remark;
-        Optional<String> optionalRemark;
 
         try {
-            index = ParserUtil.parseIndex(args);
-            optionalRemark = argumentMultimap.getValue(PREFIX_REMARK);
-            // check if optionalRemark has value, otherwise remark is assigned an empty String
-            remark = optionalRemark.isPresent() ? optionalRemark.get() : "";
+            index = ParserUtil.parseIndex(argumentMultimap.getPreamble());
+            remark = ParserUtil.parseRemarks(argumentMultimap.getValue(PREFIX_REMARK)).get();
             return new RemarkCommand(index, remark);
         } catch (IllegalValueException ive) {
             throw new ParseException(
