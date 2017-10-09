@@ -23,11 +23,9 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
      */
     public RemarkCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argumentMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
+        ArgumentMultimap argumentMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
         Index index;
         String remark;
-
         try {
             index = ParserUtil.parseIndex(argumentMultimap.getPreamble());
             remark = argumentMultimap.getValue(PREFIX_REMARK).get();
