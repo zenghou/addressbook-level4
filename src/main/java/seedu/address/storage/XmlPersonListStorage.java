@@ -14,6 +14,7 @@ import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * A class to access Person data stored as an xml file on a hard disk.
@@ -48,8 +49,13 @@ public class XmlPersonListStorage implements PersonListStorage {
             logger.info("PersonList file " + filePath + " not found");
             return Optional.empty();
         }
-        //TODO: improve method to get PersonList
-        UniquePersonList persons = XmlFileStorage.loadPersonListFromSaveFile(new File(filePath)).getPersons();
+        UniquePersonList persons;
+        try {
+            persons = XmlFileStorage.loadPersonListFromSaveFile(new File(filePath)).getPersons();
+        } catch (DuplicatePersonException dpe) {
+            logger.info("PersonList file " + filePath + " contains duplicated persons");
+            return Optional.empty();
+        }
         return Optional.of(persons);
     }
 

@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * An Immutable Person List that is serializable to xml file.
@@ -43,7 +44,7 @@ public class XmlSerializablePersonList extends XmlSerializableData {
         this(persons.asObservableList());
     }
 
-    public UniquePersonList getPersons() {
+    public UniquePersonList getPersons() throws DuplicatePersonException {
         final List<ReadOnlyPerson> persons = this.persons.stream().map(p -> {
             try {
                 return p.toModelType();
@@ -54,11 +55,7 @@ public class XmlSerializablePersonList extends XmlSerializableData {
             }
         }).collect(Collectors.toList());
         UniquePersonList uniquePersons = new UniquePersonList();
-        try {
-            uniquePersons.setPersons(persons);
-        } catch (IllegalValueException e) {
-            //TODO: error handling
-        }
+        uniquePersons.setPersons(persons);
         return uniquePersons;
     }
 
