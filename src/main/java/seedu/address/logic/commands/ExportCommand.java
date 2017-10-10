@@ -1,7 +1,13 @@
 package seedu.address.logic.commands;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.storage.XmlPersonListStorage;
 
 /**
  * Export a person list to a specified save file.
@@ -25,6 +31,18 @@ public class ExportCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
+        List<ReadOnlyPerson> lastShowList = model.getFilteredPersonList();
+        List<ReadOnlyPerson> personsToSave = new ArrayList<>();
+        for (Index index : this.targetIndexes) {
+            personsToSave.add(lastShowList.get(index.getZeroBased()));
+        }
+        XmlPersonListStorage xmlPersonListStorage = new XmlPersonListStorage(this.filePath);
+        try {
+            xmlPersonListStorage.savePersonList(personsToSave);
+        } catch (IOException ioe) {
+            throw new CommandException(ioe.getMessage());
+            //TODO: better error handling
+        }
         return null;
     }
 }
