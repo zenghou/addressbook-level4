@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import org.junit.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.person.Remark;
 
 public class RemarkCommandTest {
 
@@ -15,20 +16,20 @@ public class RemarkCommandTest {
 
     @Test (expected = CommandException.class)
     public void execute_executeUndoableCommand_throwsCommandException() throws CommandException {
-        RemarkCommand remarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, TEST_REMARK);
+        RemarkCommand remarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(TEST_REMARK));
         remarkCommand.executeUndoableCommand();
     }
 
     @Test
     public void equals() {
-        RemarkCommand firstRemarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, TEST_REMARK);
-        RemarkCommand secondRemarkCommand = new RemarkCommand(INDEX_SECOND_PERSON, TEST_REMARK);
+        RemarkCommand firstRemarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(TEST_REMARK));
+        RemarkCommand secondRemarkCommand = new RemarkCommand(INDEX_SECOND_PERSON, new Remark(TEST_REMARK));
 
         // same object therefore same content -> returns true
         assertTrue(firstRemarkCommand.equals(firstRemarkCommand));
 
         // same values -> return true
-        assertTrue(firstRemarkCommand.equals(new RemarkCommand(INDEX_FIRST_PERSON, "This is a test remark")));
+        assertTrue(firstRemarkCommand.equals(new RemarkCommand(INDEX_FIRST_PERSON, new Remark("This is a test remark"))));
 
         // different Indices -> return False
         assertFalse(firstRemarkCommand.equals(secondRemarkCommand));

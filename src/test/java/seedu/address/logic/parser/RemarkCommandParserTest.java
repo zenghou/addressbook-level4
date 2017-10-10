@@ -9,6 +9,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import org.junit.Test;
 
 import seedu.address.logic.commands.RemarkCommand;
+import seedu.address.model.person.Remark;
 
 public class RemarkCommandParserTest {
     private RemarkCommandParser parser = new RemarkCommandParser();
@@ -17,10 +18,10 @@ public class RemarkCommandParserTest {
     public void parse_validArgs_returnsRemarkCommand() {
         // with remark
         assertParseSuccess(parser,"1 " + PREFIX_REMARK + "Likes to drink coffee", new RemarkCommand(INDEX_FIRST_PERSON,
-                "Likes to drink coffee"));
+                new Remark("Likes to drink coffee")));
 
         // without remark
-        assertParseSuccess(parser, "1 " + PREFIX_REMARK, new RemarkCommand(INDEX_FIRST_PERSON, ""));
+        assertParseSuccess(parser, "1 " + PREFIX_REMARK, new RemarkCommand(INDEX_FIRST_PERSON, new Remark("")));
 
     }
 

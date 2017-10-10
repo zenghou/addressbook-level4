@@ -33,6 +33,7 @@ import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Remark;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -85,7 +86,7 @@ public class AddressBookParserTest {
         assertTrue(parser.parseCommand(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK +
                 "Likes to drink coffee") instanceof RemarkCommand);
 
-        RemarkCommand correctRemarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, "Likes to drink coffee");
+        RemarkCommand correctRemarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark("Likes to drink coffee"));
 
         // test that correct command returns correct input
         assertTrue(parser.parseCommand(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK + "Likes to drink coffee").

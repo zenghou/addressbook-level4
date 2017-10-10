@@ -10,6 +10,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Remark;
 
 /**
  * Parses input and returns a RemarkCommand
@@ -29,7 +30,7 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         try {
             index = ParserUtil.parseIndex(argumentMultimap.getPreamble());
             remark = argumentMultimap.getValue(PREFIX_REMARK).get();
-            return new RemarkCommand(index, remark);
+            return new RemarkCommand(index, new Remark(remark));
         } catch (IllegalValueException ive) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
