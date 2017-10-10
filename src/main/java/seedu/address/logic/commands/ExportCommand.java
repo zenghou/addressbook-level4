@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -34,6 +35,9 @@ public class ExportCommand extends Command {
         List<ReadOnlyPerson> lastShowList = model.getFilteredPersonList();
         List<ReadOnlyPerson> personsToSave = new ArrayList<>();
         for (Index index : this.targetIndexes) {
+            if (index.getZeroBased() > lastShowList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
             personsToSave.add(lastShowList.get(index.getZeroBased()));
         }
         XmlPersonListStorage xmlPersonListStorage = new XmlPersonListStorage(this.filePath);
