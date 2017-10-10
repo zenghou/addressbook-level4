@@ -7,13 +7,11 @@ import seedu.address.logic.commands.exceptions.CommandException;
 public class SortCommand extends UndoableCommand{
     public static final String COMMAND_WORD = "sort";
 
-    public static final String MESSAGE_SUCCESS = "list sorted!";
+    public static final String MESSAGE_SUCCESS = "list sorted in alphabetical order!";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": sort the person in alphabetical order.\n"
             + "Example: " + COMMAND_WORD;
-
-    public static final String MESSAGE_SORT_PERSONS_SUCCESS = "List sorted!";
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
