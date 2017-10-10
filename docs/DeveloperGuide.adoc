@@ -731,63 +731,69 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |edit their contact details |I do not have to delete and create a new contact
 
+|`* * *` |user |edit my own contact details |I can make changes/correct my errors
+
 |`* * *` |user |add/edit a tag pegged to my contact |I can update the tags if necessary
 
 |`* * *` |user |undo and redo my last action |I can recover from my mistakes
-
-|`* * *` |user |know how to get to my contact's address from my current location on Google maps |I know which route to take to get there
-
-|`* * *` |user |be warned before deleting/ clearing contact |I won't accidentally delete a person
-
-|`* * *` |user |message/email/call my contacts in the list |I do not have to copy/paste/manually enter their details
 
 |`* * *` |user |create groups |I can sort my contacts according to social context
 
 |`* * *` |user |sort and find according to tags/social groups/name/dob |I can conveniently look out for specific tags/identify categories
 
-|`* * *` |user |create a password to hide all the protected field |only I can access the protected field
-
-|`* * *` |user with sensitive data|log in to access the addressbook |only I can access the addressbook
-
-|`* * *` |user |store my addressbook in the cloud |I can access my addressbook from any device
+|`* * *` |user |log in to access the addressbook |only I can access the addressbook
 
 |`* * *` |user |list the names only in my addresbook |I don't have to see all the details of every person I am not interested in
 
-|`* * *` |user |see all the names in my contact without the details |I can view a compact list of names on my addressbook
-
 |`* * *` |user |search for users by other fields (e.g. email/address/contact number) |I can quickly access contact by other identifiable attributes
 
-|`* * *` |user |add an event to the addressbook |I can easily save appointments to the addressbook's calendar
+|`* * *` |user |open a save file in another directory |I can have multiple addressbooks and share with other users
 
-|`* * *` |user |execute commands interactively |I don't need to remember all the commands
+|`* * *` |user |change the color scheme/UI elements of the addressbook |I can select a color/font that suits my preference
 
-|`* * *` |user |open a save file in other directory |I can have multiple addressbooks and share with other users
+|`* * *` |user |export and import my contact details |I can share the contact details
 
-|`* *` |user |hide link:#private-contact-detail[private contact details] by default |minimize chance of someone else seeing them by accident
+|`* * *` |user |share a contact card (that is exported) with another user |I can easily share with a click of a button and avoid manual sharing
 
-|`* *` |user |be reminded of my contact's birthday |I can remember their birthdays easily
+|`* * *` |user |add my contact's birthday details |I can keep track of my contact's birthdays
 
-|`* *` |user |view my contact's social media profiles |I can easily connect with them if I have not already done so
+|`* * *` |user |be reminded of my contact's birthday |I can remember their birthdays easily
 
-|`* *` |user |execute commands with my voice |I can search for contacts without having to touch the keyboard
+|`* * *` |user |add social media links for me and my contacts |We can connect socially
 
-|`* *` |user |interact with the GUI in natural language |I do not have to remember the commands
+|`* * *` |user |view my contact's social media profiles link |I can easily connect with them if I have not already done so
 
-|`* *` |user |edit their details without inputting a long String |I can conveniently edit a person without having to include tags every time
+|`* * *` |user |use alias for shorthand for commands |I don't have to type all the commands every time I use it
 
-|`* *` |user |see my contact's social media updates |I keep up with their activities
+|`* * *` |user |auto-complete the commands |I can be efficient and not worry about entering wrong commands
+
+|`* *` |user |edit their details without including prefix |I can conveniently edit a person without having to include tags every time
 
 |`* *` |user |share a contact with another user |I can easily share with a share file and avoid manual sharing
 
-|`* *` |user |change the color scheme/UI elements of the addressbook |I can select a color/font that suits my preference
+|`* *` |user |hide link:#private-contact-detail[private contact details] by default |minimize chance of someone else seeing them by accident
 
-|`* *` |user |export my contact details |I can print out the contact document
+|`* *` |user |know how to get to my contact's address from my current location on Google maps |I know which route to take to get there
+
+|`* *` |user |message/create online groups (e.g. Google Doc/Telegram) for contacts in my list |I do not have to copy/paste/manually enter their details
+
+|`* *` |user |log in with my Facebook/Google account |I do not have to enter my username/password
 
 |`* *` |user |send feedback to the developer |I can give suggestion on how to improve the current app
+
+|`* *` |user |add an event to the addressbook |I can easily save appointments to the addressbook's calendar
+
+|`* *` |user |store my addressbook in the cloud |I can access my addressbook from any device
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 
 |`*` |user |see how my friends are interconnected |I can know who are our mutual friends
+
+|`*` |user |see my contact's social media updates |I keep up with their activities
+
+|`*` |user |execute commands with my voice |I can search for contacts without having to touch the keyboard
+
+|`*` |user |interact with the GUI in natural language |I do not have to remember the commands
 
 |`*` |user |have the option to customize my addressbook |I can have the flexibility of deciding which features I need
 |=======================================================================
