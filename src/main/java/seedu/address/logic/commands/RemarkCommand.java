@@ -4,6 +4,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.person.Remark;
 
 /**
  * Adds a remark to a person by INDEX
@@ -14,7 +15,7 @@ public class RemarkCommand extends UndoableCommand {
     public static final String COMMAND_ALIAS = "rmk";
 
     private final Index targetIndex;
-    private String remark;
+    private Remark remark;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the remark for a person specified in the INDEX.\n"
@@ -30,10 +31,10 @@ public class RemarkCommand extends UndoableCommand {
 
     public RemarkCommand(Index index, String remark) {
         this.targetIndex = index;
-        this.remark = remark;
+        this.remark = new Remark(remark);
     }
 
-    public String getRemark() {
+    public Remark getRemark() {
         return remark;
     }
 
