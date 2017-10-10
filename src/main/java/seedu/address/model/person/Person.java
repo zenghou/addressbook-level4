@@ -23,6 +23,7 @@ public class Person implements ReadOnlyPerson {
     private ObjectProperty<Email> email;
     private ObjectProperty<Address> address;
     private ObjectProperty<UniqueTagList> tags;
+    private ObjectProperty<Remark> remark;
 
     /**
      * Every field must be present and not null.
@@ -100,6 +101,15 @@ public class Person implements ReadOnlyPerson {
     public Address getAddress() {
         return address.get();
     }
+
+    @Override
+    public void setRemark(Remark remark) { this.remark.set(remark); }
+
+    @Override
+    public Remark getRemark() { return remark.get(); }
+
+    @Override
+    public ObjectProperty<Remark> remarkProperty() { return remark; }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
