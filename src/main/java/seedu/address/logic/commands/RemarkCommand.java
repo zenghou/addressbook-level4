@@ -29,9 +29,9 @@ public class RemarkCommand extends UndoableCommand {
         throw new CommandException("Exception"); // stub exception for the time being
     }
 
-    public RemarkCommand(Index index, String remark) {
+    public RemarkCommand(Index index, Remark remark) {
         this.targetIndex = index;
-        this.remark = new Remark(remark);
+        this.remark = remark;
     }
 
     public Remark getRemark() {
