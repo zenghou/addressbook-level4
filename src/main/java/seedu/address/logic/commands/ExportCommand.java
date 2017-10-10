@@ -43,6 +43,6 @@ public class ExportCommand extends Command {
             throw new CommandException(ioe.getMessage());
             //TODO: better error handling
         }
-        return null;
+        return new CommandResult("Persons have been exported to file: " + filePath);
     }
 }
