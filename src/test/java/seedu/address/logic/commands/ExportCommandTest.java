@@ -1,14 +1,27 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+
+import java.util.Arrays;
+
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.FileUtil;
+import seedu.address.logic.CommandHistory;
+import seedu.address.logic.UndoRedoStack;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
 
 public class ExportCommandTest {
 
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ExportCommandTest/");
+
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -16,4 +29,15 @@ public class ExportCommandTest {
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
+    @Test
+    public void execute_validIndexesAndFilePath_success() {
+
+    }
+
+    private ExportCommand prepareCommand(Integer[] indexesInt, String filePath) {
+        Index[] indexes = (Index[]) Arrays.stream(indexesInt).map(Index::fromZeroBased).toArray();
+        ExportCommand export = new ExportCommand(indexes, filePath);
+        export.setData(this.model, new CommandHistory(), new UndoRedoStack());
+        return export;
+    }
 }
