@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.commons.core.Messages;
@@ -48,5 +49,13 @@ public class ExportCommand extends Command {
             //TODO: better error handling
         }
         return new CommandResult("Persons have been exported to file: " + filePath);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+            || (other instanceof ExportCommand // instanceof handles nulls
+            && Arrays.equals(this.targetIndexes, ((ExportCommand) other).targetIndexes) // state check
+            && this.filePath.equals(((ExportCommand) other).filePath));
     }
 }
