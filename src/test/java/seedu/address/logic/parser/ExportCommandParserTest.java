@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -15,20 +16,20 @@ import seedu.address.logic.commands.ExportCommand;
 public class ExportCommandParserTest {
 
     private static final String VALID_FILE_PATH = "TestFile.xml";
+    private static final String EXPECTED_ERROR_MESSAGE =
+        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE);
     private ExportCommandParser parser = new ExportCommandParser();
 
     @Test
     public void parser_missingSemicolon_failure() {
-        List<Index> indexes = getIndexListFromOneBasedArray(1);
         String input = "1 " + VALID_FILE_PATH;
-        assertParseFailure(parser, input, "Invalid format!");
+        assertParseFailure(parser, input, EXPECTED_ERROR_MESSAGE);
     }
 
     @Test
     public void parser_missingIndex_failure() {
-        List<Index> indexes = getIndexListFromOneBasedArray(1);
         String input = " ; " + VALID_FILE_PATH;
-        assertParseFailure(parser, input, "Invalid format!");
+        assertParseFailure(parser, input, EXPECTED_ERROR_MESSAGE);
     }
 
     @Test

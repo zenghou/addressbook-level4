@@ -1,5 +1,7 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -24,7 +26,8 @@ public class ExportCommandParser implements Parser<ExportCommand> {
     public ExportCommand parse(String args) throws ParseException {
         final Matcher matcher = INDEXES_AND_FILEPATH.matcher(args.trim());
         if (!matcher.matches()) {
-            throw new ParseException("Invalid format!");
+            throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
         final String indexesString = matcher.group("indexesString");
         final String filePath = matcher.group("filePath").trim();
