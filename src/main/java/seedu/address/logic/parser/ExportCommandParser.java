@@ -13,7 +13,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class ExportCommandParser implements Parser<ExportCommand> {
 
-    private static final Pattern INDEXES_AND_FILEPATH = Pattern.compile("(?<indexesString>[^;]);(?<filePath>.*)");
+    private static final Pattern INDEXES_AND_FILEPATH =
+        Pattern.compile("(?<indexesString>.(((\\d)*(,)*(\\s)*)+));(?<filePath>.*)");
 
     @Override
     public ExportCommand parse(String args) throws ParseException {
@@ -23,10 +24,10 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         }
 
         final String indexesString = matcher.group("indexesString");
-        final String filePath = matcher.group("filePath");
+        final String filePath = matcher.group("filePath").trim();
 
         // parse indexes
-        String[] indexStrings = indexesString.split(",\\s");
+        String[] indexStrings = indexesString.split("(,)*(\\s)*");
         Index[] indexes = new Index[indexesString.length()];
         for (int i = 0; i < indexes.length; i++) {
             indexes[i] = Index.fromOneBased(Integer.parseInt(indexStrings[i]));
