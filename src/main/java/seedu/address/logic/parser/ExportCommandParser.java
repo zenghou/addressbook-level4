@@ -41,6 +41,12 @@ public class ExportCommandParser implements Parser<ExportCommand> {
             .map(Index::fromOneBased)
             .collect(Collectors.toList());
 
+        // check filePath
+        if (filePath.isEmpty()) {
+            throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
+        }
+
         return new ExportCommand(indexes, filePath);
     }
 }

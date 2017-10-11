@@ -33,6 +33,12 @@ public class ExportCommandParserTest {
     }
 
     @Test
+    public void parser_missingFilePath_failure() {
+        String input = "1 ; ";
+        assertParseFailure(parser, input, EXPECTED_ERROR_MESSAGE);
+    }
+
+    @Test
     public void parser_validArgs_success() {
         List<Index> indexes = getIndexListFromOneBasedArray(1, 2, 3);
         String input = "1, 2 3 ; " + VALID_FILE_PATH;
