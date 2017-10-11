@@ -14,8 +14,8 @@ import seedu.address.logic.commands.ExportCommand;
 
 public class ExportCommandParserTest {
 
+    private static final String VALID_FILE_PATH = "TestFile.xml";
     private ExportCommandParser parser = new ExportCommandParser();
-    private final static String VALID_FILE_PATH = "TestFile.xml";
 
     @Test
     public void parser_missingSemicolon_failure() {

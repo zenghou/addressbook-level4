@@ -23,19 +23,22 @@ public class ExportCommandTest {
 
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ExportCommandTest/");
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
     @Test
     public void execute_validIndexesAndFilePath_success() {
 
     }
 
+    /**
+     * @return an {@code ExportCommand} with parameters {@code indexes} and {@code filePath}
+     */
     private ExportCommand prepareCommand(Integer[] indexesInt, String filePath) {
         List<Index> indexes = Arrays.stream(indexesInt).map(Index::fromZeroBased).collect(Collectors.toList());
         ExportCommand export = new ExportCommand(indexes, filePath);
