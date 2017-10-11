@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import java.util.Arrays;
@@ -14,6 +15,22 @@ import seedu.address.logic.commands.ExportCommand;
 public class ExportCommandParserTest {
 
     private ExportCommandParser parser = new ExportCommandParser();
+
+    @Test
+    public void parser_missingSemicolon_failure() {
+        String filePath = "SomeFile.xml ";
+        List<Index> indexes = getIndexListFromOneBasedArray(new Integer[]{1});
+        String input = "1 " + filePath;
+        assertParseFailure(parser, input, "Invalid format!");
+    }
+
+    @Test
+    public void parser_missingIndex_failure() {
+        String filePath = "SomeFile.xml ";
+        List<Index> indexes = getIndexListFromOneBasedArray(new Integer[]{1});
+        String input = " ; " + filePath;
+        assertParseFailure(parser, input, "Invalid format!");
+    }
 
     @Test
     public void parser_validArgs_success() {
