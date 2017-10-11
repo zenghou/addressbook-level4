@@ -3,6 +3,8 @@ package seedu.address.logic.commands;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,7 +37,7 @@ public class ExportCommandTest {
     }
 
     private ExportCommand prepareCommand(Integer[] indexesInt, String filePath) {
-        Index[] indexes = (Index[]) Arrays.stream(indexesInt).map(Index::fromZeroBased).toArray();
+        List<Index> indexes = Arrays.stream(indexesInt).map(Index::fromZeroBased).collect(Collectors.toList());
         ExportCommand export = new ExportCommand(indexes, filePath);
         export.setData(this.model, new CommandHistory(), new UndoRedoStack());
         return export;

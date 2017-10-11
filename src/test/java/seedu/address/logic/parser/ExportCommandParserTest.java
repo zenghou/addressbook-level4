@@ -2,6 +2,9 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -16,7 +19,9 @@ public class ExportCommandParserTest {
     @Test
     public void parser_validArgs_success() {
         String filePath = TEST_DATA_FOLDER + "TypicalExportFile.xml";
-        Index[] indexes = {Index.fromOneBased(1), Index.fromOneBased(2)};
+        List<Index> indexes = new ArrayList<>();
+        indexes.add(Index.fromOneBased(1));
+        indexes.add(Index.fromOneBased(2));
         String input = "1, 2; " + filePath;
         ExportCommand exportCommand = new ExportCommand(indexes, filePath);
         assertParseSuccess(parser, input, exportCommand);
