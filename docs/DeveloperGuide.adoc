@@ -813,6 +813,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 +
 Use case ends.
 
+[discrete]
 === Use case: Add person
 
 *MSS*
@@ -846,6 +847,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: List
 
 *MSS*
@@ -862,6 +864,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: Edit person
 
 *MSS*
@@ -894,6 +897,7 @@ Use case resumes at step 2.
 +
 Use case resumes at step 2.
 
+[discrete]
 === Use case: Find person
 
 *MSS*
@@ -913,6 +917,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: Delete person
 
 *MSS*
@@ -938,6 +943,7 @@ Use case ends.
 +
 Use case resumes at step 2.
 
+[discrete]
 === Use case: Select person
 
 *MSS*
@@ -963,6 +969,7 @@ Use case ends.
 +
 Use case resumes at step 2.
 
+[discrete]
 === Use case: History
 
 *MSS*
@@ -972,6 +979,7 @@ Use case resumes at step 2.
 +
 Use case ends.
 
+[discrete]
 === Use case: Undo
 
 *MSS*
@@ -991,6 +999,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: Redo
 
 *MSS*
@@ -1010,6 +1019,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: Clear
 
 *MSS*
@@ -1019,6 +1029,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: Exit
 
 *MSS*
@@ -1027,8 +1038,6 @@ Use case ends.
 2.  AddressBook exits
 +
 Use case ends.
-
-{More to be added}
 
 [appendix]
 == Non Functional Requirements
@@ -1042,8 +1051,6 @@ Use case ends.
 .  The system should not take longer than 3 seconds to execute a command.
 .  The project is expected to adhere to a schedule that delivers at least an improvement (size of improvement does not matter) on a weekly basis.
 .  Every additional feature/improvement should have comprehensive tests written to ensure error-free code.
-
-{More to be added}
 
 [appendix]
 == Glossary
