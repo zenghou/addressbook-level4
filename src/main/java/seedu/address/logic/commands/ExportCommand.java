@@ -18,9 +18,9 @@ public class ExportCommand extends Command {
     public static final String COMMAND_WORD = "export";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-        + ": Exports the persons identified by the index numbers used in the last person listing.\n"
-        + "Parameters: INDEX; PATH (must be positive integers separated by commas or spaces)\n"
-        + "Example: " + COMMAND_WORD + " 1, 2 3; \"~/Desktop/persons.xml\"";
+        + ": Exports persons identified by the index numbers used in the last person listing to a save file.\n"
+        + "Parameters: INDEX; FILEPATH (Indexes must be positive integers separated by commas or spaces)\n"
+        + "Example: " + COMMAND_WORD + " 1, 2 3; \"/Users/[User Name]/Desktop/persons.xml\"";
 
     private final List<Index> targetIndexes;
     private final String filePath;
