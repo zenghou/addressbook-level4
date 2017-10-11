@@ -13,17 +13,17 @@ import seedu.address.logic.commands.ExportCommand;
 
 public class ExportCommandParserTest {
 
-    private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/export/");
     private ExportCommandParser parser = new ExportCommandParser();
 
     @Test
     public void parser_validArgs_success() {
-        String filePath = TEST_DATA_FOLDER + "TypicalExportFile.xml";
+        String filePath = "SomeFile.xml ";
         List<Index> indexes = new ArrayList<>();
         indexes.add(Index.fromOneBased(1));
         indexes.add(Index.fromOneBased(2));
-        String input = "1, 2; " + filePath;
-        ExportCommand exportCommand = new ExportCommand(indexes, filePath);
+        indexes.add(Index.fromOneBased(3));
+        String input = "1, 2 3 ; " + filePath;
+        ExportCommand exportCommand = new ExportCommand(indexes, filePath.trim());
         assertParseSuccess(parser, input, exportCommand);
     }
 }
