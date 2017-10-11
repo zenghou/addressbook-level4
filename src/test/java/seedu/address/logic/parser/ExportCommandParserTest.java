@@ -19,21 +19,21 @@ public class ExportCommandParserTest {
 
     @Test
     public void parser_missingSemicolon_failure() {
-        List<Index> indexes = getIndexListFromOneBasedArray(new Integer[]{1});
+        List<Index> indexes = getIndexListFromOneBasedArray(1);
         String input = "1 " + VALID_FILE_PATH;
         assertParseFailure(parser, input, "Invalid format!");
     }
 
     @Test
     public void parser_missingIndex_failure() {
-        List<Index> indexes = getIndexListFromOneBasedArray(new Integer[]{1});
+        List<Index> indexes = getIndexListFromOneBasedArray(1);
         String input = " ; " + VALID_FILE_PATH;
         assertParseFailure(parser, input, "Invalid format!");
     }
 
     @Test
     public void parser_validArgs_success() {
-        List<Index> indexes = getIndexListFromOneBasedArray(new Integer[]{1, 2, 3});
+        List<Index> indexes = getIndexListFromOneBasedArray(1, 2, 3);
         String input = "1, 2 3 ; " + VALID_FILE_PATH;
         ExportCommand exportCommand = new ExportCommand(indexes, VALID_FILE_PATH.trim());
         assertParseSuccess(parser, input, exportCommand);
@@ -42,7 +42,7 @@ public class ExportCommandParserTest {
     /**
      * Converts an One-based {@link Integer} Array to an {@link Index} List.
      */
-    private List<Index> getIndexListFromOneBasedArray(Integer[] integers) {
+    private List<Index> getIndexListFromOneBasedArray(Integer... integers) {
         return Arrays.stream(integers).map(Index::fromOneBased).collect(Collectors.toList());
     }
 }
