@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.commons.core.Messages;
@@ -23,10 +22,10 @@ public class ExportCommand extends Command {
         + "Parameters: INDEX; PATH (must be positive integers separated by commas or spaces)\n"
         + "Example: " + COMMAND_WORD + " 1, 2 3; \"~/Desktop/persons.xml\"";
 
-    private final Index[] targetIndexes;
+    private final List<Index> targetIndexes;
     private final String filePath;
 
-    public ExportCommand(Index[] targetIndexes, String filePath) {
+    public ExportCommand(List<Index> targetIndexes, String filePath) {
         this.targetIndexes = targetIndexes;
         this.filePath = filePath;
     }
@@ -55,7 +54,7 @@ public class ExportCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
             || (other instanceof ExportCommand // instanceof handles nulls
-            && Arrays.equals(this.targetIndexes, ((ExportCommand) other).targetIndexes) // state check
+            && this.targetIndexes.equals(((ExportCommand) other).targetIndexes) // state check
             && this.filePath.equals(((ExportCommand) other).filePath));
     }
 }
