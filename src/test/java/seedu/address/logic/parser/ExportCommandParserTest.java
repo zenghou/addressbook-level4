@@ -15,29 +15,27 @@ import seedu.address.logic.commands.ExportCommand;
 public class ExportCommandParserTest {
 
     private ExportCommandParser parser = new ExportCommandParser();
+    private final static String VALID_FILE_PATH = "TestFile.xml";
 
     @Test
     public void parser_missingSemicolon_failure() {
-        String filePath = "SomeFile.xml ";
         List<Index> indexes = getIndexListFromOneBasedArray(new Integer[]{1});
-        String input = "1 " + filePath;
+        String input = "1 " + VALID_FILE_PATH;
         assertParseFailure(parser, input, "Invalid format!");
     }
 
     @Test
     public void parser_missingIndex_failure() {
-        String filePath = "SomeFile.xml ";
         List<Index> indexes = getIndexListFromOneBasedArray(new Integer[]{1});
-        String input = " ; " + filePath;
+        String input = " ; " + VALID_FILE_PATH;
         assertParseFailure(parser, input, "Invalid format!");
     }
 
     @Test
     public void parser_validArgs_success() {
-        String filePath = "SomeFile.xml ";
         List<Index> indexes = getIndexListFromOneBasedArray(new Integer[]{1, 2, 3});
-        String input = "1, 2 3 ; " + filePath;
-        ExportCommand exportCommand = new ExportCommand(indexes, filePath.trim());
+        String input = "1, 2 3 ; " + VALID_FILE_PATH;
+        ExportCommand exportCommand = new ExportCommand(indexes, VALID_FILE_PATH.trim());
         assertParseSuccess(parser, input, exportCommand);
     }
 
