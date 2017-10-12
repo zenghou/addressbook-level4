@@ -29,7 +29,7 @@ Responsibilities: Logic + UI
 '''
 
 === Yaodong Han
-image::yaodong.jpg[width="150", align="left"]
+image::hanyaodong.jpg[width="150", align="left"]
 {empty}[http://github.com/HanYaodong[github]] [<<yaodong#, portfolio>>]
 
 Role: Developer +
