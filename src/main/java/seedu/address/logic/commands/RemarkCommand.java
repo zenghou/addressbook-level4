@@ -1,10 +1,27 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_DUPLICATE_PERSON;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_EDIT_PERSON_SUCCESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.List;
+import java.util.Set;
+
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.Remark;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.tag.Tag;
 
 /**
  * Adds a remark to a person by INDEX
@@ -26,7 +43,25 @@ public class RemarkCommand extends UndoableCommand {
 
     @Override
     protected CommandResult executeUndoableCommand() throws CommandException {
-        throw new CommandException("Exception"); // stub exception for the time being
+        List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
+
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+
+        ReadOnlyPerson personToAddRemarkTo = lastShownList.get(targetIndex.getZeroBased());
+        ReadOnlyPerson personWithRemarkAdded = addRemarkToPerson(personToAddRemarkTo, remark);
+
+        try {
+            model.updatePerson(personToAddRemarkTo, personWithRemarkAdded);
+        } catch (DuplicatePersonException dpe) {
+            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("The target person cannot be missing");
+        }
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, personWithRemarkAdded));
+
     }
 
     public RemarkCommand(Index index, Remark remark) {
@@ -40,6 +75,24 @@ public class RemarkCommand extends UndoableCommand {
 
     public Index getIndex() {
         return targetIndex;
+    }
+
+    /**
+     * Creates and returns a {@code Person} with the remark {@code rmk}
+     */
+    private static Person addRemarkToPerson (ReadOnlyPerson personToAddRemarkTo, Remark rmk) {
+        assert personToAddRemarkTo != null;
+
+        Name name = personToAddRemarkTo.getName();
+        Phone phone = personToAddRemarkTo.getPhone();
+        Email email = personToAddRemarkTo.getEmail();
+        Address address = personToAddRemarkTo.getAddress();
+        Set<Tag> tags = personToAddRemarkTo.getTags();
+
+        Person personWithRemark = new Person(name, phone, email, address, tags);
+        personWithRemark.setRemark(rmk);
+
+        return personWithRemark;
     }
 
     @Override
