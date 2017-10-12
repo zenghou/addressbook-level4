@@ -1,8 +1,11 @@
 package seedu.address.logic.commands;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,35 @@ public class ExportCommandTest {
     public TemporaryFolder testFolder = new TemporaryFolder();
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+    @Test
+    public void equals() {
+        List<Index> indexes = Arrays.asList(Index.fromOneBased(1), Index.fromOneBased(2));
+        String filePath = "TestFile.xml";
+        ExportCommand exportCommand = new ExportCommand(indexes, filePath);
+
+        // same object -> true
+        assertTrue(exportCommand.equals(exportCommand));
+
+        // same value -> true
+        ExportCommand exportCommandCopy = new ExportCommand(indexes, filePath);
+        assertTrue(exportCommand.equals(exportCommandCopy));
+
+        // different type -> false
+        assertFalse(exportCommand.equals(1));
+
+        // null -> false
+        assertFalse(exportCommand.equals(null));
+
+        // different index -> false
+        List<Index> newIndexes = Collections.singletonList(Index.fromOneBased(1));
+        ExportCommand exportCommandDifferentIndex = new ExportCommand(newIndexes, filePath);
+        assertFalse(exportCommand.equals(exportCommandDifferentIndex));
+
+        //different filePath -> false
+        ExportCommand exportCommandDifferentFilePath = new ExportCommand(indexes, "OtherFile.xml");
+        assertFalse(exportCommand.equals(exportCommandDifferentFilePath));
+    }
 
     @Test
     public void execute_validIndexesAndFilePath_success() {
