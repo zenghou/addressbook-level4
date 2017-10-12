@@ -8,6 +8,7 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.storage.XmlPersonListStorage;
 
 /**
@@ -34,13 +35,11 @@ public class ExportCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
-        List<ReadOnlyPerson> lastShowList = model.getFilteredPersonList();
-        List<ReadOnlyPerson> personsToSave = new ArrayList<>();
-        for (Index index : this.targetIndexes) {
-            if (index.getZeroBased() > lastShowList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-            }
-            personsToSave.add(lastShowList.get(index.getZeroBased()));
+        List<ReadOnlyPerson> personsToSave = null;
+        try {
+            personsToSave = getPersonsToSave();
+        } catch (PersonNotFoundException pnfe) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
         XmlPersonListStorage xmlPersonListStorage = new XmlPersonListStorage(this.filePath);
         try {
@@ -63,5 +62,17 @@ public class ExportCommand extends Command {
             || (other instanceof ExportCommand // instanceof handles nulls
             && this.targetIndexes.equals(((ExportCommand) other).targetIndexes) // state check
             && this.filePath.equals(((ExportCommand) other).filePath));
+    }
+
+    private List<ReadOnlyPerson> getPersonsToSave() throws PersonNotFoundException {
+        List<ReadOnlyPerson> lastShowList = model.getFilteredPersonList();
+        List<ReadOnlyPerson> personsToSave = new ArrayList<>();
+        for (Index index : this.targetIndexes) {
+            if (index.getZeroBased() > lastShowList.size()) {
+                throw new PersonNotFoundException();
+            }
+            personsToSave.add(lastShowList.get(index.getZeroBased()));
+        }
+        return personsToSave;
     }
 }
