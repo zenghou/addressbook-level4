@@ -2,14 +2,13 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -34,12 +33,18 @@ public class ExportCommandParser implements Parser<ExportCommand> {
 
         // parse indexes
         String[] indexStrings = indexesString.split("(,)*(\\s)*");
-        List<Index> indexes = Arrays.stream(indexStrings)
-            .map(String::trim)
-            .filter(((Predicate<String>) String::isEmpty).negate())
-            .map(Integer::parseInt)
-            .map(Index::fromOneBased)
-            .collect(Collectors.toList());
+        List<Index> indexes = new ArrayList<>();
+        for (String s : indexStrings) {
+            if (!s.trim().isEmpty()) {
+                try {
+                    indexes.add(ParserUtil.parseIndex(s));
+                } catch (IllegalValueException ive) {
+                    throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE)
+                    );
+                }
+            }
+        }
 
         // check filePath
         if (filePath.isEmpty()) {
