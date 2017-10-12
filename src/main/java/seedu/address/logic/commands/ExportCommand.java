@@ -22,6 +22,8 @@ public class ExportCommand extends Command {
         + "Parameters: INDEX; FILEPATH (Indexes must be positive integers separated by commas or spaces)\n"
         + "Example: " + COMMAND_WORD + " 1, 2 3; \"/Users/[User Name]/Desktop/persons.xml\"";
 
+    private static final String MESSAGE_EXPORT_PERSON_SUCCESS = "Your contacts: %1$shave been exported to file: %2$s";
+
     private final List<Index> targetIndexes;
     private final String filePath;
 
@@ -47,7 +49,12 @@ public class ExportCommand extends Command {
             throw new CommandException(ioe.getMessage());
             //TODO: better error handling
         }
-        return new CommandResult("Persons have been exported to file: " + filePath);
+        StringBuilder personNameBuilder = new StringBuilder();
+        for (ReadOnlyPerson person : personsToSave) {
+            personNameBuilder.append(person.getName().fullName).append(", ");
+        }
+        String personName = personNameBuilder.deleteCharAt(personNameBuilder.lastIndexOf(",")).toString();
+        return new CommandResult(String.format(MESSAGE_EXPORT_PERSON_SUCCESS, personName, this.filePath));
     }
 
     @Override
