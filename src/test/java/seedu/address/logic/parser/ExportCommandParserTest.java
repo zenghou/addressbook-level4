@@ -16,26 +16,28 @@ import seedu.address.logic.commands.ExportCommand;
 public class ExportCommandParserTest {
 
     private static final String VALID_FILE_PATH = "TestFile.xml";
-    private static final String EXPECTED_ERROR_MESSAGE =
+    private static final String EXPECTED_MATCH_ERROR_MESSAGE =
         String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE);
+    private static final String EXPECTED_FILE_MISSING_ERROR_MESSAGE =
+        String.format(MESSAGE_INVALID_COMMAND_FORMAT, "Missing file path!\n" + ExportCommand.MESSAGE_USAGE);
     private ExportCommandParser parser = new ExportCommandParser();
 
     @Test
     public void parser_missingSemicolon_failure() {
         String input = "1 " + VALID_FILE_PATH;
-        assertParseFailure(parser, input, EXPECTED_ERROR_MESSAGE);
+        assertParseFailure(parser, input, EXPECTED_MATCH_ERROR_MESSAGE);
     }
 
     @Test
     public void parser_missingIndex_failure() {
         String input = " ; " + VALID_FILE_PATH;
-        assertParseFailure(parser, input, EXPECTED_ERROR_MESSAGE);
+        assertParseFailure(parser, input, EXPECTED_MATCH_ERROR_MESSAGE);
     }
 
     @Test
     public void parser_missingFilePath_failure() {
         String input = "1 ; ";
-        assertParseFailure(parser, input, EXPECTED_ERROR_MESSAGE);
+        assertParseFailure(parser, input, EXPECTED_FILE_MISSING_ERROR_MESSAGE);
     }
 
     @Test
