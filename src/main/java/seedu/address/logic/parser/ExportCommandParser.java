@@ -2,7 +2,6 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,18 +31,11 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         final String filePath = matcher.group("filePath").trim();
 
         // parse indexes
-        String[] indexStrings = indexesString.split("(,)*(\\s)*");
-        List<Index> indexes = new ArrayList<>();
-        for (String s : indexStrings) {
-            if (!s.trim().isEmpty()) {
-                try {
-                    indexes.add(ParserUtil.parseIndex(s));
-                } catch (IllegalValueException ive) {
-                    throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE)
-                    );
-                }
-            }
+        List<Index> indexes;
+        try {
+            indexes = ParserUtil.parserIndexList(indexesString);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
 
         // check filePath
