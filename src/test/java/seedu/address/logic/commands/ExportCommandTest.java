@@ -105,6 +105,10 @@ public class ExportCommandTest {
                : null;
     }
 
+    /**
+     * Builds a String consisting of {@code persons}'s name in the format of
+     * "[person_1's name], [person_2's name], ..., [person_n's name] "
+     */
     private String constructNameList(ReadOnlyPerson... persons) {
         StringBuilder personNameList = new StringBuilder();
         for (ReadOnlyPerson person : persons) {
