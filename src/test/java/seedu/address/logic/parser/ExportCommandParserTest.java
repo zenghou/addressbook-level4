@@ -41,6 +41,12 @@ public class ExportCommandParserTest {
     }
 
     @Test
+    public void parser_invalidIndex_failure() {
+        String input = "1, 2 3-4 ; " + VALID_FILE_PATH;
+        assertParseFailure(parser, input, EXPECTED_MATCH_ERROR_MESSAGE);
+    }
+
+    @Test
     public void parser_validArgs_success() {
         List<Index> indexes = getIndexListFromOneBasedArray(1, 2, 3);
         String input = "1, 2 3 ; " + VALID_FILE_PATH;
