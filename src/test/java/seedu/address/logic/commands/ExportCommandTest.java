@@ -1,7 +1,11 @@
 package seedu.address.logic.commands;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.DANIEL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -21,6 +25,9 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.UniquePersonList;
+import seedu.address.storage.XmlPersonListStorage;
 
 public class ExportCommandTest {
 
@@ -64,17 +71,46 @@ public class ExportCommandTest {
     }
 
     @Test
-    public void execute_validIndexesAndFilePath_success() {
+    public void execute_validIndexesAndFilePath_success() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
+        // export typical person: Alice, Benson, Daniel
+        ExportCommand command = prepareCommand(new Integer[]{1, 2, 4}, filePath);
 
+        // test command output
+        CommandResult commandResult = command.execute();
+        assertEquals(commandResult.feedbackToUser, String.format(
+            ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS, constructNameList(ALICE, BENSON, DANIEL), filePath));
+
+        // test file output
+        UniquePersonList origin = new UniquePersonList();
+        origin.setPersons(Arrays.asList(ALICE, BENSON, DANIEL));
+        XmlPersonListStorage tmpStorage = new XmlPersonListStorage(filePath);
+        UniquePersonList readBack = tmpStorage.readPersonList().get();
+        assertEquals(readBack, origin);
     }
 
     /**
      * @return an {@code ExportCommand} with parameters {@code indexes} and {@code filePath}
      */
     private ExportCommand prepareCommand(Integer[] indexesInt, String filePath) {
-        List<Index> indexes = Arrays.stream(indexesInt).map(Index::fromZeroBased).collect(Collectors.toList());
+        List<Index> indexes = Arrays.stream(indexesInt).map(Index::fromOneBased).collect(Collectors.toList());
         ExportCommand export = new ExportCommand(indexes, filePath);
         export.setData(this.model, new CommandHistory(), new UndoRedoStack());
         return export;
+    }
+
+    private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
+        return prefsFileInTestDataFolder != null
+               ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
+               : null;
+    }
+
+    private String constructNameList(ReadOnlyPerson... persons) {
+        StringBuilder personNameList = new StringBuilder();
+        for (ReadOnlyPerson person : persons) {
+            personNameList.append(person.getName().fullName).append(", ");
+        }
+        personNameList.deleteCharAt(personNameList.lastIndexOf(","));
+        return personNameList.toString();
     }
 }

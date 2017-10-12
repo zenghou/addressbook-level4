@@ -23,7 +23,7 @@ public class ExportCommand extends Command {
         + "Parameters: INDEX; FILEPATH (Indexes must be positive integers separated by commas or spaces)\n"
         + "Example: " + COMMAND_WORD + " 1, 2 3; \"/Users/[User Name]/Desktop/persons.xml\"";
 
-    private static final String MESSAGE_EXPORT_PERSON_SUCCESS = "Your contacts: %1$shave been exported to file: %2$s";
+    public static final String MESSAGE_EXPORT_PERSON_SUCCESS = "Your contacts: %1$shave been exported to file: %2$s";
 
     private final List<Index> targetIndexes;
     private final String filePath;
