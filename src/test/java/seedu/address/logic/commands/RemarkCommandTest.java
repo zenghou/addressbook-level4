@@ -1,8 +1,10 @@
 package seedu.address.logic.commands;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -14,10 +16,13 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
+import seedu.address.testutil.PersonBuilder;
 
 public class RemarkCommandTest {
 
@@ -30,6 +35,22 @@ public class RemarkCommandTest {
         RemarkCommand remarkCommand = prepareCommand(outOfBoundsIndex, new Remark(TEST_REMARK));
 
         assertCommandFailure(remarkCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_addRemark_success() throws Exception {
+        Person personWithRemark = new PersonBuilder(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()))
+                .withRemark("Test Remark").build();
+
+        RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, personWithRemark.getRemark());
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.updatePerson(model.getFilteredPersonList().get(0), personWithRemark);
+
+        String expectedMessage = String.format(RemarkCommand.MESSAGE_SUCCESS, personWithRemark);
+
+        assertCommandSuccess(remarkCommand, model, expectedMessage, expectedModel);
+        assertEquals(expectedModel.getFilteredPersonList().get(0), personWithRemark);
     }
 
     @Test
