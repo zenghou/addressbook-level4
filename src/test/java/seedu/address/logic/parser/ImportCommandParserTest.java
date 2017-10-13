@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static org.junit.Assert.assertEquals;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import org.junit.Rule;
@@ -24,7 +25,14 @@ public class ImportCommandParserTest {
     }
 
     @Test
-    public void parse_validArg_success() {
+    public void parse_validArg_success() throws Exception {
+        // valid file path
+        String validFilePath = "ValidFile.xml";
+        assertEquals(parser.parse(validFilePath), new ImportCommand(validFilePath));
+
+        // valid file path with leading and trailing whitespaces
+        String validFilePathWithSpaces = "  ValidFile.xml   ";
+        assertEquals(parser.parse(validFilePathWithSpaces), new ImportCommand(validFilePath));
 
     }
 }
