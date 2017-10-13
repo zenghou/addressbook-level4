@@ -54,9 +54,18 @@ public class ImportCommand extends UndoableCommand {
         if (!optionalPersonList.isPresent()) {
             throw new CommandException(String.format(MESSAGE_EMPTY_FILE, filePath));
         }
-        List<ReadOnlyPerson> personList = new ArrayList<>(optionalPersonList.get().asObservableList());
 
-        return new CommandResult(String.format(MESSAGE_IMPORT_SUCCESS, personList.size()));
+        List<ReadOnlyPerson> personList = new ArrayList<>(optionalPersonList.get().asObservableList());
+        for (ReadOnlyPerson person : personList) {
+            try {
+                this.model.addPerson(person);
+            } catch (DuplicatePersonException dpe) {
+                foundDuplicatedPersonsInFile = true;
+            }
+        }
+
+        return new CommandResult(getDuplicatedPersonWarning(foundDuplicatedPersonsInFile)
+            + String.format(MESSAGE_IMPORT_SUCCESS, personList.size()));
     }
 
     @Override
@@ -64,6 +73,12 @@ public class ImportCommand extends UndoableCommand {
         return this == other
             || other instanceof ImportCommand
             && this.filePath.equals(((ImportCommand) other).filePath);
+    }
+
+    private String getDuplicatedPersonWarning(boolean foundDuplicatedPerson) {
+        return foundDuplicatedPerson
+               ? "Duplicated persons are found in import process. Duplicated information is ignored.\n"
+               : "";
     }
 
 }
