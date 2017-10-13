@@ -6,16 +6,19 @@ import static org.junit.Assert.assertFalse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
+import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.TypicalPersons;
 
 public class XmlPersonListStorageTest {
@@ -47,8 +50,26 @@ public class XmlPersonListStorageTest {
     }
 
     @Test
-    public void readMissingFile_emptyResult() throws Exception {
-        assertFalse(new XmlPersonListStorage("missingFile.xml").readPersonList().isPresent());
+    public void read_missingFile_emptyResult() throws Exception {
+        assertFalse(readPersonList("MissingFile.xml").isPresent());
+    }
+
+    @Test
+    public void read_notXmlFormat_throwsDataConversionException() throws Exception {
+        thrown.expect(DataConversionException.class);
+        readPersonList("NotXmlFormatPersonList.xml");
+    }
+
+    @Test
+    public void read_nullFilePath_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        readPersonList(null);
+    }
+
+    @Test
+    public void read_duplicatedPersonListFile_throwsDuplicatePersonException() throws Exception {
+        thrown.expect(DuplicatePersonException.class);
+        readPersonList("DuplicatedPersonsList.xml");
     }
 
     @Test
@@ -106,7 +127,7 @@ public class XmlPersonListStorageTest {
     }
 
     /**
-     * Saves {@code persons} at specified {@code filePath}
+     * Saves {@code persons} at specified {@code filePath}.
      */
     private void savePersonListAsList(List<ReadOnlyPerson> persons, String filePath) {
         try {
@@ -117,7 +138,7 @@ public class XmlPersonListStorageTest {
     }
 
     /**
-     * Saves {@code persons} at specified {@code filePath}
+     * Saves {@code persons} at specified {@code filePath}.
      */
     private void savePersonListAsUniquePersonList(UniquePersonList persons, String filePath) {
         try {
@@ -125,6 +146,13 @@ public class XmlPersonListStorageTest {
         } catch (IOException ioe) {
             throw new AssertionError("There should not be an error writing to the file.", ioe);
         }
+    }
+
+    /**
+     * Reads a PersonLit file in the {@code TEST_DATA_FOLDER}.
+     */
+    private Optional<UniquePersonList> readPersonList(String filePath) throws Exception {
+        return new XmlPersonListStorage(addToTestDataPathIfNotNull(filePath)).readPersonList();
     }
 
     private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
