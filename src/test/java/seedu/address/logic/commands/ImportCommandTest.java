@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -9,9 +10,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.address.commons.util.FileUtil;
+import seedu.address.logic.commands.exceptions.CommandException;
 
 public class ImportCommandTest {
-    private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/XmlPersonListStorageTest/");
+    private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandTest/");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -42,21 +44,41 @@ public class ImportCommandTest {
 
     @Test
     public void execute_missingFile_throwsFileNotFoundException() throws Exception {
-
+        String filePath = addToTestDataPathIfNotNull("MissingFile.xml");
+        assertCommandException(new ImportCommand(filePath),
+            String.format(ImportCommand.MESSAGE_MISSING_FILE, filePath));
     }
 
     @Test
     public void execute_notXmlFormat_throwsDataConversionException() throws Exception {
-
+        String filePath = addToTestDataPathIfNotNull("NotXmlFormatExportFile.xml");
+        assertCommandException(new ImportCommand(filePath),
+            String.format(ImportCommand.MESSAGE_INVALID_XML_FILE, filePath));
     }
 
     @Test
     public void execute_emptyFile_failure() {
-
+//        String filePath = addToTestDataPathIfNotNull("EmptyFile.xml");
+//        assertCommandException(new ImportCommand(filePath),
+//            String.format(ImportCommand.MESSAGE_EMPTY_FILE, filePath));
     }
 
     @Test
     public void execute_validFilePathAndFile_success() {
 
+    }
+
+    private void assertCommandException(ImportCommand command, String exceptionMessage) {
+        try {
+            command.executeUndoableCommand();
+        } catch (CommandException ce) {
+            assertEquals(ce.getMessage(), exceptionMessage);
+        }
+    }
+
+    private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
+        return prefsFileInTestDataFolder != null
+               ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
+               : null;
     }
 }
