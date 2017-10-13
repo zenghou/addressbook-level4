@@ -13,9 +13,22 @@ public class ImportCommand extends UndoableCommand {
         + "Parameters: FILEPATH\n"
         + "Example: " + COMMAND_WORD + " /Users/[USER NAME]/Documents/sharePersons.xml";
 
+    private final String filePath;
+
+    public ImportCommand(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     protected CommandResult executeUndoableCommand() throws CommandException {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return this == other
+            || other instanceof ImportCommand
+            && this.filePath.equals(((ImportCommand) other).filePath);
     }
 
 }
