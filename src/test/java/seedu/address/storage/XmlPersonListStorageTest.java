@@ -18,6 +18,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.TypicalPersons;
 
 public class XmlPersonListStorageTest {
@@ -63,6 +64,12 @@ public class XmlPersonListStorageTest {
     public void read_nullFilePath_throwsNullPointerException() throws Exception {
         thrown.expect(NullPointerException.class);
         readPersonList(null);
+    }
+
+    @Test
+    public void read_duplicatedPersonListFile_throwsDuplicatePersonException() throws Exception {
+        thrown.expect(DuplicatePersonException.class);
+        readPersonList("DuplicatedPersonsList.xml");
     }
 
     @Test
