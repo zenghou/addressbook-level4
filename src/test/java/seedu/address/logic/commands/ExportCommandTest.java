@@ -33,6 +33,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.storage.XmlPersonListStorage;
 
+//TODO: the export command test depends on Storage part. Consider separation of components.
 public class ExportCommandTest {
 
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ExportCommandTest/");
