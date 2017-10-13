@@ -1,8 +1,6 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.commands.EditCommand.MESSAGE_DUPLICATE_PERSON;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_EDIT_PERSON_SUCCESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -31,15 +29,20 @@ public class RemarkCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "remark";
     public static final String COMMAND_ALIAS = "rmk";
 
-    private final Index targetIndex;
-    private Remark remark;
-
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the remark for a person specified in the INDEX.\n"
             + "Parameters: INDEX (must be a positive integer) " + PREFIX_REMARK + "[REMARK]\n"
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_REMARK + " Likes to drink coffee";
 
     public static final String MESSAGE_SUCCESS = "New remark added: %1$s";
+
+    private final Index targetIndex;
+    private Remark remark;
+
+    public RemarkCommand(Index index, Remark remark) {
+        this.targetIndex = index;
+        this.remark = remark;
+    }
 
     @Override
     protected CommandResult executeUndoableCommand() throws CommandException {
@@ -62,11 +65,6 @@ public class RemarkCommand extends UndoableCommand {
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_SUCCESS, personWithRemarkAdded));
 
-    }
-
-    public RemarkCommand(Index index, Remark remark) {
-        this.targetIndex = index;
-        this.remark = remark;
     }
 
     public Remark getRemark() {
@@ -96,11 +94,11 @@ public class RemarkCommand extends UndoableCommand {
     }
 
     @Override
-    public boolean equals(Object other) {
-       if (other instanceof RemarkCommand) {
+    public boolean equals(Object other){
+        if (other instanceof RemarkCommand) {
            RemarkCommand otherObject = (RemarkCommand) other;
-           return this.getRemark().equals(otherObject.getRemark()) &&
-                   this.getIndex().equals(otherObject.getIndex());
+           return this.getRemark().equals(otherObject.getRemark())
+                   && this.getIndex().equals(otherObject.getIndex());
        }
        return false;
     }
