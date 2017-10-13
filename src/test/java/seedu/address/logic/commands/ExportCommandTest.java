@@ -3,6 +3,8 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.showFirstPersonOnly;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.DANIEL;
@@ -101,6 +103,41 @@ public class ExportCommandTest {
         // test file output
         UniquePersonList origin = new UniquePersonList();
         origin.setPersons(Arrays.asList(ALICE, BENSON, DANIEL));
+        XmlPersonListStorage tmpStorage = new XmlPersonListStorage(filePath);
+        UniquePersonList readBack = tmpStorage.readPersonList().get();
+        assertEquals(readBack, origin);
+    }
+
+    @Test
+    public void execute_invalidIndexFilteredList_throwsCommandException() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
+
+        showFirstPersonOnly(model);
+        Index outOfBoundIndex = INDEX_SECOND_PERSON;
+        // ensures that outOfBoundIndex is still in bounds of address book list
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+
+        prepareCommand(new Integer[]{outOfBoundIndex.getOneBased()}, filePath).execute();
+    }
+
+    @Test
+    public void execute_validIndexesAndFilePathFilteredList_success() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
+        showFirstPersonOnly(this.model);
+        // export typical person: Alice
+        ExportCommand command = prepareCommand(new Integer[]{1}, filePath);
+
+        // test command output
+        CommandResult commandResult = command.execute();
+        assertEquals(commandResult.feedbackToUser, String.format(
+            ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS, constructNameList(ALICE), filePath));
+
+        // test file output
+        UniquePersonList origin = new UniquePersonList();
+        origin.setPersons(Arrays.asList(ALICE));
         XmlPersonListStorage tmpStorage = new XmlPersonListStorage(filePath);
         UniquePersonList readBack = tmpStorage.readPersonList().get();
         assertEquals(readBack, origin);
