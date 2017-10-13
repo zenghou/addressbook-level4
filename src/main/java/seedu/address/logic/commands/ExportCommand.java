@@ -48,12 +48,8 @@ public class ExportCommand extends Command {
             throw new CommandException(ioe.getMessage());
             //TODO: better error handling
         }
-        StringBuilder personNameBuilder = new StringBuilder();
-        for (ReadOnlyPerson person : personsToSave) {
-            personNameBuilder.append(person.getName().fullName).append(", ");
-        }
-        String personName = personNameBuilder.deleteCharAt(personNameBuilder.lastIndexOf(",")).toString();
-        return new CommandResult(String.format(MESSAGE_EXPORT_PERSON_SUCCESS, personName, this.filePath));
+        return new CommandResult(String.format(
+            MESSAGE_EXPORT_PERSON_SUCCESS, getPersonNameList(personsToSave), this.filePath));
     }
 
     @Override
@@ -74,5 +70,13 @@ public class ExportCommand extends Command {
             personsToSave.add(lastShowList.get(index.getZeroBased()));
         }
         return personsToSave;
+    }
+
+    private String getPersonNameList(List<ReadOnlyPerson> personsToSave) {
+        StringBuilder personNameBuilder = new StringBuilder();
+        for (ReadOnlyPerson person : personsToSave) {
+            personNameBuilder.append(person.getName().fullName).append(", ");
+        }
+        return personNameBuilder.deleteCharAt(personNameBuilder.lastIndexOf(",")).toString();
     }
 }
