@@ -17,8 +17,10 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class ExportCommandParser implements Parser<ExportCommand> {
 
+    public static final String MISSING_FILE_PATH = "Missing file path!\n";
+
     private static final Pattern INDEXES_AND_FILEPATH =
-        Pattern.compile("(?<indexesString>.(((\\d)*(,)*(\\s)*)+));(?<filePath>.*)");
+        Pattern.compile("(?<oneBasedIndexListString>.(((\\d)*(,)*(\\s)*)+));(?<filePath>.*)");
 
     @Override
     public ExportCommand parse(String args) throws ParseException {
@@ -27,13 +29,13 @@ public class ExportCommandParser implements Parser<ExportCommand> {
             throw new ParseException(
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
-        final String indexesString = matcher.group("indexesString");
+        final String oneBasedIndexListString = matcher.group("oneBasedIndexListString");
         final String filePath = matcher.group("filePath").trim();
 
         // parse indexes
         List<Index> indexes;
         try {
-            indexes = ParserUtil.parserIndexList(indexesString);
+            indexes = ParserUtil.parserIndexList(oneBasedIndexListString);
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
@@ -41,7 +43,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         // check filePath
         if (filePath.isEmpty()) {
             throw new ParseException(
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, "Missing file path!\n" + ExportCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MISSING_FILE_PATH + ExportCommand.MESSAGE_USAGE));
         }
 
         return new ExportCommand(indexes, filePath);

@@ -18,8 +18,8 @@ public class ExportCommandParserTest {
     private static final String VALID_FILE_PATH = "TestFile.xml";
     private static final String EXPECTED_MATCH_ERROR_MESSAGE =
         String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE);
-    private static final String EXPECTED_FILE_MISSING_ERROR_MESSAGE =
-        String.format(MESSAGE_INVALID_COMMAND_FORMAT, "Missing file path!\n" + ExportCommand.MESSAGE_USAGE);
+    private static final String EXPECTED_FILE_MISSING_ERROR_MESSAGE = String.format(
+        MESSAGE_INVALID_COMMAND_FORMAT, ExportCommandParser.MISSING_FILE_PATH + ExportCommand.MESSAGE_USAGE);
     private ExportCommandParser parser = new ExportCommandParser();
 
     @Test
