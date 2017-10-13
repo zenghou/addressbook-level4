@@ -35,13 +35,14 @@ public class XmlPersonListStorage implements PersonListStorage {
     }
 
     @Override
-    public Optional<UniquePersonList> readPersonList() throws DataConversionException, IOException {
+    public Optional<UniquePersonList> readPersonList()
+        throws DataConversionException, FileNotFoundException,  DuplicatePersonException {
         return readPersonList(this.filePath);
     }
 
     @Override
     public Optional<UniquePersonList> readPersonList(String filePath)
-        throws DataConversionException, FileNotFoundException {
+        throws DataConversionException, FileNotFoundException, DuplicatePersonException {
         requireNonNull(filePath);
 
         File file = new File(filePath);
@@ -54,7 +55,7 @@ public class XmlPersonListStorage implements PersonListStorage {
             persons = XmlFileStorage.loadPersonListFromSaveFile(new File(filePath)).getPersons();
         } catch (DuplicatePersonException dpe) {
             logger.info("PersonList file " + filePath + " contains duplicated persons");
-            return Optional.empty();
+            throw dpe;
         }
         return Optional.of(persons);
     }

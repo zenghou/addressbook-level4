@@ -8,6 +8,7 @@ import java.util.Optional;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * Represents a storage for a list of {@link seedu.address.model.person.Person}.
@@ -25,13 +26,14 @@ public interface PersonListStorage {
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */
-    public Optional<UniquePersonList> readPersonList() throws DataConversionException, IOException;
+    public Optional<UniquePersonList> readPersonList()
+        throws DataConversionException, IOException, DuplicatePersonException;
 
     /**
      * @see #readPersonList()
      */
     public Optional<UniquePersonList> readPersonList(String filePath)
-        throws DataConversionException, FileNotFoundException;
+        throws DataConversionException, FileNotFoundException, DuplicatePersonException;
 
     /**
      * Saves the given {@link ReadOnlyPerson} to the storage.
