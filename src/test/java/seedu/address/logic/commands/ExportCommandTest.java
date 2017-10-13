@@ -18,10 +18,12 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -39,6 +41,9 @@ public class ExportCommandTest {
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
+    /**
+     * Typical address model consists of ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE
+     */
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
@@ -68,6 +73,18 @@ public class ExportCommandTest {
         //different filePath -> false
         ExportCommand exportCommandDifferentFilePath = new ExportCommand(indexes, "OtherFile.xml");
         assertFalse(exportCommand.equals(exportCommandDifferentFilePath));
+    }
+
+    @Test
+    public void execute_invalidIndexUnfilteredList_throwsCommandException() throws Exception {
+        int outOfBoundaryOneBasedIndex = this.model.getFilteredPersonList().size() + 1;
+        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
+        ExportCommand command = prepareCommand(new Integer[]{outOfBoundaryOneBasedIndex}, filePath);
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        CommandResult result = command.execute();
+
     }
 
     @Test

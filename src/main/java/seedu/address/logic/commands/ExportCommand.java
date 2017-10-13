@@ -64,7 +64,7 @@ public class ExportCommand extends Command {
         List<ReadOnlyPerson> lastShowList = model.getFilteredPersonList();
         List<ReadOnlyPerson> personsToSave = new ArrayList<>();
         for (Index index : this.targetIndexes) {
-            if (index.getZeroBased() > lastShowList.size()) {
+            if (index.getZeroBased() >= lastShowList.size()) {
                 throw new PersonNotFoundException();
             }
             personsToSave.add(lastShowList.get(index.getZeroBased()));
