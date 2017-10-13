@@ -81,8 +81,7 @@ public class ExportCommandTest {
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() throws Exception {
         int outOfBoundaryOneBasedIndex = this.model.getFilteredPersonList().size() + 1;
-        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
-        ExportCommand command = prepareCommand(new Integer[]{outOfBoundaryOneBasedIndex}, filePath);
+        ExportCommand command = prepareCommand(new Integer[]{outOfBoundaryOneBasedIndex}, getTestFilePath());
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -92,27 +91,24 @@ public class ExportCommandTest {
 
     @Test
     public void execute_validIndexesAndFilePath_success() throws Exception {
-        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
         // export typical person: Alice, Benson, Daniel
-        ExportCommand command = prepareCommand(new Integer[]{1, 2, 4}, filePath);
+        ExportCommand command = prepareCommand(new Integer[]{1, 2, 4}, getTestFilePath());
 
         // test command output
         CommandResult commandResult = command.execute();
         assertEquals(commandResult.feedbackToUser, String.format(
-            ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS, constructNameList(ALICE, BENSON, DANIEL), filePath));
+            ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS, constructNameList(ALICE, BENSON, DANIEL), getTestFilePath()));
 
         // test file output
         UniquePersonList origin = new UniquePersonList();
         origin.setPersons(Arrays.asList(ALICE, BENSON, DANIEL));
-        XmlPersonListStorage tmpStorage = new XmlPersonListStorage(filePath);
+        XmlPersonListStorage tmpStorage = new XmlPersonListStorage(getTestFilePath());
         UniquePersonList readBack = tmpStorage.readPersonList().get();
         assertEquals(readBack, origin);
     }
 
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() throws Exception {
-        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
-
         showFirstPersonOnly(model);
         Index outOfBoundIndex = INDEX_SECOND_PERSON;
         // ensures that outOfBoundIndex is still in bounds of address book list
@@ -121,25 +117,24 @@ public class ExportCommandTest {
         thrown.expect(CommandException.class);
         thrown.expectMessage(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
 
-        prepareCommand(new Integer[]{outOfBoundIndex.getOneBased()}, filePath).execute();
+        prepareCommand(new Integer[]{outOfBoundIndex.getOneBased()}, getTestFilePath()).execute();
     }
 
     @Test
     public void execute_validIndexesAndFilePathFilteredList_success() throws Exception {
-        String filePath = testFolder.getRoot().getPath() + "TempPersonList.xml";
         showFirstPersonOnly(this.model);
         // export typical person: Alice
-        ExportCommand command = prepareCommand(new Integer[]{1}, filePath);
+        ExportCommand command = prepareCommand(new Integer[]{1}, getTestFilePath());
 
         // test command output
         CommandResult commandResult = command.execute();
         assertEquals(commandResult.feedbackToUser, String.format(
-            ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS, constructNameList(ALICE), filePath));
+            ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS, constructNameList(ALICE), getTestFilePath()));
 
         // test file output
         UniquePersonList origin = new UniquePersonList();
         origin.setPersons(Arrays.asList(ALICE));
-        XmlPersonListStorage tmpStorage = new XmlPersonListStorage(filePath);
+        XmlPersonListStorage tmpStorage = new XmlPersonListStorage(getTestFilePath());
         UniquePersonList readBack = tmpStorage.readPersonList().get();
         assertEquals(readBack, origin);
     }
@@ -171,5 +166,12 @@ public class ExportCommandTest {
         }
         personNameList.deleteCharAt(personNameList.lastIndexOf(","));
         return personNameList.toString();
+    }
+
+    /**
+     * @return a valid file path for testing.
+     */
+    private String getTestFilePath() {
+        return testFolder.getRoot().getPath() + "TempPersonList.xml";
     }
 }
