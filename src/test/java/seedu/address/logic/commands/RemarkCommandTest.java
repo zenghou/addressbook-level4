@@ -39,8 +39,8 @@ public class RemarkCommandTest {
 
     @Test
     public void execute_addRemark_success() throws Exception {
-        Person personWithRemark = new PersonBuilder(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()))
-                .withRemark("Test Remark").build();
+        Person personWithRemark = new PersonBuilder(model.getFilteredPersonList()
+                .get(INDEX_FIRST_PERSON.getZeroBased())).withRemark("Test Remark").build();
 
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, personWithRemark.getRemark());
 
@@ -62,7 +62,8 @@ public class RemarkCommandTest {
         assertTrue(firstRemarkCommand.equals(firstRemarkCommand));
 
         // same values -> return true
-        assertTrue(firstRemarkCommand.equals(new RemarkCommand(INDEX_FIRST_PERSON, new Remark("This is a test remark"))));
+        assertTrue(firstRemarkCommand.equals(new RemarkCommand(INDEX_FIRST_PERSON,
+                new Remark("This is a test remark"))));
 
         // different Indices -> return False
         assertFalse(firstRemarkCommand.equals(secondRemarkCommand));

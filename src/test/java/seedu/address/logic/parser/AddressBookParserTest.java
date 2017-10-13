@@ -74,23 +74,23 @@ public class AddressBookParserTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
-        EditCommand command_alias = (EditCommand) parser.parseCommand(EditCommand.COMMAND_ALIAS + " "
+        EditCommand commandAlias = (EditCommand) parser.parseCommand(EditCommand.COMMAND_ALIAS + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
-        assertEquals(command, command_alias);
+        assertEquals(command, commandAlias);
     }
 
     @Test
     public void parseCommand_remark() throws Exception {
         // test that "remark" returns a RemarkCommand object
-        assertTrue(parser.parseCommand(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK +
-                "Likes to drink coffee") instanceof RemarkCommand);
+        assertTrue(parser.parseCommand(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK
+                + "Likes to drink coffee") instanceof RemarkCommand);
 
         RemarkCommand correctRemarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark("Likes to drink coffee"));
 
         // test that correct command returns correct input
-        assertTrue(parser.parseCommand(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK + "Likes to drink coffee").
-                equals(correctRemarkCommand));
+        assertTrue(parser.parseCommand(RemarkCommand.COMMAND_WORD + " 1 " + PREFIX_REMARK
+                + "Likes to drink coffee").equals(correctRemarkCommand));
     }
 
     @Test
@@ -104,10 +104,10 @@ public class AddressBookParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
-        FindCommand command_alias = (FindCommand) parser.parseCommand(
+        FindCommand commandAlias = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_ALIAS + " " + keywords.stream().collect(Collectors.joining(" ")));
         assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
-        assertEquals(command, command_alias);
+        assertEquals(command, commandAlias);
     }
 
     @Test
@@ -140,10 +140,10 @@ public class AddressBookParserTest {
     public void parseCommand_select() throws Exception {
         SelectCommand command = (SelectCommand) parser.parseCommand(
                 SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        SelectCommand command_alias = (SelectCommand) parser.parseCommand(
+        SelectCommand commandAlias = (SelectCommand) parser.parseCommand(
                 SelectCommand.COMMAND_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new SelectCommand(INDEX_FIRST_PERSON), command);
-        assertEquals(command, command_alias);
+        assertEquals(command, commandAlias);
     }
 
     @Test
