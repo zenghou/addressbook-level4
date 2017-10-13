@@ -22,7 +22,6 @@ import org.junit.rules.TemporaryFolder;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.util.FileUtil;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -35,8 +34,6 @@ import seedu.address.storage.XmlPersonListStorage;
 
 //TODO: the export command test depends on Storage part. Consider separation of components.
 public class ExportCommandTest {
-
-    private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ExportCommandTest/");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -147,12 +144,6 @@ public class ExportCommandTest {
         ExportCommand export = new ExportCommand(indexes, filePath);
         export.setData(this.model, new CommandHistory(), new UndoRedoStack());
         return export;
-    }
-
-    private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
-        return prefsFileInTestDataFolder != null
-               ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
-               : null;
     }
 
     /**
