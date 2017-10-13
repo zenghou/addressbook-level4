@@ -94,12 +94,12 @@ public class RemarkCommand extends UndoableCommand {
     }
 
     @Override
-    public boolean equals(Object other){
+    public boolean equals(Object other) {
         if (other instanceof RemarkCommand) {
-           RemarkCommand otherObject = (RemarkCommand) other;
-           return this.getRemark().equals(otherObject.getRemark())
-                   && this.getIndex().equals(otherObject.getIndex());
-       }
-       return false;
+            RemarkCommand otherObject = (RemarkCommand) other;
+            return this.getRemark().equals(otherObject.getRemark())
+                    && this.getIndex().equals(otherObject.getIndex());
+        }
+        return false;
     }
 }

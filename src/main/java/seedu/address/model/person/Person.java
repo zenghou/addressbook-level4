@@ -105,13 +105,19 @@ public class Person implements ReadOnlyPerson {
     }
 
     @Override
-    public void setRemark(Remark remark) { this.remark.set(remark); }
+    public void setRemark(Remark remark) {
+        this.remark.set(remark);
+    }
 
     @Override
-    public Remark getRemark() { return remark.get(); }
+    public Remark getRemark() {
+        return remark.get();
+    }
 
     @Override
-    public ObjectProperty<Remark> remarkProperty() { return remark; }
+    public ObjectProperty<Remark> remarkProperty() {
+        return remark;
+    }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
