@@ -44,6 +44,9 @@ public class ExportCommandParserTest {
     public void parser_invalidIndex_failure() {
         String input = "1, 2 3-4 ; " + VALID_FILE_PATH;
         assertParseFailure(parser, input, EXPECTED_MATCH_ERROR_MESSAGE);
+
+        String negativeIndexInput = "-1 ; " + VALID_FILE_PATH;
+        assertParseFailure(parser, negativeIndexInput, EXPECTED_MATCH_ERROR_MESSAGE);
     }
 
     @Test
