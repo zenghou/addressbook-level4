@@ -18,7 +18,7 @@ public class RemarkCommandParserTest {
     public void parse_validArgs_returnsRemarkCommand() {
         // with remark
         RemarkCommand rmkCmd = new RemarkCommand(INDEX_FIRST_PERSON, new Remark("Likes to drink coffee"));
-        assertParseSuccess(parser,"1 " + PREFIX_REMARK + "Likes to drink coffee", rmkCmd);
+        assertParseSuccess(parser, "1 " + PREFIX_REMARK + "Likes to drink coffee", rmkCmd);
 
         // without remark
         assertParseSuccess(parser, "1 " + PREFIX_REMARK, new RemarkCommand(INDEX_FIRST_PERSON,
