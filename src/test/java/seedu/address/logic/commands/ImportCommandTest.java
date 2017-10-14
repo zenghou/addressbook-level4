@@ -49,14 +49,14 @@ public class ImportCommandTest {
     }
 
     @Test
-    public void execute_missingFile_throwsFileNotFoundException() throws Exception {
+    public void execute_missingFile_failure() throws Exception {
         String filePath = addToTestDataPathIfNotNull("MissingFile.xml");
         assertCommandException(new ImportCommand(filePath),
             String.format(ImportCommand.MESSAGE_MISSING_FILE, filePath));
     }
 
     @Test
-    public void execute_notXmlFormat_throwsDataConversionException() throws Exception {
+    public void execute_notXmlFormat_failure() throws Exception {
         String filePath = addToTestDataPathIfNotNull("NotXmlFormatExportFile.xml");
         assertCommandException(new ImportCommand(filePath),
             String.format(ImportCommand.MESSAGE_INVALID_XML_FILE, filePath));
