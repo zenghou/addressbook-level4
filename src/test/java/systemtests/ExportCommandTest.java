@@ -1,20 +1,53 @@
 package systemtests;
 
+import static seedu.address.testutil.TestUtil.getLastIndex;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+
+import java.util.List;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.ExportCommand;
+import seedu.address.model.Model;
+import seedu.address.model.person.ReadOnlyPerson;
 
 public class ExportCommandTest extends AddressBookSystemTest {
 
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
+
     @Test
     public void export() throws Exception {
+        String testFile = testFolder.getRoot().getPath() + "TestFile.xml";
+        Model model = getModel();
+
         /* ----------------- Performing export operation while an unfiltered list is being shown -------------------- */
 
         /* Case: export the first person in the list, command with leading and trailing whitespaces
          * -> first person exported
          */
+        Index firstPersonIndex = INDEX_FIRST_PERSON;
+        String command  =
+            "   " + ExportCommand.COMMAND_WORD + "   " + firstPersonIndex.getOneBased() + "   ;   " + testFile + "   ";
+        String expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, firstPersonIndex), testFile);
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export the last person in the list -> last person exported */
+        Index lastPersonIndex = getLastIndex(model);
+        command = ExportCommand.COMMAND_WORD + " " + lastPersonIndex.getOneBased() + ";" + testFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, lastPersonIndex), testFile);
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first and second person in the list with index separated by "," -> 2 persons exported */
+        command = ExportCommand.COMMAND_WORD + " 1,2 ; " + testFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, Index.fromOneBased(1), Index.fromOneBased(2)), testFile);
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: repeat the previous command with index separated by whitespaces -> 2 persons exported */
 
@@ -75,4 +108,31 @@ public class ExportCommandTest extends AddressBookSystemTest {
         /* Case: mixed case command word -> rejected */
 
     }
+
+    private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
+        assertCommandSuccess(command, expectedModel, expectedResultMessage, null);
+    }
+
+    private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage,
+                                      Index expectedSelectedCardIndex) {
+        executeCommand(command);
+        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
+        assertCommandBoxShowsDefaultStyle();
+        if (expectedSelectedCardIndex != null) {
+            assertSelectedCardChanged(expectedSelectedCardIndex);
+        } else {
+            assertSelectedCardUnchanged();
+        }
+        assertStatusBarUnchanged();
+    }
+
+    private String getNameListString(Model model, Index... indexes) {
+        List<ReadOnlyPerson> filteredList = model.getFilteredPersonList();
+        StringBuilder personNameBuilder = new StringBuilder();
+        for (Index index : indexes) {
+            personNameBuilder.append(filteredList.get(index.getZeroBased()).getName().fullName).append(", ");
+        }
+        return personNameBuilder.deleteCharAt(personNameBuilder.lastIndexOf(",")).toString();
+    }
+
 }
