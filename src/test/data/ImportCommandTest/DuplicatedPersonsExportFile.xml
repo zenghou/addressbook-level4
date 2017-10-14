@@ -5,6 +5,7 @@
         <phone>8482424</phone>
         <email>stefan@example.com</email>
         <address>little india</address>
+        <remark></remark>
         <tagged>friend</tagged>
     </persons>
     <persons>
@@ -12,6 +13,7 @@
         <phone>8482424</phone>
         <email>stefan@example.com</email>
         <address>little india</address>
+        <remark></remark>
         <tagged>friend</tagged>
     </persons>
 </personList>
