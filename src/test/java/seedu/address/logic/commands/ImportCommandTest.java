@@ -69,6 +69,9 @@ public class ImportCommandTest {
 
     }
 
+    /**
+     * Asserts if executing the given command throws {@code CommandException} with {@code exceptionMessage}.
+     */
     private void assertCommandException(ImportCommand command, String exceptionMessage) {
         try {
             command.executeUndoableCommand();
@@ -77,6 +80,9 @@ public class ImportCommandTest {
         }
     }
 
+    /**
+     * Adds test folder path to {@code prefsFileInTestDataFolder}.
+     */
     private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
         return prefsFileInTestDataFolder != null
                ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
