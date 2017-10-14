@@ -3,6 +3,7 @@ package systemtests;
 import static seedu.address.testutil.TestUtil.getLastIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.io.File;
 import java.util.List;
 
 import org.junit.Rule;
@@ -50,24 +51,59 @@ public class ExportCommandTest extends AddressBookSystemTest {
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: repeat the previous command with index separated by whitespaces -> 2 persons exported */
+        command = ExportCommand.COMMAND_WORD + " 1 2 ; " + testFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, Index.fromOneBased(1), Index.fromOneBased(2)), testFile);
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first three persons in the list with index separated by a mix of "," and whitespaces
          * -> 3 persons exported
          */
-
-        /* Case: export the whole list -> every person exported */
+        command = ExportCommand.COMMAND_WORD + " 1,, 2  3 ; " + testFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, Index.fromOneBased(1), Index.fromOneBased(2), Index.fromOneBased(3)), testFile);
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person to non-existing file -> exported and create new file */
+        String nonExistingFile = testFolder.getRoot().getPath() + "NonExistingFile.xml";
+        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + nonExistingFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, firstPersonIndex), nonExistingFile);
+        assertCommandSuccess(command, model, expectedMessage);
 
-        /* Case: export first person to existed file -> exported to overwrite file */
+        /* Case: export last person to existed file -> exported to overwrite file */
+        command = ExportCommand.COMMAND_WORD + " " + lastPersonIndex.getOneBased() + "; " + nonExistingFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, lastPersonIndex), nonExistingFile);
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person with file path without extension -> exported and add .xml extension */
+        String noExtensionFile = testFolder.getRoot().getPath() + "NoExtensionFile";
+        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + noExtensionFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, firstPersonIndex), noExtensionFile + ".xml");
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person with file path with wrong extension -> exported and add .xml extension */
+        String wrongExtensionFile = testFolder.getRoot().getPath() + "WrongExtensionFile.txt";
+        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + wrongExtensionFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, firstPersonIndex), wrongExtensionFile + ".xml");
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person with file path with no file name -> exported and add .xml extension */
+        String noNameFile = testFolder.getRoot().getPath() + File.separator + ".xml";
+        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + noNameFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, firstPersonIndex), noNameFile + ".xml");
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person with file path with extension in upper case -> exported to given file name */
+        String upperCaseExtensionFile = testFolder.getRoot().getPath() + "UpperCaseFile.XML";
+        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + upperCaseExtensionFile;
+        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
+            getNameListString(model, firstPersonIndex), upperCaseExtensionFile);
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* ------------------ Performing export operation while a filtered list is being shown ---------------------- */
 
