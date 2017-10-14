@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,16 +11,28 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.address.commons.util.FileUtil;
+import seedu.address.logic.CommandHistory;
+import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
 
 public class ImportCommandTest {
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandTest/");
+
+    private static final String MESSAGE_DUPLICATED_PERSON_WARNING =
+        "Duplicated persons are found in import process. Duplicated information is ignored.\n";
+    private static final String MESSAGE_SUCCESS_WITH_DUPLICATED_PERSON_IN_FILE =
+         MESSAGE_DUPLICATED_PERSON_WARNING + ImportCommand.MESSAGE_IMPORT_SUCCESS;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
+
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -71,8 +84,26 @@ public class ImportCommandTest {
     }
 
     @Test
+    public void execute_duplicatedPersonInFile_failure() throws Exception {
+        String filePath = addToTestDataPathIfNotNull("DuplicatedPersonsExportFile.xml");
+        assertCommandException(new ImportCommand(filePath),
+            String.format(ImportCommand.MESSAGE_DUPLICATED_PERSON_IN_FILE, filePath));
+    }
+
+    @Test
     public void execute_validFilePathAndFile_success() {
 
+    }
+
+    /**
+     * @return an ImportCommand with given {@code filePath} and typical Model.
+     */
+    private ImportCommand prepareCommand(String filePath) {
+        ImportCommand command = new ImportCommand(filePath);
+        // typical address model consists of ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE
+        command.setData(new ModelManager(getTypicalAddressBook(), new UserPrefs()),
+            new CommandHistory(), new UndoRedoStack());
+        return command;
     }
 
     /**
