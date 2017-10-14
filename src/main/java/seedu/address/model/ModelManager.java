@@ -67,7 +67,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void removeTag (Tag tag) {
+    public synchronized void removeTag(Tag tag) {
         addressBook.deleteTag(tag);
         indicateAddressBookChanged();
     }

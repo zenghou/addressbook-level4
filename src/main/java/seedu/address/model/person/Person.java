@@ -23,6 +23,7 @@ public class Person implements ReadOnlyPerson {
     private ObjectProperty<Email> email;
     private ObjectProperty<Address> address;
     private ObjectProperty<UniqueTagList> tags;
+    private ObjectProperty<Remark> remark;
 
     /**
      * Every field must be present and not null.
@@ -35,6 +36,7 @@ public class Person implements ReadOnlyPerson {
         this.address = new SimpleObjectProperty<>(address);
         // protect internal tags from changes in the arg list
         this.tags = new SimpleObjectProperty<>(new UniqueTagList(tags));
+        this.remark = new SimpleObjectProperty<>(new Remark(""));
     }
 
     /**
@@ -43,6 +45,7 @@ public class Person implements ReadOnlyPerson {
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(),
                 source.getTags());
+        this.remark = new SimpleObjectProperty<>(source.getRemark());
     }
 
     public void setName(Name name) {
@@ -99,6 +102,21 @@ public class Person implements ReadOnlyPerson {
     @Override
     public Address getAddress() {
         return address.get();
+    }
+
+    @Override
+    public void setRemark(Remark remark) {
+        this.remark.set(remark);
+    }
+
+    @Override
+    public Remark getRemark() {
+        return remark.get();
+    }
+
+    @Override
+    public ObjectProperty<Remark> remarkProperty() {
+        return remark;
     }
 
     /**

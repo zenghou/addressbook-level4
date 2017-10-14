@@ -25,7 +25,7 @@ public interface Model {
     void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException;
 
     /** Deletes the given tag. */
-    void removeTag (Tag tag);
+    void removeTag(Tag tag);
 
     /** Adds the given person */
     void addPerson(ReadOnlyPerson person) throws DuplicatePersonException;
