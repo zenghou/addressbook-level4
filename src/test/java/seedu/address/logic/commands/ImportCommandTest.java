@@ -91,6 +91,14 @@ public class ImportCommandTest {
     }
 
     @Test
+    public void execute_duplicatedPersonInAddressBook_successWithWarning() throws Exception {
+        String filePath = addToTestDataPathIfNotNull("DuplicatedPersonInAddressBook.xml");
+        ImportCommand command = prepareCommand(filePath);
+        CommandResult result = command.executeUndoableCommand();
+        assertEquals(result.feedbackToUser, String.format(MESSAGE_SUCCESS_WITH_DUPLICATED_PERSON_IN_FILE, 1));
+    }
+
+    @Test
     public void execute_validFilePathAndFile_success() {
 
     }
