@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +54,7 @@ public class ImportCommand extends UndoableCommand {
             throw new CommandException(String.format(MESSAGE_EMPTY_FILE, filePath));
         }
 
-        List<ReadOnlyPerson> personList = new ArrayList<>(optionalPersonList.get().asObservableList());
+        List<ReadOnlyPerson> personList = optionalPersonList.get().asObservableList();
         for (ReadOnlyPerson person : personList) {
             try {
                 this.model.addPerson(person);
