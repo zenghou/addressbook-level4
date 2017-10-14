@@ -23,13 +23,13 @@ public class ImportCommand extends UndoableCommand {
         + "Example: " + COMMAND_WORD + " /Users/[USER NAME]/Documents/sharePersons.xml";
 
     public static final String MESSAGE_IMPORT_SUCCESS =  "%1$s contacts have been imported into your AddressBook!";
-    public static final String MESSAGE_MISSING_FILE =
-        "The file: %1$s cannot be found!\n" + "Make sure you are inputting the right file!";
-    public static final String MESSAGE_INVALID_XML_FILE =
-        "The file: %1$s is not a valid XML file!\n" + "Make sure you are inputting the right file!";
-    public static final String MESSAGE_EMPTY_FILE = "No person list data are found in file: %1$s";
     public static final String MESSAGE_DUPLICATED_PERSON_IN_FILE =
         "The file: %1$s contains duplicated person information!";
+    public static final String MESSAGE_EMPTY_FILE = "No person list data are found in file: %1$s";
+    public static final String MESSAGE_INVALID_XML_FILE =
+        "The file: %1$s is not a valid XML file!\n" + "Make sure you are inputting the right file!";
+    public static final String MESSAGE_MISSING_FILE =
+        "The file: %1$s cannot be found!\n" + "Make sure you are inputting the right file!";
 
     private final String filePath;
 
@@ -45,12 +45,12 @@ public class ImportCommand extends UndoableCommand {
         Optional<UniquePersonList> optionalPersonList = Optional.empty();
         try {
             optionalPersonList = personListStorage.readPersonList();
+        } catch (DataConversionException dce) {
+            throw new CommandException(String.format(MESSAGE_INVALID_XML_FILE, filePath));
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(String.format(MESSAGE_DUPLICATED_PERSON_IN_FILE, filePath));
         } catch (FileNotFoundException fnfe) {
             throw new CommandException(String.format(MESSAGE_MISSING_FILE, filePath));
-        } catch (DataConversionException dce) {
-            throw new CommandException(String.format(MESSAGE_INVALID_XML_FILE, filePath));
         }
         if (!optionalPersonList.isPresent()) {
             throw new CommandException(String.format(MESSAGE_EMPTY_FILE, filePath));
