@@ -17,6 +17,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.testutil.TypicalPersons;
 
 public class ImportCommandTest {
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandTest/");
@@ -99,8 +100,17 @@ public class ImportCommandTest {
     }
 
     @Test
-    public void execute_validFilePathAndFile_success() {
+    public void execute_validFilePathAndFile_success() throws Exception {
+        String filePath = addToTestDataPathIfNotNull("ImportTestFile.xml");
+        ImportCommand command = prepareCommand(filePath);
+        CommandResult result = command.execute();
 
+        // check CommandResult
+        assertEquals(result.feedbackToUser, String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, 1));
+        // check Model
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedModel.addPerson(TypicalPersons.HOON);
+        assertEquals(command.model, expectedModel);
     }
 
     /**
