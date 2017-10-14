@@ -58,9 +58,10 @@ public class ImportCommandTest {
 
     @Test
     public void execute_emptyFile_failure() {
-//        String filePath = addToTestDataPathIfNotNull("EmptyFile.xml");
-//        assertCommandException(new ImportCommand(filePath),
-//            String.format(ImportCommand.MESSAGE_EMPTY_FILE, filePath));
+        String filePath = addToTestDataPathIfNotNull("EmptyFile.xml");
+        //TODO: empty file should return Optional.empty()?
+        assertCommandException(new ImportCommand(filePath),
+            String.format(ImportCommand.MESSAGE_INVALID_XML_FILE, filePath));
     }
 
     @Test
