@@ -43,6 +43,12 @@ public class ImportCommandTest {
     }
 
     @Test
+    public void constructor_nullFilePath_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        new ImportCommand(null).executeUndoableCommand();
+    }
+
+    @Test
     public void execute_missingFile_throwsFileNotFoundException() throws Exception {
         String filePath = addToTestDataPathIfNotNull("MissingFile.xml");
         assertCommandException(new ImportCommand(filePath),
