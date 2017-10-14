@@ -145,10 +145,28 @@ public class ExportCommandTest extends AddressBookSystemTest {
 
     }
 
+    /**
+     * Executes {@code command} and in addition,<br>
+     * 1. Asserts that the command box displays an empty string.<br>
+     * 2. Asserts that the result display box displays {@code expectedResultMessage}.<br>
+     * 3. Asserts that the model related components equal to {@code expectedModel}.<br>
+     * 4. Asserts that the browser url and selected card remains unchanged.<br>
+     * 5. Asserts that the status bar remains unchanged.<br>
+     * 6. Asserts that the command box has the default style class.<br>
+     * Verifications 1 to 3 are performed by
+     * {@code AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.
+     * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
+     */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
         assertCommandSuccess(command, expectedModel, expectedResultMessage, null);
     }
 
+    /**
+     * Performs the same verification as {@code assertCommandSuccess(String, Model, String)} except that the browser url
+     * and selected card are expected to update accordingly depending on the card at {@code expectedSelectedCardIndex}.
+     * @see ExportCommandTest#assertCommandSuccess(String, Model, String)
+     * @see AddressBookSystemTest#assertSelectedCardChanged(Index)
+     */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage,
                                       Index expectedSelectedCardIndex) {
         executeCommand(command);
