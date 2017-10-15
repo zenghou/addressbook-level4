@@ -117,6 +117,13 @@ public class ExportCommandTest extends AddressBookSystemTest {
         /* --------------------- Performing export operation while a person card is selected ------------------------ */
 
         /* Case: export the selected person -> exported and selection remains */
+        showAllPersons();
+        model = getModel();
+        Index selectedIndex = getLastIndex(model);
+        selectPerson(selectedIndex);
+        command = getExportCommand(testFile, selectedIndex);
+        expectedMessage = getExpectedSuccessMessage(model, testFile, selectedIndex);
+        assertCommandSuccess(command, model, expectedMessage);
 
         /* --------------------------------- Performing invalid delete operation ------------------------------------ */
 
