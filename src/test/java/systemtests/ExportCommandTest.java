@@ -36,86 +36,75 @@ public class ExportCommandTest extends AddressBookSystemTest {
          * -> first person exported
          */
         Index firstPersonIndex = INDEX_FIRST_PERSON;
-        String command  =
-            "   " + ExportCommand.COMMAND_WORD + "   " + firstPersonIndex.getOneBased() + "   ;   " + testFile + "   ";
-        String expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, firstPersonIndex), testFile);
+        String command  = "    " + getExportCommand(testFile, firstPersonIndex) + "    ";
+        String expectedMessage = getExpectedSuccessMessage(model, testFile, firstPersonIndex);
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export the last person in the list -> last person exported */
         Index lastPersonIndex = getLastIndex(model);
-        command = ExportCommand.COMMAND_WORD + " " + lastPersonIndex.getOneBased() + ";" + testFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, lastPersonIndex), testFile);
-        assertCommandSuccess(command, model, expectedMessage);
+        assertCommandSuccess(getExportCommand(testFile, lastPersonIndex), model,
+            getExpectedSuccessMessage(model, testFile, lastPersonIndex));
 
         /* Case: export first and second person in the list with index separated by "," -> 2 persons exported */
         command = ExportCommand.COMMAND_WORD + " 1,2 ; " + testFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, Index.fromOneBased(1), Index.fromOneBased(2)), testFile);
+        expectedMessage = getExpectedSuccessMessage(model, testFile,  Index.fromOneBased(1), Index.fromOneBased(2));
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: repeat the previous command with index separated by whitespaces -> 2 persons exported */
         command = ExportCommand.COMMAND_WORD + " 1 2 ; " + testFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, Index.fromOneBased(1), Index.fromOneBased(2)), testFile);
+        expectedMessage = getExpectedSuccessMessage(model, testFile, Index.fromOneBased(1), Index.fromOneBased(2));
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first three persons in the list with index separated by a mix of "," and whitespaces
          * -> 3 persons exported
          */
         command = ExportCommand.COMMAND_WORD + " 1,, 2  3 ; " + testFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, Index.fromOneBased(1), Index.fromOneBased(2), Index.fromOneBased(3)), testFile);
+        expectedMessage = getExpectedSuccessMessage(model, testFile,
+            Index.fromOneBased(1), Index.fromOneBased(2), Index.fromOneBased(3));
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person to non-existing file -> exported and create new file */
         String nonExistingFile = testFolder.getRoot().getPath() + "NonExistingFile.xml";
-        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + nonExistingFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, firstPersonIndex), nonExistingFile);
+        command = getExportCommand(nonExistingFile, firstPersonIndex);
+        expectedMessage = getExpectedSuccessMessage(model, nonExistingFile, firstPersonIndex);
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export last person to existed file -> exported to overwrite file */
-        command = ExportCommand.COMMAND_WORD + " " + lastPersonIndex.getOneBased() + "; " + nonExistingFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, lastPersonIndex), nonExistingFile);
+        command = getExportCommand(nonExistingFile, lastPersonIndex);
+        expectedMessage = getExpectedSuccessMessage(model, nonExistingFile, lastPersonIndex);
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person with file path without extension -> exported and add .xml extension */
         String noExtensionFile = testFolder.getRoot().getPath() + "NoExtensionFile";
-        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + noExtensionFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, firstPersonIndex), noExtensionFile + ".xml");
+        command = getExportCommand(noExtensionFile, firstPersonIndex);
+        expectedMessage = getExpectedSuccessMessage(model, noExtensionFile + ".xml", firstPersonIndex);
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person with file path with wrong extension -> exported and add .xml extension */
         String wrongExtensionFile = testFolder.getRoot().getPath() + "WrongExtensionFile.txt";
-        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + wrongExtensionFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, firstPersonIndex), wrongExtensionFile + ".xml");
+        command = getExportCommand(wrongExtensionFile, firstPersonIndex);
+        expectedMessage = getExpectedSuccessMessage(model, wrongExtensionFile + ".xml", firstPersonIndex);
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person with file path with no file name -> exported and add .xml extension */
         String noNameFile = testFolder.getRoot().getPath() + File.separator + ".xml";
-        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + noNameFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, firstPersonIndex), noNameFile + ".xml");
+        command = getExportCommand(noNameFile, firstPersonIndex);
+        expectedMessage = getExpectedSuccessMessage(model, noNameFile + ".xml", firstPersonIndex);
         assertCommandSuccess(command, model, expectedMessage);
 
         /* Case: export first person with file path with extension in upper case -> exported to given file name */
         String upperCaseExtensionFile = testFolder.getRoot().getPath() + "UpperCaseFile.XML";
-        command = ExportCommand.COMMAND_WORD + " " + firstPersonIndex.getOneBased() + "; " + upperCaseExtensionFile;
-        expectedMessage = String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS,
-            getNameListString(model, firstPersonIndex), upperCaseExtensionFile);
+        command = getExportCommand(upperCaseExtensionFile, firstPersonIndex);
+        expectedMessage = getExpectedSuccessMessage(model, upperCaseExtensionFile, firstPersonIndex);
         assertCommandSuccess(command, model, expectedMessage);
 
         /* ------------------ Performing export operation while a filtered list is being shown ---------------------- */
 
         /* Case: filtered person list, export within boundary of address book and person list -> exported */
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
+        model = getModel();
         command = getExportCommand(testFile, firstPersonIndex);
-        assertTrue(firstPersonIndex.getZeroBased() < getModel().getFilteredPersonList().size());
+        assertTrue(firstPersonIndex.getZeroBased() < model.getFilteredPersonList().size());
         assertCommandSuccess(command, model, getExpectedSuccessMessage(model, testFile, firstPersonIndex));
 
         /* Case: filtered person list, export within boundary of address book but out of bounds of person list
@@ -192,6 +181,17 @@ public class ExportCommandTest extends AddressBookSystemTest {
         assertStatusBarUnchanged();
     }
 
+    /**
+     * Executes {@code command} and in addition,<br>
+     * 1. Asserts that the command box displays {@code command}.<br>
+     * 2. Asserts that result display box displays {@code expectedResultMessage}.<br>
+     * 3. Asserts that the model related components equal to the current model.<br>
+     * 4. Asserts that the browser url, selected card and status bar remain unchanged.<br>
+     * 5. Asserts that the command box has the error style.<br>
+     * Verifications 1 to 3 are performed by
+     * {@code AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
+     */
     private void assertCommandFailure(String command, String expectedMessage) {
         Model expectedModel = getModel();
 
