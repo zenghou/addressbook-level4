@@ -1,7 +1,9 @@
 package systemtests;
 
 import static org.junit.Assert.assertTrue;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.TestUtil.getLastIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
@@ -17,13 +19,18 @@ import org.junit.rules.TemporaryFolder;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.parser.ExportCommandParser;
 import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyPerson;
 
 public class ExportCommandSystemTest extends AddressBookSystemTest {
 
+    private static final String EXPECTED_MESSAGE_INVALID_COMMAND =
+        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE);
+
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
+
 
     @Test
     public void export() throws Exception {
@@ -128,28 +135,40 @@ public class ExportCommandSystemTest extends AddressBookSystemTest {
         /* --------------------------------- Performing invalid delete operation ------------------------------------ */
 
         /* Case: invalid index (0) -> rejected */
+        command = getExportCommand(testFile, 0);
+        assertCommandFailure(command, EXPECTED_MESSAGE_INVALID_COMMAND);
 
         /* Case: invalid index (-1) -> rejected */
+        command = getExportCommand(testFile, -1);
+        assertCommandFailure(command, EXPECTED_MESSAGE_INVALID_COMMAND);
 
         /* Case: invalid index (size + 1)  */
+        command = getExportCommand(testFile, model.getFilteredPersonList().size() + 1);
+        assertCommandFailure(command, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
 
         /* Case: invalid arguments (alphabets in index part) -> rejected */
+        command = getExportCommand(testFile, "abc");
+        assertCommandFailure(command, EXPECTED_MESSAGE_INVALID_COMMAND);
 
         /* Case: invalid arguments (indexes separated by invalid char) -> rejected */
+        command = getExportCommand(testFile, "1 . 2");
+        assertCommandFailure(command, EXPECTED_MESSAGE_INVALID_COMMAND);
 
         /* Case: missing index list -> rejected */
+        command = getExportCommand(testFile, " ");
+        assertCommandFailure(command, EXPECTED_MESSAGE_INVALID_COMMAND);
 
         /* Case: missing semicolon ";" -> rejected */
+        command = ExportCommand.COMMAND_WORD + " 1, 2 " + testFile;
+        assertCommandFailure(command, EXPECTED_MESSAGE_INVALID_COMMAND);
 
         /* Case: missing file path -> rejected */
-
-        /* Case: invalid file (missing file) -> rejected */
-
-        /* Case: invalid file (not xml format) -> rejected */
-
-        /* Case: invalid file () -> rejected */
+        command = getExportCommand(" ", firstPersonIndex);
+        assertCommandFailure(command, String.format(
+            MESSAGE_INVALID_COMMAND_FORMAT, ExportCommandParser.MISSING_FILE_PATH + ExportCommand.MESSAGE_USAGE));
 
         /* Case: mixed case command word -> rejected */
+        assertCommandFailure("ExpOrt 1;" + testFile, MESSAGE_UNKNOWN_COMMAND);
 
     }
 
@@ -222,6 +241,16 @@ public class ExportCommandSystemTest extends AddressBookSystemTest {
         return ExportCommand.COMMAND_WORD + " "
             + Arrays.stream(indexes).map(Index::getOneBased).map(Object::toString).collect(Collectors.joining(","))
             + " ; " + filePath;
+    }
+
+    private String getExportCommand(String filePath, Integer... oneBasedIndexes) {
+        return ExportCommand.COMMAND_WORD + " "
+            + Arrays.stream(oneBasedIndexes).map(Object::toString).collect(Collectors.joining(","))
+            + " ; " + filePath;
+    }
+
+    private String getExportCommand(String filePath, String oneBasedIndexesString) {
+        return ExportCommand.COMMAND_WORD + " " + oneBasedIndexesString + " ; " + filePath;
     }
 
     private String getExpectedSuccessMessage(Model model, String filePath, Index... indexes) {
