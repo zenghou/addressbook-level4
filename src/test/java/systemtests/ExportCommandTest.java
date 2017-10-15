@@ -1,10 +1,15 @@
 package systemtests;
 
+import static org.junit.Assert.assertTrue;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.testutil.TestUtil.getLastIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -108,10 +113,17 @@ public class ExportCommandTest extends AddressBookSystemTest {
         /* ------------------ Performing export operation while a filtered list is being shown ---------------------- */
 
         /* Case: filtered person list, export within boundary of address book and person list -> exported */
+        showPersonsWithName(KEYWORD_MATCHING_MEIER);
+        command = getExportCommand(testFile, firstPersonIndex);
+        assertTrue(firstPersonIndex.getZeroBased() < getModel().getFilteredPersonList().size());
+        assertCommandSuccess(command, model, getExpectedSuccessMessage(model, testFile, firstPersonIndex));
 
         /* Case: filtered person list, export within boundary of address book but out of bounds of person list
          * -> rejected
          */
+        showPersonsWithName(KEYWORD_MATCHING_MEIER);
+        Index invalidIndex = Index.fromZeroBased(getModel().getAddressBook().getPersonList().size());
+        assertCommandFailure(getExportCommand(testFile, invalidIndex), MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
 
         /* --------------------- Performing export operation while a person card is selected ------------------------ */
 
@@ -180,6 +192,16 @@ public class ExportCommandTest extends AddressBookSystemTest {
         assertStatusBarUnchanged();
     }
 
+    private void assertCommandFailure(String command, String expectedMessage) {
+        Model expectedModel = getModel();
+
+        executeCommand(command);
+        assertApplicationDisplaysExpected(command, expectedMessage, expectedModel);
+        assertCommandBoxShowsErrorStyle();
+        assertSelectedCardUnchanged();
+        assertStatusBarUnchanged();
+    }
+
     private String getNameListString(Model model, Index... indexes) {
         List<ReadOnlyPerson> filteredList = model.getFilteredPersonList();
         StringBuilder personNameBuilder = new StringBuilder();
@@ -187,6 +209,16 @@ public class ExportCommandTest extends AddressBookSystemTest {
             personNameBuilder.append(filteredList.get(index.getZeroBased()).getName().fullName).append(", ");
         }
         return personNameBuilder.deleteCharAt(personNameBuilder.lastIndexOf(",")).toString();
+    }
+
+    private String getExportCommand(String filePath, Index... indexes) {
+        return ExportCommand.COMMAND_WORD + " "
+            + Arrays.stream(indexes).map(Index::getOneBased).map(Object::toString).collect(Collectors.joining(","))
+            + " ; " + filePath;
+    }
+
+    private String getExpectedSuccessMessage(Model model, String filePath, Index... indexes) {
+        return String.format(ExportCommand.MESSAGE_EXPORT_PERSON_SUCCESS, getNameListString(model, indexes), filePath);
     }
 
 }
