@@ -58,7 +58,8 @@ public class ExportCommandParser implements Parser<ExportCommand> {
             return filePath + ".xml";
         }
         String extension = "";
-        if (filePath.charAt(filePath.lastIndexOf('.') - 1) != '/') {
+        if (filePath.charAt(filePath.lastIndexOf('.') - 1) != '/'
+            && filePath.charAt(filePath.lastIndexOf('.') - 1) != '\\') {
             extension = filePath.substring(filePath.lastIndexOf('.') + 1, filePath.length());
         }
         if (!extension.equalsIgnoreCase("xml")) {
