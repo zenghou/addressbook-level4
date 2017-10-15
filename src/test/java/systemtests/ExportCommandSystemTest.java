@@ -20,7 +20,7 @@ import seedu.address.logic.commands.ExportCommand;
 import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyPerson;
 
-public class ExportCommandTest extends AddressBookSystemTest {
+public class ExportCommandSystemTest extends AddressBookSystemTest {
 
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
@@ -172,7 +172,7 @@ public class ExportCommandTest extends AddressBookSystemTest {
     /**
      * Performs the same verification as {@code assertCommandSuccess(String, Model, String)} except that the browser url
      * and selected card are expected to update accordingly depending on the card at {@code expectedSelectedCardIndex}.
-     * @see ExportCommandTest#assertCommandSuccess(String, Model, String)
+     * @see ExportCommandSystemTest#assertCommandSuccess(String, Model, String)
      * @see AddressBookSystemTest#assertSelectedCardChanged(Index)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage,
