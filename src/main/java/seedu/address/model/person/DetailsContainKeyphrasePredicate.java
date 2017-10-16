@@ -7,7 +7,7 @@ import java.util.function.Predicate;
  * partially or in full, any of the keywords given.
  */
 public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerson>{
-    private final String keyphrase;
+    public final String keyphrase;
 
     public DetailsContainKeyphrasePredicate(String keyphrase)  {
         this.keyphrase = keyphrase;
@@ -21,7 +21,7 @@ public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerso
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof NameContainsKeywordsPredicate // instanceof handles nulls
+                || (other instanceof DetailsContainKeyphrasePredicate // instanceof handles nulls
                 && this.keyphrase.equals(((DetailsContainKeyphrasePredicate) other).keyphrase)); // state check
     }
 
