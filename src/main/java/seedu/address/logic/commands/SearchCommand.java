@@ -21,12 +21,8 @@ public class SearchCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        try {
-            throw new Exception("stub exception");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new CommandResult("stub");
+        model.updateFilteredPersonList(predicate);
+        return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
     }
 
     @Override
