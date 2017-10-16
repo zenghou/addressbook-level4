@@ -12,6 +12,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.commons.exceptions.IllegalValueException;
+
 public class StringUtilTest {
 
     @Rule
@@ -154,6 +156,4 @@ public class StringUtilTest {
         thrown.expect(NullPointerException.class);
         StringUtil.getDetails(null);
     }
-
-
 }
