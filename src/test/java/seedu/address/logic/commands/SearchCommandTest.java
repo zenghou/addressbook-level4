@@ -1,11 +1,12 @@
 package seedu.address.logic.commands;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import seedu.address.model.person.DetailsContainKeywordsPredicate;
+import seedu.address.model.person.DetailsContainKeyphrasePredicate;
 
 public class SearchCommandTest {
 
@@ -15,12 +16,22 @@ public class SearchCommandTest {
     @Test
     public void execute_SearchCommand_throwsException() throws Exception {
         expectedException.expect(Exception.class);
-        // TODO: change constructor for DetailsContainKeywordsPredicte after implementation
-        SearchCommand searchCommand = new SearchCommand(new DetailsContainKeywordsPredicate());
+        SearchCommand searchCommand = new SearchCommand(new DetailsContainKeyphrasePredicate(""));
+        searchCommand.execute();
     }
 
     @Test
     public void equals() {
-        // TODO: implement after DetailsContainKeywordsPredicte, otherwise equals will test for reference
+        SearchCommand searchCommandOne = new SearchCommand(new DetailsContainKeyphrasePredicate("testing one"));
+        SearchCommand searchCommandTwo = new SearchCommand(new DetailsContainKeyphrasePredicate("testing two"));
+
+        // same object -> returns true
+        assertTrue(searchCommandOne.equals(searchCommandOne));
+
+        // different object -> returns false
+        assertFalse(searchCommandOne.equals(searchCommandTwo));
+
+        // different type -> returns false
+        assertFalse(searchCommandOne.equals(1));
     }
 }
