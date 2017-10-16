@@ -5,10 +5,10 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import seedu.address.logic.commands.SearchCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.DetailsContainKeywordsPredicate;
+import seedu.address.model.person.DetailsContainKeyphrasePredicate;
 
 /**
- * Parses input arguments and creates a new FindCommand object
+ * Parses input arguments and creates a new SearchCommand object
  */
 public class SearchCommandParser implements Parser<SearchCommand> {
 
@@ -24,10 +24,6 @@ public class SearchCommandParser implements Parser<SearchCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SearchCommand.MESSAGE_USAGE));
         }
 
-        String[] keyWords = trimmedArgs.split("\\s+");
-
-        // TODO: change the parameter for DetailsContainKeywordsPredicate
-        return new SearchCommand(new DetailsContainKeywordsPredicate());
+        return new SearchCommand(new DetailsContainKeyphrasePredicate(trimmedArgs));
     }
-
 }
