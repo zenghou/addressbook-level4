@@ -27,6 +27,7 @@ public class DetailsContainKeyphrasePredicateTest {
         // same object
         assertTrue(firstPredicate.equals(firstPredicate));
         assertTrue(secondPredicate.equals(secondPredicate));
+        assertTrue(firstPredicate.equals(new DetailsContainKeyphrasePredicate("this is the first sample keyphrase")));
 
         // different object
         assertFalse(firstPredicate.equals(secondPredicate));
