@@ -4,31 +4,27 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
-import seedu.address.logic.commands.FindCommand;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.logic.commands.SearchCommand;
+import seedu.address.model.person.DetailsContainKeyphrasePredicate;
 
 public class SearchCommandParserTest {
 
-    private FindCommandParser parser = new FindCommandParser();
+    private SearchCommandParser parser = new SearchCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
-        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        // userInput string cannot be empty
+        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, SearchCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_validArgs_returnsFindCommand() {
-        // no leading and trailing whitespaces
-        FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
-        assertParseSuccess(parser, "Alice Bob", expectedFindCommand);
-
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
+        // with multiple spaces in between
+        SearchCommand expectedSearchCommand =
+                new SearchCommand(new DetailsContainKeyphrasePredicate("Alice     Bob "));
+        assertParseSuccess(parser, "Alice     Bob ", expectedSearchCommand);
     }
 
 }

@@ -27,6 +27,7 @@ public class SearchCommandTest {
 
         // same object -> returns true
         assertTrue(searchCommandOne.equals(searchCommandOne));
+        assertTrue(searchCommandOne.equals(new SearchCommand(new DetailsContainKeyphrasePredicate("testing one"))));
 
         // different object -> returns false
         assertFalse(searchCommandOne.equals(searchCommandTwo));
