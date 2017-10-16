@@ -35,7 +35,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         // parse indexes
         List<Index> indexes;
         try {
-            indexes = ParserUtil.parserIndexList(oneBasedIndexListString);
+            indexes = ParserUtil.parseIndexList(oneBasedIndexListString);
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
