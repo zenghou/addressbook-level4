@@ -1,6 +1,6 @@
 package seedu.address.logic.commands;
 
-import seedu.address.model.person.DetailsContainKeywordsPredicate;
+import seedu.address.model.person.DetailsContainKeyphrasePredicate;
 
 public class SearchCommand extends Command {
 
@@ -13,9 +13,9 @@ public class SearchCommand extends Command {
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie";
 
-    private final DetailsContainKeywordsPredicate predicate;
+    private final DetailsContainKeyphrasePredicate predicate;
 
-    public SearchCommand(DetailsContainKeywordsPredicate predicate) {
+    public SearchCommand(DetailsContainKeyphrasePredicate predicate) {
         this.predicate = predicate;
     }
 
