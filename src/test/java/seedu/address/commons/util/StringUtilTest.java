@@ -158,7 +158,7 @@ public class StringUtilTest {
     //---------------- Tests for caseInsensitiveContains --------------------------------------
 
     @Test
-    public void insensitiveContains_MatchingInput_returnTrue() {
+    public void insensitiveContainsMatchingInput_returnTrue() {
         // same case, matches partially
         assertTrue(StringUtil.caseInsensitiveContains("Geylang", "eyla"));
 
@@ -173,7 +173,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void insensitiveContains_NonMatchingInput_returnsFalse() {
+    public void insensitiveContainsNonMatchingInput_returnsFalse() {
         // same case, does not match
         assertFalse(StringUtil.caseInsensitiveContains("Geylang", "Tampines"));
 
