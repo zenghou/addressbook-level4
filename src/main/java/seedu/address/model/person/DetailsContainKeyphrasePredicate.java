@@ -2,6 +2,8 @@ package seedu.address.model.person;
 
 import java.util.function.Predicate;
 
+import seedu.address.commons.util.StringUtil;
+
 /**
  * Tests that either one of {@code ReadOnlyPerson}'s {@code Name, Phone, Address, Email, Tag, Remarks} matches,
  * partially or in full, any of the keywords given.
@@ -32,12 +34,12 @@ public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerso
      * @return true if any attribute of the {@code person}'s details match the keyphrase
      */
     public boolean personDetailsContainsKeyphrase(ReadOnlyPerson person, String keyphrase) {
-        boolean nameContainsKeyphrase = person.getName().fullName.contains(keyphrase);
-        boolean emailContainsKeyphrase = person.getEmail().value.contains(keyphrase);
-        boolean phoneContainsKeyphrase = person.getPhone().value.contains(keyphrase);
-        boolean addressContainsKeyphrase = person.getAddress().value.contains(keyphrase);
-        boolean remarkContainsKeyphrase = person.getRemark().value.contains(keyphrase);
-        boolean tagContainsKeyphrase = person.getTags().toString().contains(keyphrase);
+        boolean nameContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getName().fullName, keyphrase);
+        boolean emailContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getEmail().value, keyphrase);
+        boolean phoneContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getPhone().value, keyphrase);
+        boolean addressContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getAddress().value, keyphrase);
+        boolean remarkContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getRemark().value, keyphrase);
+        boolean tagContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getTags().toString(),keyphrase);
 
         return nameContainsKeyphrase || emailContainsKeyphrase || phoneContainsKeyphrase || addressContainsKeyphrase
                 || remarkContainsKeyphrase || tagContainsKeyphrase;
