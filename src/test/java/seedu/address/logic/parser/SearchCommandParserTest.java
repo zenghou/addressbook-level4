@@ -20,10 +20,10 @@ public class SearchCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_returnsFindCommand() {
+    public void parse_validArgs_returnsSearchCommand() {
         // with multiple spaces in between
         SearchCommand expectedSearchCommand =
-                new SearchCommand(new DetailsContainKeyphrasePredicate("Alice     Bob "));
+                new SearchCommand(new DetailsContainKeyphrasePredicate("Alice     Bob"));
         assertParseSuccess(parser, "Alice     Bob ", expectedSearchCommand);
     }
 
