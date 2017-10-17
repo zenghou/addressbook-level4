@@ -17,7 +17,7 @@ public class DetailsContainKeyphrasePredicateTest {
             .build();
 
     @Test
-    public void equals(){
+    public void equals() {
         String keyphraseOne = "this is the first sample keyphrase";
         String keyphraseTwo = "this is the second sample keyphrase";
 
