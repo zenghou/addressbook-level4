@@ -55,12 +55,16 @@ public class DetailsContainKeyphrasePredicateTest {
     @Test
     public void testDetailsContainKeyphrase_returnsTrue() {
         // matches Name in full
-        DetailsContainKeyphrasePredicate predicateNamePartial = new DetailsContainKeyphrasePredicate("Peter Lim");
+        DetailsContainKeyphrasePredicate predicateNameFull = new DetailsContainKeyphrasePredicate("Peter Lim");
+        assertTrue(predicateNameFull.test(samplePerson));
+
+        // matches Name partially
+        DetailsContainKeyphrasePredicate predicateNamePartial = new DetailsContainKeyphrasePredicate("ter Li");
         assertTrue(predicateNamePartial.test(samplePerson));
 
         // matches Name partially
-        DetailsContainKeyphrasePredicate predicateNameFull = new DetailsContainKeyphrasePredicate("ter Li");
-        assertTrue(predicateNameFull.test(samplePerson));
+        DetailsContainKeyphrasePredicate predicateNameDifferentCase = new DetailsContainKeyphrasePredicate("ER Li");
+        assertTrue(predicateNameDifferentCase.test(samplePerson));
 
         // matches Phone in full
         DetailsContainKeyphrasePredicate predicatePhoneFull = new DetailsContainKeyphrasePredicate("99887766");
@@ -71,20 +75,32 @@ public class DetailsContainKeyphrasePredicateTest {
         assertTrue(predicatePhonePartial.test(samplePerson));
 
         // matches Email in full
-        DetailsContainKeyphrasePredicate predicateEmailFull = new DetailsContainKeyphrasePredicate("peterlim@gmail.com");
+        DetailsContainKeyphrasePredicate predicateEmailFull = new DetailsContainKeyphrasePredicate("peterlim@gmail."
+                + "com");
         assertTrue(predicateEmailFull.test(samplePerson));
 
         // matches Email partially
         DetailsContainKeyphrasePredicate predicateEmailPartially = new DetailsContainKeyphrasePredicate("gmail.com");
         assertTrue(predicateEmailPartially.test(samplePerson));
 
+        // matches Email different case
+        DetailsContainKeyphrasePredicate predicateEmailDifferentCase = new DetailsContainKeyphrasePredicate("GMAIL."
+                + "com");
+        assertTrue(predicateEmailDifferentCase.test(samplePerson));
+
         // matches Address in full
-        DetailsContainKeyphrasePredicate predicateAddressFull = new DetailsContainKeyphrasePredicate("Orchard Towers Block 39 #13-12");
+        DetailsContainKeyphrasePredicate predicateAddressFull = new DetailsContainKeyphrasePredicate("Orchard Towers "
+                + "Block 39 #13-12");
         assertTrue(predicateAddressFull.test(samplePerson));
 
         // matches Address partially
         DetailsContainKeyphrasePredicate predicateAddressPartially = new DetailsContainKeyphrasePredicate("39 #13-12");
         assertTrue(predicateAddressPartially.test(samplePerson));
+
+        // matches Address in full, different case
+        DetailsContainKeyphrasePredicate predicateAddressDifferentCase = new DetailsContainKeyphrasePredicate("Orchard "
+                + "Towers Block 39 #13-12");
+        assertTrue(predicateAddressDifferentCase.test(samplePerson));
 
         // matches Tag in full
         DetailsContainKeyphrasePredicate predicateTagFull = new DetailsContainKeyphrasePredicate("professional");
@@ -94,12 +110,24 @@ public class DetailsContainKeyphrasePredicateTest {
         DetailsContainKeyphrasePredicate predicateTagPartial = new DetailsContainKeyphrasePredicate("ssional");
         assertTrue(predicateTagPartial.test(samplePerson));
 
+        // matches Tag in full, different case
+        DetailsContainKeyphrasePredicate predicateTagFullDifferentCase = new DetailsContainKeyphrasePredicate("pro"
+                + "FeSsIoNal");
+        assertTrue(predicateTagFullDifferentCase.test(samplePerson));
+
         // matches Remark in full
-        DetailsContainKeyphrasePredicate predicateRemarkFull = new DetailsContainKeyphrasePredicate("met during a networking event");
+        DetailsContainKeyphrasePredicate predicateRemarkFull = new DetailsContainKeyphrasePredicate("met during a "
+                + "networking event");
         assertTrue(predicateRemarkFull.test(samplePerson));
 
         // matches Remark partially
-        DetailsContainKeyphrasePredicate predicateRemarkPartial = new DetailsContainKeyphrasePredicate("networking event");
+        DetailsContainKeyphrasePredicate predicateRemarkPartial = new DetailsContainKeyphrasePredicate("networking"
+                + " event");
         assertTrue(predicateRemarkPartial.test(samplePerson));
+
+        // matches Remark in full, different Case
+        DetailsContainKeyphrasePredicate predicateRemarkFullDifferentCase = new DetailsContainKeyphrasePredicate("met"
+                + " during a nEtWorKing EVent");
+        assertTrue(predicateRemarkFull.test(samplePerson));
     }
 }
