@@ -51,7 +51,7 @@ public class ParserUtil {
      * @throws IllegalValueException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static List<Index> parseIndexList(String oneBasedIndexList) throws IllegalValueException {
-        String[] indexStrings = oneBasedIndexList.split("(,)*(\\s)*");
+        String[] indexStrings = oneBasedIndexList.split("((,)|(\\s))+");
         List<Index> indexes = new ArrayList<>();
         for (String s : indexStrings) {
             if (!s.trim().isEmpty()) {
