@@ -26,4 +26,5 @@ public class SearchCommandParser implements Parser<SearchCommand> {
 
         return new SearchCommand(new DetailsContainKeyphrasePredicate(trimmedArgs));
     }
+
 }
