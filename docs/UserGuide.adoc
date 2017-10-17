@@ -276,6 +276,8 @@ e.g. `find James Jake`
 * *Help* : `help`
 * *Select* : `select INDEX` +
 e.g.`select 2`
+* *Import* : `import FILE_PATH` +
+e.g. `import persons.xml`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
