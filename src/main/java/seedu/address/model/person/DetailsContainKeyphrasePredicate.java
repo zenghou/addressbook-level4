@@ -8,7 +8,7 @@ import seedu.address.commons.util.StringUtil;
  * Tests that either one of {@code ReadOnlyPerson}'s {@code Name, Phone, Address, Email, Tag, Remarks} matches,
  * partially or in full, any of the keywords given.
  */
-public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerson>{
+public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerson> {
     public final String keyphrase;
 
     public DetailsContainKeyphrasePredicate(String keyphrase)  {
@@ -39,7 +39,7 @@ public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerso
         boolean phoneContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getPhone().value, keyphrase);
         boolean addressContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getAddress().value, keyphrase);
         boolean remarkContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getRemark().value, keyphrase);
-        boolean tagContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getTags().toString(),keyphrase);
+        boolean tagContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getTags().toString(), keyphrase);
 
         return nameContainsKeyphrase || emailContainsKeyphrase || phoneContainsKeyphrase || addressContainsKeyphrase
                 || remarkContainsKeyphrase || tagContainsKeyphrase;

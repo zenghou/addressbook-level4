@@ -2,6 +2,11 @@ package seedu.address.logic.commands;
 
 import seedu.address.model.person.DetailsContainKeyphrasePredicate;
 
+/**
+ * Searches and lists all persons in address book whose details (e.g. Name, Phone, Email, etc.)
+ * contain the keyphrase.
+ * Keyphrase matching is case insensitive.
+ */
 public class SearchCommand extends Command {
 
     public static final String COMMAND_WORD = "search";
