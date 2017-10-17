@@ -197,7 +197,7 @@ Shorthand for undo: `u`
 
 [NOTE]
 ====
-Undoable commands: those commands that modify the address book's content (`add`, `delete`, `edit` and `clear`).
+Undoable commands: those commands that modify the address book's content (`add`, `delete`, `edit`, `import` and `clear`).
 ====
 
 Examples:
