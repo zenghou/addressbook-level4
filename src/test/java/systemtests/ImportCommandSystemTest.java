@@ -22,10 +22,10 @@ import seedu.address.testutil.PersonBuilder;
 
 public class ImportCommandSystemTest extends AddressBookSystemTest {
 
+    private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandSystemTest/");
+
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
-
-    private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandSystemTest/");
 
     @Test
     public void importCommand() throws Exception {
@@ -58,9 +58,9 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
         /* Case: import multiple persons containing the same person in address book
          * -> imported with duplicated persons ignored
          */
-        ReadOnlyPerson James = new PersonBuilder().withName("James Turner").withPhone("66666666")
+        ReadOnlyPerson james = new PersonBuilder().withName("James Turner").withPhone("66666666")
             .withEmail("james@example.com").withAddress("Sydney").build();
-        expectedModel.addPerson(James);
+        expectedModel.addPerson(james);
         command = getCommandWord("DuplicatedPersonInAddressBook.xml");
         expectedMessage = ImportCommand.MESSAGE_DUPLICATED_PERSON_IN_ADDRESS_BOOK_WARNING
             + String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, 2);
