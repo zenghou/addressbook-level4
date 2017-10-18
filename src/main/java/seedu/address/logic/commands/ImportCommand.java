@@ -23,6 +23,8 @@ public class ImportCommand extends UndoableCommand {
         + "Example: " + COMMAND_WORD + " /Users/[USER NAME]/Documents/sharePersons.xml";
 
     public static final String MESSAGE_IMPORT_SUCCESS =  "%1$s contacts have been imported into your AddressBook!";
+    public static final String MESSAGE_DUPLICATED_PERSON_IN_ADDRESS_BOOK_WARNING =
+        "Duplicated persons are found in import process. Duplicated information is ignored.\n";
     public static final String MESSAGE_DUPLICATED_PERSON_IN_FILE =
         "The file: %1$s contains duplicated person information!";
     public static final String MESSAGE_EMPTY_FILE = "No person list data are found in file: %1$s";
@@ -78,7 +80,7 @@ public class ImportCommand extends UndoableCommand {
 
     private String getDuplicatedPersonWarning(boolean foundDuplicatedPerson) {
         return foundDuplicatedPerson
-               ? "Duplicated persons are found in import process. Duplicated information is ignored.\n"
+               ? MESSAGE_DUPLICATED_PERSON_IN_ADDRESS_BOOK_WARNING
                : "";
     }
 
