@@ -104,30 +104,45 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
 
     }
 
+    /**
+     * @see ImportCommandSystemTest#assertCommandSuccess(String, Model, String)
+     */
     private void assertCommandSuccess(String command, Model expectedModel, int numberOfPersonsImported) {
         String expectedResultMessage = String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, numberOfPersonsImported);
-        assertCommandSuccess(command, expectedModel, expectedResultMessage, null);
+        assertCommandSuccess(command, expectedModel, expectedResultMessage);
     }
 
+    /**
+     * Executes {@code command} and in addition,<br>
+     * 1. Asserts that the command box displays an empty string.<br>
+     * 2. Asserts that the result display box displays {@code expectedResultMessage}.<br>
+     * 3. Asserts that the model related components equal to {@code expectedModel}.<br>
+     * 4. Asserts that the status bar's sync status changes.<br>
+     * 5. Asserts that the command box has the default style class.<br>
+     * Verifications 1 to 3 are performed by
+     * {@code AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.
+     * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
+     */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
-        assertCommandSuccess(command, expectedModel, expectedResultMessage, null);
-    }
-
-    private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage,
-                                      Index expectedSelectedCardIndex) {
         executeCommand(command);
         expectedModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
-        if (expectedSelectedCardIndex != null) {
-            assertSelectedCardChanged(expectedSelectedCardIndex);
-        } else {
-            assertSelectedCardUnchanged();
-        }
         assertStatusBarUnchangedExceptSyncStatus();
     }
 
+    /**
+     * Executes {@code command} and in addition,<br>
+     * 1. Asserts that the command box displays {@code command}.<br>
+     * 2. Asserts that result display box displays {@code expectedResultMessage}.<br>
+     * 3. Asserts that the model related components equal to the current model.<br>
+     * 4. Asserts that the status bar remain unchanged.<br>
+     * 5. Asserts that the command box has the error style.<br>
+     * Verifications 1 to 3 are performed by
+     * {@code AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
+     */
     private void assertCommandFailure(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
         executeCommand(command);
@@ -136,19 +151,17 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
         assertStatusBarUnchanged();
     }
 
-    private String getExpectedSuccessMessage(int numberOfPersonsImported) {
-        return String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, numberOfPersonsImported);
-    }
-
     private String getCommandWord(String filePath) {
         return ImportCommand.COMMAND_WORD + " " + addToTestDataPathIfNotNull(filePath);
     }
 
+    /**
+     * Add {@code prefsFileInTestDataFolder} to {@code testFolder}.
+     */
     private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
         return prefsFileInTestDataFolder != null
                ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
                : null;
     }
-
 
 }
