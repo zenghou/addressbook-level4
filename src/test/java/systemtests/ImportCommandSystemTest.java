@@ -20,6 +20,38 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
     public void importCommand() {
         Model model = getModel();
 
+        /* Case: import one unique person into address book -> imported */
+
+        /* Case: import multiple unique persons into address book -> imported */
+
+        /* Case: undo import -> persons deleted */
+
+        /* Case: redo import -> persons imported again */
+
+        /* Case: import multiple persons containing the same person in address book
+         * -> imported with duplicated persons ignored
+         */
+
+        /* Case: import valid file containing no person -> imported no person */
+
+        /* Case: import to a filtered address book -> imported */
+
+        /* Case: import to an empty address book -> imported */
+
+        /* Case: select first person card, and then import -> imported without card selection changing */
+
+        /* Case: missing arguments -> rejected */
+
+        /* Case: import file containing duplicated persons -> rejected */
+
+        /* Case: import missing file -> rejected */
+
+        /* Case: import file not in xml format -> rejected */
+
+        /* Case: import file with invalid person -> rejected */
+
+        /* Case: mix case command word -> rejected */
+
     }
 
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
