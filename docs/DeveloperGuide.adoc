@@ -349,7 +349,7 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 The search mechanism is very similar to find and relies on the predicate `DetailsContainKeyphrasePredicate`. This function allows users to search for persons whose details matches the keyphrase, case-insensitive. In other words, if any aspect of a person's details (i.e. Name, Phone, Email, Address, Remark or Tag) contains exactly the keyphrase (inclusive of spaces and special characters) as a subsequence, the person(s) will be listed.
 
-image::SeachCommandSequenceDiagram.png[width="800"]
+image::SearchCommandSequenceDiagram.png[width="800"]
 _Figure 3.2.1 : Sequence Diagram of the Search Command_
 
 When the `search` command (or alias: `sh`) is being entered, followed by a non-empty keyphrase, `AddressBookParser` in `LogicManager` will return a `SearchCommandParser`, which will parse the keyphrase. The keyphrase will have trailing and preceding white spaces removed, and be ensured that it is not empty String. The parser will return a `SearchCommand` object, with a `DetailsContainKeyphrasePredicate` as its argument.
