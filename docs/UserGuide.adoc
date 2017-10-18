@@ -158,6 +158,27 @@ Selects the 2nd person in the address book.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
+=== Exporting a list of persons : `export`
+
+Exports persons identified by the index numbers used in the last person listing to a specified save file. +
+Format: `export INDEXES ; FILE_PATH` +
+
+****
+* The indexes refers to the index number shown in the most recent listing, and must be positive numbers separated by whitespaces or commas (,).
+* `INDEXES` and `FILE_PATH` must be separated by ";".
+* If the given file exsits, it will be overwritten without warning.
+* The persons are exported to a XML format file, so a `.xml` extension will be automatically added, if the given file does not have one.
+* The `FILE_PATH` can be in relative path or absolute path.
+****
+
+Examples:
+
+* `list` +
+`export 1, 2 3; Persons.xml` +
+Exports 1st, 2nd and 3rd person in the address book to `Persons.xml` in the current working directory.
+
+Since v1.2.
+
 === Listing entered commands : `history`
 
 Lists all the commands that you have entered in reverse chronological order. +
@@ -256,6 +277,8 @@ e.g. `find James Jake`
 * *Help* : `help`
 * *Select* : `select INDEX` +
 e.g.`select 2`
+* *Export* : `export INDEXES ; FILE_PATH` +
+e.g.`export 1,2 3 4 ; Persons.xml`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
