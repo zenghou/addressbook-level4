@@ -33,7 +33,7 @@ public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerso
      * @param keyphrase
      * @return true if any attribute of the {@code person}'s details match the keyphrase
      */
-    public boolean personDetailsContainsKeyphrase(ReadOnlyPerson person, String keyphrase) {
+    private boolean personDetailsContainsKeyphrase(ReadOnlyPerson person, String keyphrase) {
         boolean nameContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getName().fullName, keyphrase);
         boolean emailContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getEmail().value, keyphrase);
         boolean phoneContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getPhone().value, keyphrase);
