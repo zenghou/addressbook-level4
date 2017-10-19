@@ -116,6 +116,30 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
+=== Locating persons by details: `search`
+
+Finds persons whose details contain any of the given keywords. +
+Format: `search KEYPHRASE` +
+Shorthand for search: `sh`
+
+****
+* The search is case insensitive. e.g `hans` will match `Hans`
+* Keyphrase can be separated by spaces.
+* The order of the keyphrase matters. e.g. `Hans Bo` will match `Hans Bo`
+* Name, Phone, Email, Address, Remark, Tag are all searched.
+* Full or partial words will be matched e.g. `Han` will match `Hans Solo`
+* Persons matching the keyphrase will be returned. e.g. `@gmail.com` will return `HansGruber@gmail.com`, `BoYang@gmail.com`
+****
+
+Examples:
+
+* `search John` +
+Returns `john` and `John Doe`
+* `search joHn dOe` +
+Returns any person having names `John Doe`
+* `search mate` +
+Returns any person with details that matches `mate` such as `classmate` in tags.
+
 === Deleting a person : `delete`
 
 Deletes the specified person from the address book. +

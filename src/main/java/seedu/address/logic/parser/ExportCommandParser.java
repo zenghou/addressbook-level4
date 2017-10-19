@@ -35,7 +35,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         // parse indexes
         List<Index> indexes;
         try {
-            indexes = ParserUtil.parserIndexList(oneBasedIndexListString);
+            indexes = ParserUtil.parseIndexList(oneBasedIndexListString);
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
@@ -46,6 +46,25 @@ public class ExportCommandParser implements Parser<ExportCommand> {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, MISSING_FILE_PATH + ExportCommand.MESSAGE_USAGE));
         }
 
-        return new ExportCommand(indexes, filePath);
+        return new ExportCommand(indexes, addXmlExtensionToFilePath(filePath));
+    }
+
+    /**
+     *  Add ".xml" extension if input filePath do not have one.
+     */
+    private String addXmlExtensionToFilePath(String filePath) {
+
+        if (!filePath.contains(".")) {
+            return filePath + ".xml";
+        }
+        String extension = "";
+        if (filePath.charAt(filePath.lastIndexOf('.') - 1) != '/'
+            && filePath.charAt(filePath.lastIndexOf('.') - 1) != '\\') {
+            extension = filePath.substring(filePath.lastIndexOf('.') + 1, filePath.length());
+        }
+        if (!extension.equalsIgnoreCase("xml")) {
+            return filePath + ".xml";
+        }
+        return filePath;
     }
 }

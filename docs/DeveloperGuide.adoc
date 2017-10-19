@@ -345,9 +345,40 @@ image::UndoRedoActivityDiagram.png[width="200"]
 **Cons:** Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things. +
 // end::undoredo[]
 
+=== Search mechanism
+
+The search mechanism is very similar to find and relies on the predicate `DetailsContainKeyphrasePredicate`. This function allows users to search for persons whose details matches the keyphrase, case-insensitive. In other words, if any aspect of a person's details (i.e. Name, Phone, Email, Address, Remark or Tag) contains exactly the keyphrase (inclusive of spaces and special characters) as a subsequence, the person(s) will be listed.
+
+image::SearchCommandSequenceDiagram.png[width="800"]
+_Figure 3.2.1 : Sequence Diagram of the Search Command_
+
+When the `search` command (or alias: `sh`) is being entered, followed by a non-empty keyphrase, `AddressBookParser` in `LogicManager` will return a `SearchCommandParser`, which will parse the keyphrase. The keyphrase will have trailing and preceding white spaces removed, and be ensured that it is not empty String. The parser will return a `SearchCommand` object, with a `DetailsContainKeyphrasePredicate` as its argument.
+
+`DetailsContainKeyphrasePredicate` implements a `Predicate <ReadOnlyPerson>` interface. `DetailsContainKeyphrasePredicate#test(ReadOnlyPerson person)` will be use to test if a Person's details contain the keyphrase. Within `DetailsContainKeyphrasePredicate#test(ReadOnlyPerson person), a private method would be used to check each aspect of a Person (e.g. Name, Phone, Address etc.) to ensure readability. Since `String#contain` is case-sensitive, a case-insensitive method to check is required. `StringUtil#caseInsensitiveContains(Person person, String keyphrase)` converts both the Person's attribute value and keyphrase to lowercase, and proceeds to use `String#contain` to ensure case-insensitivity.
+
+After a `SearchCommand` is returned to the `LogicManager`, it will be executed. The method will call the model's `updateFileredPersonList` method, which will list every Person that passes `DetailsContainKeyphrasePredicate#test`, and update the model accordingly. A successful command message will be returned if there are no errors thrown and the UI will update accordingly.
+
+==== Design Considerations
+
+**Aspect:** What to be searched for +
+**Alternative 1 (current choice):** Include all aspects of Persons to be searched for +
+**Pros:** Users can search for users by other fields instead of name +
+**Cons:** The search result may be too much for user to process, especially when common sequence of alphabets are entered (e.g. ".com") +
+**Alternative 2:** Search only for selected fields +
+**Pros:** Reduces the amount of search results for the user +
+**Cons:** There is no consistency (design principle) with the mental concept of search that is currently used by applications such as Microsoft Word and Internet Browsers.
+
+---
+
+**Aspect:** How to search +
+**Alternative 1 (current choice):** Use `DetailsContainKeyphrasePredicate` +
+**Pros:** `DetailsContainKeyphrasePredicate` is similar to `NameContainsKeywordsPredicate` used by FindCommand and therefore easier to implement +
+**Cons:** Polymorphism may be employed instead of using separate classes for functions that are similar +
+**Alternative 2:** Let `DetailsContainKeyphrasePredicate` inherit `NameContainsKeywordsPredicate` +
+**Pros:** Easier for developers to override and add methods +
+**Cons:** Internal attributes are of different types and it might be more cumbersome to manipulate the data type.
+
 === Export/Import mechanism
-
-
 
 === Logging
 
