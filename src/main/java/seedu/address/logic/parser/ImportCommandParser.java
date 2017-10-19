@@ -8,7 +8,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 /**
  * Parses input argument to a file path and creates a new ImportCommand.
  */
-public class ImportCommandParser {
+public class ImportCommandParser implements Parser<ImportCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of ImportCommand
