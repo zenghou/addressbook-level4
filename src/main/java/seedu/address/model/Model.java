@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
@@ -48,8 +49,7 @@ public interface Model {
 
     /**
      * Sort the filtered person list by the given {@code comparator}
-     * @throws NullPointerException if {@code predicate} is null.
      */
-    void sortFilteredPersonList(Comparator<ReadOnlyPerson> comparator);
+    void sortPersonList(Comparator<ReadOnlyPerson> comparator, boolean isReversed) throws EmptyPersonListException;
 
 }

@@ -14,27 +14,5 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
 public class SortCommandTest {
-    private Model model;
-    private Model expectedModel;
-    private SortCommand sortCommand;
 
-    @Before
-    public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-
-        sortCommand = new SortCommand();
-        sortCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-    }
-
-    @Test
-    public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(sortCommand, model, SortCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void execute_listIsFiltered_showsEverything() {
-        showFirstPersonOnly(model);
-        assertCommandSuccess(sortCommand, model, SortCommand.MESSAGE_SUCCESS, expectedModel);
-    }
 }
