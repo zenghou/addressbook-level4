@@ -99,11 +99,16 @@ public class UniquePersonList implements Iterable<Person> {
         setPersons(replacement);
     }
 
+    /**
+     * sorts the person in the list according to the comparator specified
+     * If isReversed is true, the list will be in descending order
+     * @throws EmptyPersonListException if the list is empty
+     */
     public void sort(Comparator comparator, Boolean isReversed) throws EmptyPersonListException {
         requireNonNull(comparator);
         requireNonNull(isReversed);
 
-        if(internalList.size() < 1) {
+        if (internalList.size() < 1) {
             throw new EmptyPersonListException();
         }
 

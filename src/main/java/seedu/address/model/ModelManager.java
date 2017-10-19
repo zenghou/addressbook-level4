@@ -84,7 +84,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void sortPersonList(Comparator<ReadOnlyPerson> comparator, boolean isReversed) throws EmptyPersonListException {
+    public void sortPersonList(Comparator<ReadOnlyPerson> comparator, boolean isReversed)
+            throws EmptyPersonListException {
         addressBook.sortPerson(comparator, isReversed);
     }
     //=========== Filtered Person List Accessors =============================================================

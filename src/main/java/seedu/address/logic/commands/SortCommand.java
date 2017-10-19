@@ -1,15 +1,18 @@
 package seedu.address.logic.commands;
 
-import java.util.Comparator;
-
 import static java.util.Objects.requireNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+
+import java.util.Comparator;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.EmptyPersonListException;
 
-public class SortCommand extends UndoableCommand{
+/**
+ * Sorts the persons list according to the attribute specified
+ */
+public class SortCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "sort";
     public static final String REVERSE_SEQUENCE = "reverse";
 
@@ -52,21 +55,24 @@ public class SortCommand extends UndoableCommand{
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         if (isReversed) {
-            this.sequence ="descending";
+            this.sequence = "descending";
         }
         return new CommandResult(String.format(MESSAGE_SUCCESS, sortBy, sequence));
     }
 
+    /**
+     * Comparator depending on the attribute specified
+     */
     private Comparator<ReadOnlyPerson> sortComparatorByPrefix(String attribute) {
         switch (attribute) {
-            case PREFIX_NAME:
-                this.sortBy = "name";
-                return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
-            case PREFIX_PHONE:
-                this.sortBy = "phone";
-                return (o1, o2) -> o1.getPhone().toString().compareToIgnoreCase(o2.getPhone().toString());
-            default:
-                return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
+        case PREFIX_NAME:
+            this.sortBy = "name";
+            return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
+        case PREFIX_PHONE:
+            this.sortBy = "phone";
+            return (o1, o2) -> o1.getPhone().toString().compareToIgnoreCase(o2.getPhone().toString());
+        default:
+            return (o1, o2) -> o1.getName().toString().compareToIgnoreCase(o2.getName().toString());
         }
     }
 }
