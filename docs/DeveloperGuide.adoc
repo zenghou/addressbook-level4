@@ -387,10 +387,15 @@ We are using XML file to export and import data in address book. Export and Impo
 
 A `List<ReadOnlyPerson>` is created by mapping the indexes and `filteredPersonList` in `Model`, and then saved using `PersonListStorage#savePersonList()`. The `PersonListStorage` interface is implemented by `XmlPersonListStorage`, where the `Person` is mapped to `XmlAdaptedPerson` and stored in `XmlSerializablePersonList`. Then the XML `Marshaller` writes all data into the file specified.
 
+The following sequence diagram shows how the export operation works:
+
 image::ExportCommandSequenceDiagram.png[width="800"]
-_Figure 3.2.2 : Sequence Diagram of the Export Command_
 
 When `import` command is entered, the XML `Unmarshaller` will read the file and return a `XmlSerializablePersonList` object that contains the Person List. The the List is internally converted to a `UniquePersonList` by `XmlSerializablePersonList#getPersons()`, and returned to `ImportCommand`. Then the `Person`s are added to the address book sequentially by `Model#addPerson(Person)`.
+
+The following sequence diagram shows how the import operation works:
+
+image::ImportCommandSequenceDiagram.png[width="800"]
 
 ==== Design Consideration
 
