@@ -202,6 +202,8 @@ Imports MyContacts.xml relative to your working directory.
 `import /Users/User_name/Documents/Persons/xml` +
 Import command supports different platforms and corresponding style.
 
+Since v1.2.
+
 === Listing entered commands : `history`
 
 Lists all the commands that you have entered in reverse chronological order. +
