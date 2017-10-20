@@ -112,23 +112,6 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-=== Sorting persons: `sort`
-
-Sort persons by the given attribute in ascending or descending order. +
-Format: `sort PREFIX\ [reverse]`
-
-****
-* The sorting is in ascending order by default.
-* Currently, sorting function can sort according to name and phone numbers.
-****
-
-Examples:
-
-* `sort n\` +
-Sorts persons list in ascending alphabetical order
-* `sort p\ reverse` +
-Sorts persons list in descending order based on their phone numbers
-
 === Deleting a person : `delete`
 
 Deletes the specified person from the address book. +
