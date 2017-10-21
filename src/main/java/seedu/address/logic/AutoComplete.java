@@ -42,7 +42,7 @@ public class AutoComplete {
     /**
      *
      */
-    public String autoComplete(String userInput) {
+    public static String autoComplete(String userInput) {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             return unknownCommandAutoComplete(userInput);
@@ -123,7 +123,7 @@ public class AutoComplete {
     /**
      * Auto-completes the prefix field that is not entered.
      */
-    public String addCommandAutoComplete(String args) {
+    public static String addCommandAutoComplete(String args) {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
         return AddCommand.COMMAND_WORD
@@ -137,7 +137,7 @@ public class AutoComplete {
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    private String formatPrefixWithArgs(ArgumentMultimap argMultimap, final Prefix prefix) {
+    private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, final Prefix prefix) {
         String arg = "";
         List<String> argList = argMultimap.getAllValues(prefix);
         if (!argList.isEmpty()) {
@@ -149,77 +149,77 @@ public class AutoComplete {
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String deleteCommandAutoComplete(String args) {
+    public static String deleteCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String editCommandAutoComplete(String args) {
+    public static String editCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String exportCommandAutoComplete(String args) {
+    public static String exportCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String findCommandAutoComplete(String args) {
+    public static String findCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String importCommandAutoComplete(String args) {
+    public static String importCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String remarkCommandAutoComplete(String args) {
+    public static String remarkCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String searchCommandAutoComplete(String args) {
+    public static String searchCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String selectCommandAutoComplete(String args) {
+    public static String selectCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String sortCommandAutoComplete(String args) {
+    public static String sortCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String unknownCommandAutoComplete(String args) {
+    public static String unknownCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
      * Formats the arguments into " PREFIX/ARGS" form.
      */
-    public String unknownCommandAutoComplete(String command, String args) {
+    public static String unknownCommandAutoComplete(String command, String args) {
         return " ";
     }
 
