@@ -12,7 +12,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_STRING;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -118,12 +120,40 @@ public class AutoComplete {
      * Formats the arguments into " PREFIX/ARGS" form.
      */
     private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, final Prefix prefix) {
-        String arg = "";
-        List<String> argList = argMultimap.getAllValues(prefix);
-        if (!argList.isEmpty()) {
-            arg = argList.stream().collect(Collectors.joining(" " + prefix.getPrefix()));
+        try {
+            return parseArgOfPrefix(argMultimap.getAllValues(prefix), prefix);
+        } catch (IllegalValueException ive) {
+            return prefix.getPrefix();
         }
-        return prefix + arg;
+    }
+
+    /**
+     * Tests whether the argument is valid for certain {@code Prefix}.
+     */
+    private static String parseArgOfPrefix(List<String> argList, Prefix prefix) throws IllegalValueException {
+        if (argList.isEmpty()) {
+            return prefix.getPrefix();
+        }
+        List<Optional> arg = new ArrayList<>();
+        switch (prefix.getPrefix()) {
+        case PREFIX_ADDRESS_STRING:
+            arg.add(ParserUtil.parseAddress(Optional.of(argList.get(0))));
+            break;
+        case PREFIX_EMAIL_STRING:
+            arg.add(ParserUtil.parseEmail(Optional.of(argList.get(0))));
+            break;
+        case PREFIX_NAME_STRING:
+            arg.add(ParserUtil.parseName(Optional.of(argList.get(0))));
+            break;
+        case PREFIX_PHONE_STRING:
+            arg.add(ParserUtil.parsePhone(Optional.of(argList.get(0))));
+            break;
+        case PREFIX_TAG_STRING:
+            arg = ParserUtil.parseTags(argList).stream().map(Optional::of).collect(Collectors.toList());
+            break;
+        }
+        return prefix + arg.stream().filter(Optional::isPresent).map(Optional::get).map(Object::toString)
+            .collect(Collectors.joining(" " + prefix.getPrefix()));
     }
 
     /**
