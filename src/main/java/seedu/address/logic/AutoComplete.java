@@ -9,6 +9,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_STRING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_STRING;
 
@@ -76,7 +78,7 @@ public class AutoComplete {
 
         case RemarkCommand.COMMAND_WORD:
         case RemarkCommand.COMMAND_ALIAS:
-            return remarkCommandAutoComplete(arguments);
+            return remarkCommandAutoComplete(arguments, model);
 
         case FindCommand.COMMAND_WORD:
         case FindCommand.COMMAND_ALIAS:
@@ -177,8 +179,27 @@ public class AutoComplete {
     /**
      * Auto-completes remark command.
      */
-    public static String remarkCommandAutoComplete(String args) {
-        return " ";
+    public static String remarkCommandAutoComplete(String args, Model model) {
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
+
+        String indexString = argMultimap.getPreamble().trim();
+        Index index = null;
+        try {
+            index = ParserUtil.parseIndex(indexString);
+        } catch (IllegalValueException ive) {
+            indexString = formatSingleIndexString(indexString);
+        }
+
+        // if the index is invalid
+        if (index == null) {
+            return RemarkCommand.COMMAND_WORD + " " + indexString + " ";
+        }
+
+        // auto fill remark field
+        ReadOnlyPerson person = model.getFilteredPersonList().get(index.getZeroBased());
+        String prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_REMARK, person);
+
+        return RemarkCommand.COMMAND_WORD + " " + indexString +  " " + prefixWithArgs;
     }
 
     /**
@@ -263,6 +284,8 @@ public class AutoComplete {
         case PREFIX_TAG_STRING:
             return ParserUtil.parseTags(argList).stream().map(p -> (prefix + p.tagName))
                 .collect(Collectors.joining(" "));
+        case PREFIX_REMARK_STRING:
+            return prefix.getPrefix() + firstArg.get().trim();
         default:
             return prefix.getPrefix();
         }
@@ -284,6 +307,8 @@ public class AutoComplete {
             return person.getEmail().value;
         case PREFIX_ADDRESS_STRING:
             return person.getAddress().value;
+        case PREFIX_REMARK_STRING:
+            return person.getRemark().value;
         case PREFIX_TAG_STRING:
             return person.getTags().stream().map(Tag::toString).collect(Collectors.joining(" "));
         default:
