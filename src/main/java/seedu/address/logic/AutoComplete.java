@@ -106,11 +106,11 @@ public class AutoComplete {
     public static String addCommandAutoComplete(String args) {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
-        return AddCommand.COMMAND_WORD
-            + formatPrefixWithArgs(argMultimap, PREFIX_NAME)
-            + formatPrefixWithArgs(argMultimap, PREFIX_PHONE)
-            + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL)
-            + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS)
+        return AddCommand.COMMAND_WORD + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_NAME) + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_PHONE) + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL) + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_TAG);
     }
 
@@ -123,7 +123,7 @@ public class AutoComplete {
         if (!argList.isEmpty()) {
             arg = argList.stream().collect(Collectors.joining(" " + prefix.getPrefix()));
         }
-        return " " + prefix + arg;
+        return prefix + arg;
     }
 
     /**
@@ -176,7 +176,7 @@ public class AutoComplete {
         }
         if (prefix.equals(PREFIX_TAG)) {
             // insert tag prefix into each tag
-            prefixWithArgs = " " + prefixWithArgs.trim().replace(" ", " " + PREFIX_TAG_STRING);
+            prefixWithArgs = prefixWithArgs.replace(" ", " " + PREFIX_TAG_STRING);
         }
         return prefixWithArgs;
     }
