@@ -120,7 +120,7 @@ public class AutoComplete {
      * Auto-completes delete command.
      */
     public static String deleteCommandAutoComplete(String args) {
-        return DeleteCommand.COMMAND_WORD +  " ";
+        return DeleteCommand.COMMAND_WORD +  " " + formatSingleIndexString(args);
     }
 
     /**
@@ -131,17 +131,16 @@ public class AutoComplete {
             ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
 
         String indexString = argMultimap.getPreamble().trim();
-        Index index;
+        Index index = null;
         try {
             index = ParserUtil.parseIndex(indexString);
         } catch (IllegalValueException ive) {
-            indexString = "";
-            index = null;
+            indexString = formatSingleIndexString(indexString);
         }
 
         // if the index is invalid
         if (index == null) {
-            return EditCommand.COMMAND_WORD + " ";
+            return EditCommand.COMMAND_WORD + " " + indexString + " ";
         }
 
         // auto fill all fields
@@ -194,7 +193,7 @@ public class AutoComplete {
      * Auto-completes select command.
      */
     public static String selectCommandAutoComplete(String args) {
-        return SelectCommand.COMMAND_WORD +  " ";
+        return SelectCommand.COMMAND_WORD +  " " + formatSingleIndexString(args);
     }
 
     /**
@@ -297,6 +296,13 @@ public class AutoComplete {
         default:
             return "";
         }
+    }
+
+    /**
+     * Formats the argument into all-digit form.
+     */
+    private static String formatSingleIndexString(String arg) {
+        return arg.replaceAll("\\D", "");
     }
 
 }
