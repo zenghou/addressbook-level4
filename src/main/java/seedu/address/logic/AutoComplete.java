@@ -12,7 +12,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_STRING;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -251,28 +250,22 @@ public class AutoComplete {
         if (argList.isEmpty()) {
             return prefix.getPrefix();
         }
-        List<Optional> arg = new ArrayList<>();
+        Optional<String> firstArg = Optional.of(argList.get(0));
         switch (prefix.getPrefix()) {
         case PREFIX_ADDRESS_STRING:
-            arg.add(ParserUtil.parseAddress(Optional.of(argList.get(0))));
-            break;
+            return prefix.getPrefix() + ParserUtil.parseAddress(firstArg).map(p -> p.value).orElse("");
         case PREFIX_EMAIL_STRING:
-            arg.add(ParserUtil.parseEmail(Optional.of(argList.get(0))));
-            break;
+            return prefix.getPrefix() + ParserUtil.parseEmail(firstArg).map(p -> p.value).orElse("");
         case PREFIX_NAME_STRING:
-            arg.add(ParserUtil.parseName(Optional.of(argList.get(0))));
-            break;
+            return prefix.getPrefix() + ParserUtil.parseName(firstArg).map(p -> p.fullName).orElse("");
         case PREFIX_PHONE_STRING:
-            arg.add(ParserUtil.parsePhone(Optional.of(argList.get(0))));
-            break;
+            return prefix.getPrefix() + ParserUtil.parsePhone(firstArg).map(p -> p.value).orElse("");
         case PREFIX_TAG_STRING:
-            arg = ParserUtil.parseTags(argList).stream().map(Optional::of).collect(Collectors.toList());
-            break;
+            return ParserUtil.parseTags(argList).stream().map(p -> (prefix + p.tagName))
+                .collect(Collectors.joining(" "));
         default:
-            assert false : "not possible";
+            return prefix.getPrefix();
         }
-        return prefix + arg.stream().filter(Optional::isPresent).map(Optional::get).map(Object::toString)
-            .collect(Collectors.joining(" " + prefix.getPrefix()));
     }
 
     /**
