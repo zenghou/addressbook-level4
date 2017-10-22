@@ -12,22 +12,15 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FindCommand;
-import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ImportCommand;
-import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SearchCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
-import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.Prefix;
@@ -40,7 +33,7 @@ public class AutoComplete {
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     /**
-     *
+     * Auto-completes the input String.
      */
     public static String autoComplete(String userInput) {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
@@ -72,17 +65,9 @@ public class AutoComplete {
         case RemarkCommand.COMMAND_ALIAS:
             return remarkCommandAutoComplete(arguments);
 
-        case ClearCommand.COMMAND_WORD:
-        case ClearCommand.COMMAND_ALIAS:
-            return "";
-
         case FindCommand.COMMAND_WORD:
         case FindCommand.COMMAND_ALIAS:
             return findCommandAutoComplete(arguments);
-
-        case ListCommand.COMMAND_WORD:
-        case ListCommand.COMMAND_ALIAS:
-            return "";
 
         case SortCommand.COMMAND_WORD:
             return sortCommandAutoComplete(arguments);
@@ -96,23 +81,6 @@ public class AutoComplete {
         case SearchCommand.COMMAND_WORD:
         case SearchCommand.COMMAND_ALIAS:
             return searchCommandAutoComplete(arguments);
-
-        case HistoryCommand.COMMAND_WORD:
-            return "";
-
-        case ExitCommand.COMMAND_WORD:
-            return "";
-
-        case HelpCommand.COMMAND_WORD:
-            return "";
-
-        case UndoCommand.COMMAND_WORD:
-        case UndoCommand.COMMAND_ALIAS:
-            return "";
-
-        case RedoCommand.COMMAND_WORD:
-        case RedoCommand.COMMAND_ALIAS:
-            return "";
 
         default:
             return unknownCommandAutoComplete(commandWord, arguments);
@@ -147,77 +115,77 @@ public class AutoComplete {
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes delete command.
      */
     public static String deleteCommandAutoComplete(String args) {
-        return " ";
+        return DeleteCommand.COMMAND_WORD +  " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes edit command.
      */
     public static String editCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes export command.
      */
     public static String exportCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes find command.
      */
     public static String findCommandAutoComplete(String args) {
-        return " ";
+        return FindCommand.COMMAND_WORD + " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes import command.
      */
     public static String importCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes remark command.
      */
     public static String remarkCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes search command.
      */
     public static String searchCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes select command.
      */
     public static String selectCommandAutoComplete(String args) {
-        return " ";
+        return SelectCommand.COMMAND_WORD +  " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes sort command.
      */
     public static String sortCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes unknown command without arguments.
      */
     public static String unknownCommandAutoComplete(String args) {
         return " ";
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Auto-completes unknown command.
      */
     public static String unknownCommandAutoComplete(String command, String args) {
         return " ";
