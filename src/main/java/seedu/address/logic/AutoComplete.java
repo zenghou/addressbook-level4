@@ -1,16 +1,24 @@
 package seedu.address.logic;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_STRING;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -23,7 +31,11 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.Prefix;
+import seedu.address.model.Model;
+import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.tag.Tag;
 
 /**
  * Utilities for auto completion for command.
@@ -35,7 +47,7 @@ public class AutoComplete {
     /**
      * Auto-completes the input String.
      */
-    public static String autoComplete(String userInput) {
+    public static String autoComplete(String userInput, Model model) {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             return unknownCommandAutoComplete(userInput);
@@ -51,7 +63,7 @@ public class AutoComplete {
 
         case EditCommand.COMMAND_WORD:
         case EditCommand.COMMAND_ALIAS:
-            return editCommandAutoComplete(arguments);
+            return editCommandAutoComplete(arguments, model);
 
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_ALIAS:
@@ -124,8 +136,72 @@ public class AutoComplete {
     /**
      * Auto-completes edit command.
      */
-    public static String editCommandAutoComplete(String args) {
-        return " ";
+    public static String editCommandAutoComplete(String args, Model model) {
+        ArgumentMultimap argMultimap =
+            ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+
+        String indexString = argMultimap.getPreamble().trim();
+        Index index;
+        try {
+            index = ParserUtil.parseIndex(indexString);
+        } catch (IllegalValueException ive) {
+            indexString = "";
+            index = null;
+        }
+
+        // if the index is invalid
+        if (index == null) {
+            return EditCommand.COMMAND_WORD + " ";
+        }
+
+        // auto fill all fields
+        ReadOnlyPerson person = model.getFilteredPersonList().get(index.getZeroBased());
+        String prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_NAME, person)
+            + formatPrefixWithArgs(argMultimap, PREFIX_PHONE, person)
+            + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person)
+            + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person)
+            + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person);
+
+        return EditCommand.COMMAND_WORD + " " + indexString + prefixWithArgs;
+    }
+
+    /**
+     * Formats the argument into " PREFIX/ARGS" form. If the {@code ArgumentMultimap} does not contain the field,
+     * replace the argument with {@code ReadOnlyPerson}'s corresponding field.
+     */
+    private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, Prefix prefix, ReadOnlyPerson person) {
+        String prefixWithArgs = formatPrefixWithArgs(argMultimap, prefix);
+        if (prefixWithArgs.equals(" " + prefix)) { // no input, read field info from person
+            prefixWithArgs += getPersonFieldOfPrefix(person, prefix);
+        }
+        if (prefix.equals(PREFIX_TAG)) {
+            // insert tag prefix into each tag
+            prefixWithArgs = " " + prefixWithArgs.trim().replace(" ", " " + PREFIX_TAG_STRING);
+        }
+        return prefixWithArgs;
+    }
+
+    /**
+     * @return the corresponding field of a {@code ReadOnlyPerson} based on a {@code Prefix}.
+     */
+    private static String getPersonFieldOfPrefix(ReadOnlyPerson person, Prefix prefix) {
+        requireNonNull(person);
+        requireNonNull(prefix);
+
+        switch (prefix.getPrefix()) {
+        case PREFIX_NAME_STRING:
+            return person.getName().fullName;
+        case PREFIX_PHONE_STRING:
+            return person.getPhone().value;
+        case PREFIX_EMAIL_STRING:
+            return person.getEmail().value;
+        case PREFIX_ADDRESS_STRING:
+            return person.getAddress().value;
+        case PREFIX_TAG_STRING:
+            return person.getTags().stream().map(Tag::toString).collect(Collectors.joining(" "));
+        default:
+            return "";
+        }
     }
 
     /**
