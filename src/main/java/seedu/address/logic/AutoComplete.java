@@ -117,48 +117,6 @@ public class AutoComplete {
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
-     */
-    private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, final Prefix prefix) {
-        try {
-            return parseArgOfPrefix(argMultimap.getAllValues(prefix), prefix);
-        } catch (IllegalValueException ive) {
-            return prefix.getPrefix();
-        }
-    }
-
-    /**
-     * Tests whether the argument is valid for certain {@code Prefix}.
-     */
-    private static String parseArgOfPrefix(List<String> argList, Prefix prefix) throws IllegalValueException {
-        if (argList.isEmpty()) {
-            return prefix.getPrefix();
-        }
-        List<Optional> arg = new ArrayList<>();
-        switch (prefix.getPrefix()) {
-        case PREFIX_ADDRESS_STRING:
-            arg.add(ParserUtil.parseAddress(Optional.of(argList.get(0))));
-            break;
-        case PREFIX_EMAIL_STRING:
-            arg.add(ParserUtil.parseEmail(Optional.of(argList.get(0))));
-            break;
-        case PREFIX_NAME_STRING:
-            arg.add(ParserUtil.parseName(Optional.of(argList.get(0))));
-            break;
-        case PREFIX_PHONE_STRING:
-            arg.add(ParserUtil.parsePhone(Optional.of(argList.get(0))));
-            break;
-        case PREFIX_TAG_STRING:
-            arg = ParserUtil.parseTags(argList).stream().map(Optional::of).collect(Collectors.toList());
-            break;
-        default:
-            assert false : "not possible";
-        }
-        return prefix + arg.stream().filter(Optional::isPresent).map(Optional::get).map(Object::toString)
-            .collect(Collectors.joining(" " + prefix.getPrefix()));
-    }
-
-    /**
      * Auto-completes delete command.
      */
     public static String deleteCommandAutoComplete(String args) {
@@ -195,45 +153,6 @@ public class AutoComplete {
             + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person);
 
         return EditCommand.COMMAND_WORD + " " + indexString +  " " + prefixWithArgs;
-    }
-
-    /**
-     * Formats the argument into " PREFIX/ARGS" form. If the {@code ArgumentMultimap} does not contain the field,
-     * replace the argument with {@code ReadOnlyPerson}'s corresponding field.
-     */
-    private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, Prefix prefix, ReadOnlyPerson person) {
-        String prefixWithArgs = formatPrefixWithArgs(argMultimap, prefix);
-        if (prefixWithArgs.equals(prefix.getPrefix())) { // no input, read field info from person
-            prefixWithArgs += getPersonFieldOfPrefix(person, prefix);
-        }
-        if (prefix.equals(PREFIX_TAG)) {
-            // insert tag prefix into each tag
-            prefixWithArgs = prefixWithArgs.replace(" ", " " + PREFIX_TAG_STRING);
-        }
-        return prefixWithArgs;
-    }
-
-    /**
-     * @return the corresponding field of a {@code ReadOnlyPerson} based on a {@code Prefix}.
-     */
-    private static String getPersonFieldOfPrefix(ReadOnlyPerson person, Prefix prefix) {
-        requireNonNull(person);
-        requireNonNull(prefix);
-
-        switch (prefix.getPrefix()) {
-        case PREFIX_NAME_STRING:
-            return person.getName().fullName;
-        case PREFIX_PHONE_STRING:
-            return person.getPhone().value;
-        case PREFIX_EMAIL_STRING:
-            return person.getEmail().value;
-        case PREFIX_ADDRESS_STRING:
-            return person.getAddress().value;
-        case PREFIX_TAG_STRING:
-            return person.getTags().stream().map(Tag::toString).collect(Collectors.joining(" "));
-        default:
-            return "";
-        }
     }
 
     /**
@@ -297,6 +216,87 @@ public class AutoComplete {
      */
     public static String unknownCommandAutoComplete(String command, String args) {
         return " ";
+    }
+
+    /**
+     * Formats the arguments into " PREFIX/ARGS" form.
+     */
+    private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, final Prefix prefix) {
+        try {
+            return parseArgOfPrefix(argMultimap.getAllValues(prefix), prefix);
+        } catch (IllegalValueException ive) {
+            return prefix.getPrefix();
+        }
+    }
+
+    /**
+     * Formats the argument into " PREFIX/ARGS" form. If the {@code ArgumentMultimap} does not contain the field,
+     * replace the argument with {@code ReadOnlyPerson}'s corresponding field.
+     */
+    private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, Prefix prefix, ReadOnlyPerson person) {
+        String prefixWithArgs = formatPrefixWithArgs(argMultimap, prefix);
+        if (prefixWithArgs.equals(prefix.getPrefix())) { // no input, read field info from person
+            prefixWithArgs += getPersonFieldOfPrefix(person, prefix);
+        }
+        if (prefix.equals(PREFIX_TAG)) {
+            // insert tag prefix into each tag
+            prefixWithArgs = prefixWithArgs.replace(" ", " " + PREFIX_TAG_STRING);
+        }
+        return prefixWithArgs;
+    }
+
+    /**
+     * Tests whether the argument is valid for certain {@code Prefix}.
+     */
+    private static String parseArgOfPrefix(List<String> argList, Prefix prefix) throws IllegalValueException {
+        if (argList.isEmpty()) {
+            return prefix.getPrefix();
+        }
+        List<Optional> arg = new ArrayList<>();
+        switch (prefix.getPrefix()) {
+        case PREFIX_ADDRESS_STRING:
+            arg.add(ParserUtil.parseAddress(Optional.of(argList.get(0))));
+            break;
+        case PREFIX_EMAIL_STRING:
+            arg.add(ParserUtil.parseEmail(Optional.of(argList.get(0))));
+            break;
+        case PREFIX_NAME_STRING:
+            arg.add(ParserUtil.parseName(Optional.of(argList.get(0))));
+            break;
+        case PREFIX_PHONE_STRING:
+            arg.add(ParserUtil.parsePhone(Optional.of(argList.get(0))));
+            break;
+        case PREFIX_TAG_STRING:
+            arg = ParserUtil.parseTags(argList).stream().map(Optional::of).collect(Collectors.toList());
+            break;
+        default:
+            assert false : "not possible";
+        }
+        return prefix + arg.stream().filter(Optional::isPresent).map(Optional::get).map(Object::toString)
+            .collect(Collectors.joining(" " + prefix.getPrefix()));
+    }
+
+    /**
+     * @return the corresponding field of a {@code ReadOnlyPerson} based on a {@code Prefix}.
+     */
+    private static String getPersonFieldOfPrefix(ReadOnlyPerson person, Prefix prefix) {
+        requireNonNull(person);
+        requireNonNull(prefix);
+
+        switch (prefix.getPrefix()) {
+        case PREFIX_NAME_STRING:
+            return person.getName().fullName;
+        case PREFIX_PHONE_STRING:
+            return person.getPhone().value;
+        case PREFIX_EMAIL_STRING:
+            return person.getEmail().value;
+        case PREFIX_ADDRESS_STRING:
+            return person.getAddress().value;
+        case PREFIX_TAG_STRING:
+            return person.getTags().stream().map(Tag::toString).collect(Collectors.joining(" "));
+        default:
+            return "";
+        }
     }
 
 }
