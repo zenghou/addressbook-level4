@@ -151,6 +151,8 @@ public class AutoComplete {
         case PREFIX_TAG_STRING:
             arg = ParserUtil.parseTags(argList).stream().map(Optional::of).collect(Collectors.toList());
             break;
+        default:
+            assert false : "not possible";
         }
         return prefix + arg.stream().filter(Optional::isPresent).map(Optional::get).map(Object::toString)
             .collect(Collectors.joining(" " + prefix.getPrefix()));
@@ -186,13 +188,13 @@ public class AutoComplete {
 
         // auto fill all fields
         ReadOnlyPerson person = model.getFilteredPersonList().get(index.getZeroBased());
-        String prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_NAME, person)
-            + formatPrefixWithArgs(argMultimap, PREFIX_PHONE, person)
-            + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person)
-            + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person)
+        String prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_NAME, person) + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_PHONE, person) + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person) + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person);
 
-        return EditCommand.COMMAND_WORD + " " + indexString + prefixWithArgs;
+        return EditCommand.COMMAND_WORD + " " + indexString +  " " + prefixWithArgs;
     }
 
     /**
@@ -201,7 +203,7 @@ public class AutoComplete {
      */
     private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, Prefix prefix, ReadOnlyPerson person) {
         String prefixWithArgs = formatPrefixWithArgs(argMultimap, prefix);
-        if (prefixWithArgs.equals(" " + prefix)) { // no input, read field info from person
+        if (prefixWithArgs.equals(prefix.getPrefix())) { // no input, read field info from person
             prefixWithArgs += getPersonFieldOfPrefix(person, prefix);
         }
         if (prefix.equals(PREFIX_TAG)) {
