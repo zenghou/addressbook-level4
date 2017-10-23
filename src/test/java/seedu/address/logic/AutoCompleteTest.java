@@ -181,6 +181,17 @@ public class AutoCompleteTest {
         assertAutoComplete(command, expected);
     }
 
+    @Test
+    public void autoCompleteImport_anyArgument_trimWhitespaces() {
+        String command = "import  someFile.xml  ";
+        String expected = "import someFile.xml";
+        assertAutoComplete(command, expected);
+
+        command = "import     ";
+        expected = "import ";
+        assertAutoComplete(command, expected);
+    }
+
     /**
      * Asserts if the auto-complete of {@code command} equals to {@code expectedResult}.
      */
