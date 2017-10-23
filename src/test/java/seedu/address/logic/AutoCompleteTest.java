@@ -10,8 +10,13 @@ import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.testutil.PersonUtil.getPersonDetails;
+import static seedu.address.testutil.TestUtil.getPerson;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Rule;
@@ -19,9 +24,14 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.EditCommand;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.ReadOnlyPerson;
 
 public class AutoCompleteTest {
 
@@ -114,6 +124,60 @@ public class AutoCompleteTest {
 
         command = "edit a1a1a n/Some Name";
         //TODO: this command should be corrected to "edit 11 n/Some Name"
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteEdit_firstIndexInvalidField_autoFillFields() {
+        ReadOnlyPerson firstPerson = getPerson(model, INDEX_FIRST_PERSON);
+        String expected = EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+            + " " + getPersonDetails(firstPerson).trim();
+
+        // empty field
+        String command = "edit 1 n/";
+        assertAutoComplete(command, expected);
+
+        // invalid field
+        command = "edit  1  p/a";
+        assertAutoComplete(command, expected);
+
+        // multiple invalid fields
+        command = "edit  1 p/a e/aa";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteEdit_firstIndexValidFields_autoFillTheRestFields() throws Exception {
+        ReadOnlyPerson firstPerson = getPerson(model, INDEX_FIRST_PERSON);
+
+        String validName = "Valid Name";
+        String command = "edit 1 " + PREFIX_NAME_STRING + validName;
+        Person expectedPerson = new Person(firstPerson);
+        expectedPerson.setName(new Name(validName));
+        String expected = EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+            + " " + getPersonDetails(expectedPerson).trim();
+        assertAutoComplete(command, expected);
+
+        String validPhone = "1234567";
+        command = "edit 1 " + PREFIX_PHONE_STRING + validPhone;
+        expectedPerson = new Person(firstPerson);
+        expectedPerson.setPhone(new Phone(validPhone));
+        expected = EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+            + " " + getPersonDetails(expectedPerson).trim();
+        assertAutoComplete(command, expected);
+    }
+
+
+    @Test
+    public void autoCompleteFind_anyArgument_trimAllArgs() {
+        String command = "find some args";
+        String expected = "find ";
+        assertAutoComplete(command, expected);
+
+        command = "find";
+        assertAutoComplete(command, expected);
+
+        command = "find arg with whitespaces  ";
         assertAutoComplete(command, expected);
     }
 
