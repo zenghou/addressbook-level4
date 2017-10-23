@@ -84,6 +84,25 @@ public class AutoCompleteTest {
         assertAutoComplete(command, command);
     }
 
+    @Test
+    public void autoCompleteDelete_invalidIndex_trimNonDigitChar() {
+        String command = "delete 1a";
+        String expected = "delete 1";
+        assertAutoComplete(command, expected);
+
+        command = "delete aa1bb   ";
+        assertAutoComplete(command, expected);
+
+        command = "delete a  1  b";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteDelete_validIndex_noChange() {
+        String command = "delete 1";
+        assertAutoComplete(command, command);
+    }
+
     /**
      * Asserts if the auto-complete of {@code command} equals to {@code expectedResult}.
      */
