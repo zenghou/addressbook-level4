@@ -103,6 +103,20 @@ public class AutoCompleteTest {
         assertAutoComplete(command, command);
     }
 
+    @Test
+    public void autoCompleteEdit_invalidIndex_trimNonDigitChar() {
+        String command = "edit 11a";
+        String expected = "edit 11 ";
+        assertAutoComplete(command, expected);
+
+        command = "edit a1,1a ";
+        assertAutoComplete(command, expected);
+
+        command = "edit a1a1a n/Some Name";
+        //TODO: this command should be corrected to "edit 11 n/Some Name"
+        assertAutoComplete(command, expected);
+    }
+
     /**
      * Asserts if the auto-complete of {@code command} equals to {@code expectedResult}.
      */
