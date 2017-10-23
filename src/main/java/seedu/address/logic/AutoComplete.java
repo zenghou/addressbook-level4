@@ -173,7 +173,7 @@ public class AutoComplete {
      * Auto-completes import command.
      */
     public static String importCommandAutoComplete(String args) {
-        return " ";
+        return ImportCommand.COMMAND_WORD + " " + args.trim();
     }
 
     /**
