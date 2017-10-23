@@ -32,6 +32,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.Remark;
 
 public class AutoCompleteTest {
 
@@ -189,6 +190,25 @@ public class AutoCompleteTest {
 
         command = "import     ";
         expected = "import ";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteRemark_invalidIndex_trimWhitespaces() {
+        String command = "remark aa1,1a";
+        String expected = "remark 11 ";
+        assertAutoComplete(command, expected);
+
+        command = "remark   a1, 1  a";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteRemark_firstIndexEmptyField_autoFillRemarkField() {
+        String validRemark = "valid remark";
+        String command = "remark 1 r/";
+        model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()).setRemark(new Remark(validRemark));
+        String expected = command + validRemark;
         assertAutoComplete(command, expected);
     }
 
