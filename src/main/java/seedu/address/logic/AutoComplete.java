@@ -38,7 +38,6 @@ import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.model.tag.Tag;
 
 /**
  * Utilities for auto completion for command.
@@ -310,7 +309,7 @@ public class AutoComplete {
         case PREFIX_REMARK_STRING:
             return person.getRemark().value;
         case PREFIX_TAG_STRING:
-            return person.getTags().stream().map(Tag::toString).collect(Collectors.joining(" "));
+            return person.getTags().stream().map(t -> t.tagName).collect(Collectors.joining(" "));
         default:
             return "";
         }
