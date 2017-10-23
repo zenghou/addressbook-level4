@@ -36,10 +36,10 @@ import seedu.address.model.person.Remark;
 
 public class AutoCompleteTest {
 
+    private static final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-    private static final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void autoCompleteAdd_missingOneField_addMissingPrefix() {
@@ -83,7 +83,7 @@ public class AutoCompleteTest {
         // two name field -> choose the first one
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_AMY
             + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + TAG_DESC_FRIEND;
-        expected= AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+        expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
             + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + TAG_DESC_FRIEND;
         assertAutoComplete(command, expected);
     }
