@@ -14,6 +14,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_STRING;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -322,4 +327,48 @@ public class AutoComplete {
         return arg.replaceAll("\\D", "");
     }
 
+    /**
+     *
+     */
+    private static List<String> getBestMatches(String[] tests, String tester) {
+        HashSet<String> bestMatchesSet = new HashSet<>();
+        int bestMatchScore = tester.length() + 1;
+        for (String test : tests) {
+            int lenDist = levenshteinDistance(tester, test);
+            if (lenDist == bestMatchScore) { // hit best match
+                bestMatchesSet.add(test);
+            } else if (lenDist < bestMatchScore) { // new best match
+                bestMatchesSet = new HashSet<>(Collections.singleton(test));
+            }
+        }
+        List<String> bestMatches = new ArrayList<>();
+        bestMatches.addAll(bestMatchesSet);
+        return bestMatches;
+    }
+
+    /**
+     * Calculate the levenshtein Distance of two {@code String}s.
+     */
+    private static int levenshteinDistance(String s, String t) {
+        if (s.length() == 0) {
+            return t.length();
+        }
+        if (t.length() == 0) {
+            return s.length();
+        }
+        if (s.charAt(0) == t.charAt(0)) {
+            return levenshteinDistance(s.substring(1), t.substring(1));
+        }
+        int substitute = levenshteinDistance(s.substring(1), t.substring(1));
+        int delete = levenshteinDistance(s, t.substring(1));
+        int insert = levenshteinDistance(s.substring(1), t);
+        return minimum(substitute, delete, insert) + 1;
+    }
+
+    /**
+     * @return minimum number of Integers.
+     */
+    private static int minimum(Integer... integers) {
+        return Arrays.stream(integers).reduce(Math::min).orElse(-1);
+    }
 }
