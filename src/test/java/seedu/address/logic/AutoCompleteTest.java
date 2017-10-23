@@ -212,6 +212,25 @@ public class AutoCompleteTest {
         assertAutoComplete(command, expected);
     }
 
+    @Test
+    public void autoCompleteSelect_invalidIndex_trimNonDigitChar() {
+        String command = "select 1a";
+        String expected = "select 1";
+        assertAutoComplete(command, expected);
+
+        command = "select aa1bb   ";
+        assertAutoComplete(command, expected);
+
+        command = "select a  1  b";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteSelect_validIndex_noChange() {
+        String command = "select 1";
+        assertAutoComplete(command, command);
+    }
+
     /**
      * Asserts if the auto-complete of {@code command} equals to {@code expectedResult}.
      */
