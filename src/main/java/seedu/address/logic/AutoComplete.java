@@ -205,7 +205,7 @@ public class AutoComplete {
      * Auto-completes search command.
      */
     public static String searchCommandAutoComplete(String args) {
-        return " ";
+        return SearchCommand.COMMAND_WORD + " ";
     }
 
     /**
