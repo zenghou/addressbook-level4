@@ -108,7 +108,7 @@ public class MainApp extends Application {
             initialData = new AddressBook();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        return new ModelManager(initialData, userPrefs, userCreds);
     }
 
     private void initLogging(Config config) {
