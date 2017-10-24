@@ -163,7 +163,7 @@ public class AutoComplete {
         } else { // try to find the index part and file part
             int possibleDelimiterIndex = Math.max(args.lastIndexOf(' '), args.lastIndexOf(','));
             possibleIndexListString = args.substring(0, possibleDelimiterIndex);
-            possibleFilePath = args.substring(possibleDelimiterIndex);
+            possibleFilePath = args.substring(possibleDelimiterIndex + 1);
         }
 
         // format Index List

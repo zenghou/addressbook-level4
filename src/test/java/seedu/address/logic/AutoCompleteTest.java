@@ -169,6 +169,23 @@ public class AutoCompleteTest {
     }
 
     @Test
+    public void autoCompleteExport_invalidIndexes_trimNonDigitChars() {
+        String command = "export 1a 2a,, 3*.;   SomeFile.xml ";
+        String expected = "export 1, 2, 3; SomeFile.xml";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteExport_noDelimiter_trimNonDigitChars() {
+        String command = "export 1, 2, 3 SomeFile.xml ";
+        String expected = "export 1, 2, 3; SomeFile.xml";
+        assertAutoComplete(command, expected);
+
+        command = "export 1, 2, 3,SomeFile.xml ";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
     public void autoCompleteImport_anyArgument_trimWhitespaces() {
         String command = "import  someFile.xml  ";
         String expected = "import someFile.xml";
