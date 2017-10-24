@@ -17,7 +17,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_STRING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -359,19 +358,12 @@ public class AutoComplete {
     }
 
     /**
-     *
+     * Finds the fuzzy match of tester in the Array.
      */
     private static List<String> fuzzyMatches(String[] tests, String tester) {
         HashSet<String> bestMatchesSet = new HashSet<>();
-        int bestMatchScore = tester.length() + 1;
-        for (String test : tests) {
-            int lenDist = levenshteinDistance(tester, test);
-            if (lenDist == bestMatchScore) { // hit best match
-                bestMatchesSet.add(test);
-            } else if (lenDist < bestMatchScore) { // new best match
-                bestMatchesSet = new HashSet<>(Collections.singleton(test));
-            }
-        }
+        bestMatchesSet.addAll(Arrays.stream(tests).filter(p -> levenshteinDistance(tester, p) > (p.length() / 2))
+            .collect(Collectors.toList()));
         List<String> bestMatches = new ArrayList<>();
         bestMatches.addAll(bestMatchesSet);
         return bestMatches;
