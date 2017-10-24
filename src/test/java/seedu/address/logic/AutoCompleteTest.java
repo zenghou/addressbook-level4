@@ -305,6 +305,12 @@ public class AutoCompleteTest {
         assertAutoComplete(command, "");
     }
 
+    @Test
+    public void autoCompleteUnknownCommand_emptyInput_emptyReturn() {
+        String command = "     ";
+        assertAutoComplete(command, "");
+    }
+
     /**
      * Asserts if the auto-complete of {@code command} equals to {@code expectedResult}.
      */
