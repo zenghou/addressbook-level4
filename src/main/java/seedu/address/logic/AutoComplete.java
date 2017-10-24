@@ -238,12 +238,14 @@ public class AutoComplete {
         if (prefixMatch.size() == 1) { // only prefix-match
             return prefixMatch.get(0) + " " + args.trim();
         } else if (prefixMatch.size() > 1) { // multiple prefix-matches
+            prefixMatch.sort(String::compareTo);
             return promptForPossibleCommand(prefixMatch);
         } else { // no prefix-match
             List<String> fuzzyMatch = fuzzyMatches(getSystemCommandWords(), command);
             if (fuzzyMatch.isEmpty()) {
                 return "";
             }
+            fuzzyMatch.sort(String::compareTo);
             return promptForPossibleCommand(fuzzyMatch);
         }
     }
@@ -359,7 +361,7 @@ public class AutoComplete {
      */
     private static List<String> fuzzyMatches(String[] tests, String tester) {
         HashSet<String> bestMatchesSet = new HashSet<>();
-        bestMatchesSet.addAll(Arrays.stream(tests).filter(p -> levenshteinDistance(tester, p) > (p.length() / 2))
+        bestMatchesSet.addAll(Arrays.stream(tests).filter(p -> levenshteinDistance(tester, p) <= (p.length() / 2))
             .collect(Collectors.toList()));
         List<String> bestMatches = new ArrayList<>();
         bestMatches.addAll(bestMatchesSet);
