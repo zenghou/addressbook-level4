@@ -152,7 +152,28 @@ public class AutoComplete {
      * Auto-completes export command.
      */
     public static String exportCommandAutoComplete(String args) {
-        return " ";
+        Pattern exportPattern = Pattern.compile("(?<possibleIndexList>.[^;]);(?<possibleFilePath>.*)");
+        Matcher matcher = exportPattern.matcher(args);
+
+        String possibleIndexListString = "";
+        String possibleFilePath = "";
+        if (matcher.matches()) { // contains delimiter ";"
+            possibleIndexListString = matcher.group("possibleIndexList");
+            possibleFilePath = matcher.group("possibleFilePath");
+        } else { // try to find the index part and file part
+            int possibleDelimiterIndex = Math.max(args.lastIndexOf(' '), args.lastIndexOf(','));
+            possibleIndexListString = args.substring(0, possibleDelimiterIndex);
+            possibleFilePath = args.substring(possibleDelimiterIndex);
+        }
+
+        // format Index List
+        possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s)+|(,)+"))
+            .map(AutoComplete::formatSingleIndexString).filter(p -> !p.isEmpty()).collect(Collectors.joining(", "));
+
+        // format file path
+        possibleFilePath = possibleFilePath.trim();
+
+        return ExportCommand.COMMAND_WORD + " " + possibleIndexListString + "; " + possibleFilePath;
     }
 
     /**
