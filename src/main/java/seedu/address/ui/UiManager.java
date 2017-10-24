@@ -16,6 +16,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
+import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 
 /**
@@ -35,13 +36,15 @@ public class UiManager extends ComponentManager implements Ui {
     private Logic logic;
     private Config config;
     private UserPrefs prefs;
+    private UserCreds creds;
     private MainWindow mainWindow;
 
-    public UiManager(Logic logic, Config config, UserPrefs prefs) {
+    public UiManager(Logic logic, Config config, UserPrefs prefs, UserCreds creds) {
         super();
         this.logic = logic;
         this.config = config;
         this.prefs = prefs;
+        this.creds = creds;
     }
 
     @Override
@@ -53,9 +56,9 @@ public class UiManager extends ComponentManager implements Ui {
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
 
         try {
-            mainWindow = new MainWindow(primaryStage, config, prefs, logic);
+            mainWindow = new MainWindow(primaryStage, config, prefs, logic, creds);
             mainWindow.show(); //This should be called before creating other UI parts
-            mainWindow.fillInnerParts();
+            mainWindow.fillCommandBoxAndDisplayPanel();
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
