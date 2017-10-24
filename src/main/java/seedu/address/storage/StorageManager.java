@@ -12,6 +12,7 @@ import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 
 /**
@@ -22,6 +23,7 @@ public class StorageManager extends ComponentManager implements Storage {
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private AddressBookStorage addressBookStorage;
     private UserPrefsStorage userPrefsStorage;
+    private UserCredsStorage userCredsStorage;
 
 
     public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage) {
@@ -45,6 +47,23 @@ public class StorageManager extends ComponentManager implements Storage {
     @Override
     public void saveUserPrefs(UserPrefs userPrefs) throws IOException {
         userPrefsStorage.saveUserPrefs(userPrefs);
+    }
+
+    // ================ UserCreds methods ==============================
+
+    @Override
+    public String getUserCredsFilePath() {
+        return userPrefsStorage.getUserPrefsFilePath();
+    }
+
+    @Override
+    public Optional<UserCreds> readUserCreds() throws DataConversionException, IOException {
+        return userCredsStorage.readUserCreds();
+    }
+
+    @Override
+    public void saveUserCreds(UserCreds userCreds) throws IOException {
+        userCredsStorage.saveUserCreds(userCreds);
     }
 
 
