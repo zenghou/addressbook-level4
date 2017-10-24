@@ -19,12 +19,19 @@ import static seedu.address.testutil.TestUtil.getPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.SearchCommand;
+import seedu.address.logic.commands.SelectCommand;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -234,11 +241,62 @@ public class AutoCompleteTest {
         assertAutoComplete(command, command);
     }
 
+    @Test
+    public void autoCompleteUnknownCommand_prefixMatch_autoCompleteCommand() {
+        String command = "ad   n/Some Name  ";
+        String expected = "add n/Some Name";
+        assertAutoComplete(command, expected);
+
+        command = "cle  ";
+        expected = "clear ";
+        assertAutoComplete(command, expected);
+
+        command = "de  1  ";
+        expected = "delete 1";
+        assertAutoComplete(command, expected);
+
+        command = "ed 1 n/Some Name  ";
+        expected = "edit 1 n/Some Name";
+        assertAutoComplete(command, expected);
+
+        command = "exi  ";
+        expected = "exit ";
+        assertAutoComplete(command, expected);
+
+        command = "exp   1, 2; m.xml   ";
+        expected = "export 1, 2; m.xml";
+        assertAutoComplete(command, expected);
+
+        command = "fi x ";
+        expected = "find x";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteUnknownCommand_multiplePrefixMatches_autoCompleteCommand() {
+        // exit and export
+        String command = "ex";
+        String expected = getUnknownCommandPrompt(ExitCommand.COMMAND_WORD, ExportCommand.COMMAND_WORD);
+        assertAutoComplete(command, expected);
+
+        // search and select
+        command = "se";
+        expected = getUnknownCommandPrompt(SearchCommand.COMMAND_WORD, SelectCommand.COMMAND_WORD);
+        assertAutoComplete(command, expected);
+    }
+
     /**
      * Asserts if the auto-complete of {@code command} equals to {@code expectedResult}.
      */
     private void assertAutoComplete(String command, String expectedResult) {
         String result = AutoComplete.autoComplete(command, model);
         assertEquals(result, expectedResult);
+    }
+
+    /**
+     * Returns the prompt String for suggestions.
+     */
+    private String getUnknownCommandPrompt(String... suggestions) {
+        return "Do you mean: " + Arrays.stream(suggestions).collect(Collectors.joining(" or ")) + " ?";
     }
 }
