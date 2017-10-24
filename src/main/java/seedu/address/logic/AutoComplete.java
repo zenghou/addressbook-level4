@@ -226,8 +226,13 @@ public class AutoComplete {
     /**
      * Auto-completes unknown command without arguments.
      */
-    public static String unknownCommandAutoComplete(String args) {
-        return " ";
+    public static String unknownCommandAutoComplete(String input) {
+        String trimmedInput = input.trim();
+        if (trimmedInput.isEmpty()) {
+            return "";
+        } else {
+            return unknownCommandAutoComplete(trimmedInput);
+        }
     }
 
     /**
