@@ -9,6 +9,11 @@ public class UserCreds {
     private String username;
     private int passwordHash;
 
+    public UserCreds() {
+        username = "admin";
+        passwordHash = "password".hashCode();
+    }
+
     public UserCreds(String username, String password) {
         this.username = username;
         this.passwordHash = password.hashCode();
