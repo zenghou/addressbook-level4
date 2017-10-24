@@ -338,7 +338,7 @@ public class AutoComplete {
      * Returns the suggested commands.
      */
     private static String promptForPossibleCommand(List<String> possibleCommands) {
-        return "";
+        return "Do you mean: " + possibleCommands.stream().collect(Collectors.joining(" or ")) + " ?";
     }
 
     /**
@@ -346,7 +346,7 @@ public class AutoComplete {
      */
     private static List<String> prefixMatch(String[] tests, String tester) {
         HashSet<String> prefixMatchesSet = new HashSet<>();
-        Pattern prefixPattern = Pattern.compile("^" + tester + "*$");
+        Pattern prefixPattern = Pattern.compile("^" + tester + ".*$");
         prefixMatchesSet.addAll(Arrays.stream(tests).filter(p -> prefixPattern.matcher(p).matches())
             .collect(Collectors.toList()));
         List<String> prefixMatches = new ArrayList<>();
