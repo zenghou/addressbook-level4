@@ -30,10 +30,8 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExportCommand;
-import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.RemarkCommand;
-import seedu.address.logic.commands.SearchCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
@@ -83,10 +81,6 @@ public class AutoComplete {
         case RemarkCommand.COMMAND_ALIAS:
             return remarkCommandAutoComplete(arguments, model);
 
-        case FindCommand.COMMAND_WORD:
-        case FindCommand.COMMAND_ALIAS:
-            return findCommandAutoComplete(arguments);
-
         case SortCommand.COMMAND_WORD:
             return sortCommandAutoComplete(arguments);
 
@@ -95,10 +89,6 @@ public class AutoComplete {
 
         case ImportCommand.COMMAND_WORD:
             return importCommandAutoComplete(arguments);
-
-        case SearchCommand.COMMAND_WORD:
-        case SearchCommand.COMMAND_ALIAS:
-            return searchCommandAutoComplete(arguments);
 
         default:
             return unknownCommandAutoComplete(commandWord, arguments);
@@ -166,13 +156,6 @@ public class AutoComplete {
     }
 
     /**
-     * Auto-completes find command.
-     */
-    public static String findCommandAutoComplete(String args) {
-        return FindCommand.COMMAND_WORD + " ";
-    }
-
-    /**
      * Auto-completes import command.
      */
     public static String importCommandAutoComplete(String args) {
@@ -203,13 +186,6 @@ public class AutoComplete {
         String prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_REMARK, person);
 
         return RemarkCommand.COMMAND_WORD + " " + indexString +  " " + prefixWithArgs;
-    }
-
-    /**
-     * Auto-completes search command.
-     */
-    public static String searchCommandAutoComplete(String args) {
-        return SearchCommand.COMMAND_WORD + " ";
     }
 
     /**

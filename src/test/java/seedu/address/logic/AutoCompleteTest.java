@@ -168,20 +168,6 @@ public class AutoCompleteTest {
         assertAutoComplete(command, expected);
     }
 
-
-    @Test
-    public void autoCompleteFind_anyArgument_trimAllArgs() {
-        String command = "find some args";
-        String expected = "find ";
-        assertAutoComplete(command, expected);
-
-        command = "find";
-        assertAutoComplete(command, expected);
-
-        command = "find arg with whitespaces  ";
-        assertAutoComplete(command, expected);
-    }
-
     @Test
     public void autoCompleteImport_anyArgument_trimWhitespaces() {
         String command = "import  someFile.xml  ";
