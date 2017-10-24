@@ -1,6 +1,7 @@
 package seedu.address.logic;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.StringUtil.getSystemCommandWords;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -26,7 +27,6 @@ import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -238,7 +238,18 @@ public class AutoComplete {
      * Auto-completes unknown command.
      */
     public static String unknownCommandAutoComplete(String command, String args) {
-        return " ";
+        List<String> prefixMatch = prefixMatch(getSystemCommandWords(), command);
+        if (prefixMatch.size() == 1) { // only prefix-match
+            return prefixMatch.get(0) + " " + args.trim();
+        } else if (prefixMatch.size() > 1) { // multiple prefix-matches
+            return promptForPossibleCommand(prefixMatch);
+        } else { // no prefix-match
+            List<String> fuzzyMatch = fuzzyMatches(getSystemCommandWords(), command);
+            if (fuzzyMatch.isEmpty()) {
+                return "";
+            }
+            return promptForPossibleCommand(fuzzyMatch);
+        }
     }
 
     /**
@@ -328,6 +339,13 @@ public class AutoComplete {
     }
 
     /**
+     * Returns the suggested commands.
+     */
+    private static String promptForPossibleCommand(List<String> possibleCommands) {
+        return "";
+    }
+
+    /**
      * Finds all test in array that have prefix of tester and returns the result as a List.
      */
     private static List<String> prefixMatch(String[] tests, String tester) {
@@ -343,7 +361,7 @@ public class AutoComplete {
     /**
      *
      */
-    private static List<String> getBestMatches(String[] tests, String tester) {
+    private static List<String> fuzzyMatches(String[] tests, String tester) {
         HashSet<String> bestMatchesSet = new HashSet<>();
         int bestMatchScore = tester.length() + 1;
         for (String test : tests) {
