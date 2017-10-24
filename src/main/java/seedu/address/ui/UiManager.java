@@ -16,7 +16,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.user.UserPrefs;
 
 /**
  * The manager of the UI component.

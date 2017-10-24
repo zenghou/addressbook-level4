@@ -17,7 +17,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.user.UserPrefs;
 import seedu.address.model.person.ReadOnlyPerson;
 
 /**
