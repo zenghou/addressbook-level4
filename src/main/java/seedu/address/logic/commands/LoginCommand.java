@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME;
 
-public class LoginCommand extends Command{
+public class LoginCommand {
     public static final String COMMAND_WORD = "login";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD  + ": Authenticates a user of the address book."
@@ -22,9 +22,15 @@ public class LoginCommand extends Command{
         this.password = password;
     }
 
-    @Override
     public CommandResult execute() {
         // TODO: replace stub method
         return new CommandResult("stub");
+    }
+
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof LoginCommand // instanceof handles nulls
+                && username.equals(((LoginCommand) other).username)
+                && password.equals(((LoginCommand) other).password));
     }
 }
