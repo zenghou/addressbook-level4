@@ -57,7 +57,7 @@ public class AutoComplete {
             return unknownCommandAutoComplete(userInput);
         }
 
-        final String commandWord = matcher.group("commandWord");
+        final String commandWord = matcher.group("commandWord").toLowerCase();
         final String arguments = matcher.group("arguments");
         switch (commandWord) {
 
