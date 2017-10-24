@@ -328,6 +328,19 @@ public class AutoComplete {
     }
 
     /**
+     * Finds all test in array that have prefix of tester and returns the result as a List.
+     */
+    private static List<String> prefixMatch(String[] tests, String tester) {
+        HashSet<String> prefixMatchesSet = new HashSet<>();
+        Pattern prefixPattern = Pattern.compile("^" + tester + "*$");
+        prefixMatchesSet.addAll(Arrays.stream(tests).filter(p -> prefixPattern.matcher(p).matches())
+            .collect(Collectors.toList()));
+        List<String> prefixMatches = new ArrayList<>();
+        prefixMatches.addAll(prefixMatchesSet);
+        return prefixMatches;
+    }
+
+    /**
      *
      */
     private static List<String> getBestMatches(String[] tests, String tester) {
