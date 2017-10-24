@@ -30,8 +30,10 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.SearchCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.SortCommand;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -283,6 +285,24 @@ public class AutoCompleteTest {
         command = "se";
         expected = getUnknownCommandPrompt(SearchCommand.COMMAND_WORD, SelectCommand.COMMAND_WORD);
         assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteUnknownCommand_fuzzyMatches_autoCompleteCommand() {
+        // single hit
+        String command = "adda ";
+        String expected = getUnknownCommandPrompt(AddCommand.COMMAND_WORD);
+        assertAutoComplete(command, expected);
+
+        // multiple hits
+        command = "port";
+        expected = getUnknownCommandPrompt(ExportCommand.COMMAND_WORD, ImportCommand.COMMAND_WORD,
+                                           SortCommand.COMMAND_WORD);
+        assertAutoComplete(command, expected);
+
+        // no hit
+        command = "zzzzz";
+        assertAutoComplete(command, "");
     }
 
     /**
