@@ -13,7 +13,7 @@ public class LoginCommand extends Command {
     public static final String COMMAND_WORD = "login";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD  + ": Authenticates a user of the address book."
-            + "Parameters: "
+            + " Parameters: "
             + PREFIX_USERNAME + "USERNAME "
             + PREFIX_PASSWORD + "PASSWORD ";
 

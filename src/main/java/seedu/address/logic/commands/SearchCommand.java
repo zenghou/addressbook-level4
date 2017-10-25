@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.DetailsContainKeyphrasePredicate;
 
 /**
@@ -25,7 +26,13 @@ public class SearchCommand extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    public CommandResult execute() throws CommandException {
+        // check if user is validated
+        if (!model.getUserCreds().isValidSession()) {
+            throw new CommandException("Invalid session! Please log in first! \n"
+                    + LoginCommand.MESSAGE_USAGE);
+        }
+
         model.updateFilteredPersonList(predicate);
         return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
     }

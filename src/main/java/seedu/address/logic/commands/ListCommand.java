@@ -2,6 +2,8 @@ package seedu.address.logic.commands;
 
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import seedu.address.logic.commands.exceptions.CommandException;
+
 /**
  * Lists all persons in the address book to the user.
  */
@@ -14,7 +16,13 @@ public class ListCommand extends Command {
 
 
     @Override
-    public CommandResult execute() {
+    public CommandResult execute() throws CommandException {
+        // check if user is validated
+        if (!model.getUserCreds().isValidSession()) {
+            throw new CommandException("Invalid session! Please log in first! \n"
+                    + LoginCommand.MESSAGE_USAGE);
+        }
+
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(MESSAGE_SUCCESS);
     }
