@@ -256,7 +256,7 @@ public class AutoComplete {
         } else { // no prefix-match
             List<String> fuzzyMatch = fuzzyMatches(getSystemCommandWords(), command);
             if (fuzzyMatch.isEmpty()) {
-                return "";
+                return command + args;
             }
             fuzzyMatch.sort(String::compareTo);
             return promptForPossibleCommand(fuzzyMatch);

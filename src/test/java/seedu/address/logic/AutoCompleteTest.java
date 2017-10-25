@@ -311,7 +311,7 @@ public class AutoCompleteTest {
 
         // no hit
         command = "zzzzz";
-        assertAutoComplete(command, "");
+        assertAutoComplete(command, command);
     }
 
     @Test
