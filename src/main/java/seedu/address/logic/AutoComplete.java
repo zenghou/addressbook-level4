@@ -123,17 +123,14 @@ public class AutoComplete {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
 
-        String indexString = argMultimap.getPreamble().trim();
-        Index index = null;
+        String indexString = argMultimap.getPreamble();
+        Index index;
         try {
             index = ParserUtil.parseIndex(indexString);
         } catch (IllegalValueException ive) {
-            indexString = formatSingleIndexString(indexString);
-        }
-
-        // if the index is invalid
-        if (index == null) {
-            return EditCommand.COMMAND_WORD + " " + indexString + " ";
+            // if the index is invalid
+            String restArgs = args.substring(indexString.length() + 1).trim();
+            return EditCommand.COMMAND_WORD + " " + formatSingleIndexString(indexString) + " " + restArgs;
         }
 
         // auto fill all fields
