@@ -15,9 +15,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.PersonUtil.getPersonDetails;
-import static seedu.address.testutil.TestUtil.getPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -34,9 +33,6 @@ import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.SearchCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -44,8 +40,6 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.Remark;
 
 public class AutoCompleteTest {
-
-    private static final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -139,7 +133,7 @@ public class AutoCompleteTest {
 
     @Test
     public void autoCompleteEdit_firstIndexInvalidField_autoFillFields() {
-        ReadOnlyPerson firstPerson = getPerson(model, INDEX_FIRST_PERSON);
+        ReadOnlyPerson firstPerson = getTypicalPersons().get(INDEX_FIRST_PERSON.getZeroBased());
         String expected = EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
             + " " + getPersonDetails(firstPerson).trim();
 
@@ -158,7 +152,7 @@ public class AutoCompleteTest {
 
     @Test
     public void autoCompleteEdit_firstIndexValidFields_autoFillTheRestFields() throws Exception {
-        ReadOnlyPerson firstPerson = getPerson(model, INDEX_FIRST_PERSON);
+        ReadOnlyPerson firstPerson = getTypicalPersons().get(INDEX_FIRST_PERSON.getZeroBased());
 
         String validName = "Valid Name";
         String command = "edit 1 " + PREFIX_NAME_STRING + validName;
@@ -219,7 +213,7 @@ public class AutoCompleteTest {
     public void autoCompleteRemark_firstIndexEmptyField_autoFillRemarkField() {
         String validRemark = "valid remark";
         String command = "remark 1 r/";
-        model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()).setRemark(new Remark(validRemark));
+        getTypicalPersons().get(INDEX_FIRST_PERSON.getZeroBased()).setRemark(new Remark(validRemark));
         String expected = command + validRemark;
         assertAutoComplete(command, expected);
     }
@@ -330,7 +324,7 @@ public class AutoCompleteTest {
      * Asserts if the auto-complete of {@code command} equals to {@code expectedResult}.
      */
     private void assertAutoComplete(String command, String expectedResult) {
-        String result = AutoComplete.autoComplete(command, model);
+        String result = AutoComplete.autoComplete(command, getTypicalPersons());
         assertEquals(result, expectedResult);
     }
 

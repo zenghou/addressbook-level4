@@ -38,7 +38,6 @@ import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.Prefix;
-import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyPerson;
 
 /**
@@ -51,7 +50,7 @@ public class AutoComplete {
     /**
      * Auto-completes the input String.
      */
-    public static String autoComplete(String userInput, Model model) {
+    public static String autoComplete(String userInput, List<ReadOnlyPerson> filteredPersonList) {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             return unknownCommandAutoComplete(userInput);
@@ -67,7 +66,7 @@ public class AutoComplete {
 
         case EditCommand.COMMAND_WORD:
         case EditCommand.COMMAND_ALIAS:
-            return editCommandAutoComplete(arguments, model);
+            return editCommandAutoComplete(arguments, filteredPersonList);
 
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_ALIAS:
@@ -79,7 +78,7 @@ public class AutoComplete {
 
         case RemarkCommand.COMMAND_WORD:
         case RemarkCommand.COMMAND_ALIAS:
-            return remarkCommandAutoComplete(arguments, model);
+            return remarkCommandAutoComplete(arguments, filteredPersonList);
 
         case SortCommand.COMMAND_WORD:
             return sortCommandAutoComplete(arguments);
@@ -120,7 +119,7 @@ public class AutoComplete {
     /**
      * Auto-completes edit command.
      */
-    public static String editCommandAutoComplete(String args, Model model) {
+    public static String editCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
 
@@ -138,7 +137,7 @@ public class AutoComplete {
         }
 
         // auto fill all fields
-        ReadOnlyPerson person = model.getFilteredPersonList().get(index.getZeroBased());
+        ReadOnlyPerson person = filteredPersonList.get(index.getZeroBased());
         String prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_NAME, person) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_PHONE, person) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person) + " "
@@ -186,7 +185,7 @@ public class AutoComplete {
     /**
      * Auto-completes remark command.
      */
-    public static String remarkCommandAutoComplete(String args, Model model) {
+    public static String remarkCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
 
         String indexString = argMultimap.getPreamble().trim();
@@ -203,7 +202,7 @@ public class AutoComplete {
         }
 
         // auto fill remark field
-        ReadOnlyPerson person = model.getFilteredPersonList().get(index.getZeroBased());
+        ReadOnlyPerson person = filteredPersonList.get(index.getZeroBased());
         String prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_REMARK, person);
 
         return RemarkCommand.COMMAND_WORD + " " + indexString +  " " + prefixWithArgs;
