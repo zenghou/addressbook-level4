@@ -137,12 +137,17 @@ public class AutoComplete {
         }
 
         // auto fill all fields
-        ReadOnlyPerson person = filteredPersonList.get(index.getZeroBased());
-        String prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_NAME, person) + " "
-            + formatPrefixWithArgs(argMultimap, PREFIX_PHONE, person) + " "
-            + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person) + " "
-            + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person) + " "
-            + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person);
+        String prefixWithArgs;
+        try {
+            ReadOnlyPerson person = filteredPersonList.get(index.getZeroBased());
+            prefixWithArgs = formatPrefixWithArgs(argMultimap, PREFIX_NAME, person) + " "
+                + formatPrefixWithArgs(argMultimap, PREFIX_PHONE, person) + " "
+                + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person) + " "
+                + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person) + " "
+                + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person);
+        } catch (IndexOutOfBoundsException e) {
+            prefixWithArgs = "";
+        }
 
         return EditCommand.COMMAND_WORD + " " + indexString +  " " + prefixWithArgs;
     }
