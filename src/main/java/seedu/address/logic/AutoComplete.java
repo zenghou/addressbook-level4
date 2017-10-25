@@ -98,7 +98,7 @@ public class AutoComplete {
     /**
      * Auto-completes the prefix field that is not entered.
      */
-    public static String addCommandAutoComplete(String args) {
+    private static String addCommandAutoComplete(String args) {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
         return AddCommand.COMMAND_WORD + " "
@@ -112,14 +112,14 @@ public class AutoComplete {
     /**
      * Auto-completes delete command.
      */
-    public static String deleteCommandAutoComplete(String args) {
+    private static String deleteCommandAutoComplete(String args) {
         return DeleteCommand.COMMAND_WORD +  " " + formatSingleIndexString(args);
     }
 
     /**
      * Auto-completes edit command.
      */
-    public static String editCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
+    private static String editCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
 
@@ -152,7 +152,7 @@ public class AutoComplete {
     /**
      * Auto-completes export command.
      */
-    public static String exportCommandAutoComplete(String args) {
+    private static String exportCommandAutoComplete(String args) {
         Pattern exportPattern = Pattern.compile("(?<possibleIndexList>.[^;]);(?<possibleFilePath>.*)");
         Matcher matcher = exportPattern.matcher(args);
 
@@ -180,14 +180,14 @@ public class AutoComplete {
     /**
      * Auto-completes import command.
      */
-    public static String importCommandAutoComplete(String args) {
+    private static String importCommandAutoComplete(String args) {
         return ImportCommand.COMMAND_WORD + " " + args.trim();
     }
 
     /**
      * Auto-completes remark command.
      */
-    public static String remarkCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
+    private static String remarkCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
 
         String indexString = argMultimap.getPreamble().trim();
@@ -213,14 +213,14 @@ public class AutoComplete {
     /**
      * Auto-completes select command.
      */
-    public static String selectCommandAutoComplete(String args) {
+    private static String selectCommandAutoComplete(String args) {
         return SelectCommand.COMMAND_WORD +  " " + formatSingleIndexString(args);
     }
 
     /**
      * Auto-completes sort command.
      */
-    public static String sortCommandAutoComplete(String args) {
+    private static String sortCommandAutoComplete(String args) {
         StringBuilder formattedArg = new StringBuilder();
         if (args.contains(PREFIX_NAME_STRING)) {
             formattedArg.append(PREFIX_NAME_STRING);
@@ -236,7 +236,7 @@ public class AutoComplete {
     /**
      * Auto-completes unknown command without arguments.
      */
-    public static String unknownCommandAutoComplete(String input) {
+    private static String unknownCommandAutoComplete(String input) {
         String trimmedInput = input.trim();
         if (trimmedInput.isEmpty()) {
             return "";
@@ -248,7 +248,7 @@ public class AutoComplete {
     /**
      * Auto-completes unknown command.
      */
-    public static String unknownCommandAutoComplete(String command, String args) {
+    private static String unknownCommandAutoComplete(String command, String args) {
         List<String> prefixMatch = prefixMatch(getSystemCommandWords(), command);
         if (prefixMatch.size() == 1) { // only prefix-match
             return prefixMatch.get(0) + " " + args.trim();
