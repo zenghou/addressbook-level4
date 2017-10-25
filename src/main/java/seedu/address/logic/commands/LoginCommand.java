@@ -21,16 +21,16 @@ public class LoginCommand extends Command {
 
     UserCreds userCreds;
 
-    //TODO: Implement Credentials class so that username and password not stored in open
     public LoginCommand(String username, String password) {
         this.userCreds = new UserCreds(username, password);
 
     }
 
     public CommandResult execute() throws CommandException {
-        // TODO: check if user and password is equals to UserCreds
-        boolean isVerifiedUser = userCreds.equals(model.getUserCreds());
+        UserCreds savedUserCreds = model.getUserCreds();
+        boolean isVerifiedUser = UserCreds.isValidUser(userCreds, savedUserCreds);
         if (isVerifiedUser) {
+            savedUserCreds.validateCurrentSession();
             return new CommandResult(MESSAGE_SUCCESS);
         }
         throw new CommandException("Please ensure that username and password are entered correctly!");
