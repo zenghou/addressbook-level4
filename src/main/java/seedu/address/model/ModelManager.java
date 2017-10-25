@@ -98,7 +98,7 @@ public class ModelManager extends ComponentManager implements Model {
      * Returns userCreds to be used by Logic component for user verification
      */
     @Override
-    public UserCreds getUserCreds() {
+    public synchronized UserCreds getUserCreds() {
         return userCreds;
     }
 
