@@ -8,6 +8,7 @@ import java.util.Objects;
 public class UserCreds {
     private String username;
     private int passwordHash;
+    private boolean isValidated = false;
 
     public UserCreds() {
         username = "admin";
@@ -19,8 +20,31 @@ public class UserCreds {
         this.passwordHash = password.hashCode();
     }
 
-    public String getUsername() {
-        return username;
+    /**
+     * Takes in two UserCreds object and verifies if they match
+     * @param currentSessionCredentials enter by current user
+     * @param savedCredentials in the system
+     * @return true if current user is a valid user
+     */
+    public static boolean isValidUser(UserCreds currentSessionCredentials, UserCreds savedCredentials) {
+        return currentSessionCredentials.equals(savedCredentials);
+    }
+
+    /**
+     * Update isValidated flag to true after current user's credentials matches the saved credentials
+     * {@link #isValidUser(UserCreds, UserCreds)}
+     * Flag is only valid for this current session, and should be set back to false after current session ends.
+     */
+    public void validateCurrentSession() {
+        isValidated = true;
+    }
+
+    /**
+     * Checks if current user is validated.
+     * @return False if current user is not logged in
+     */
+    public boolean isValidSession() {
+        return isValidated;
     }
 
     /**
