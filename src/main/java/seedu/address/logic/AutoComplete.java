@@ -220,7 +220,16 @@ public class AutoComplete {
      * Auto-completes sort command.
      */
     public static String sortCommandAutoComplete(String args) {
-        return " ";
+        StringBuilder formattedArg = new StringBuilder();
+        if (args.contains(PREFIX_NAME_STRING)) {
+            formattedArg.append(PREFIX_NAME_STRING);
+        } else if (args.contains(PREFIX_PHONE_STRING)) {
+            formattedArg.append(PREFIX_PHONE_STRING);
+        }
+        if (args.contains("reverse")) {
+            formattedArg.append(" ").append("reverse");
+        }
+        return SortCommand.COMMAND_WORD + " " + formattedArg.toString();
     }
 
     /**

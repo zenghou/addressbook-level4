@@ -244,6 +244,21 @@ public class AutoCompleteTest {
     }
 
     @Test
+    public void autoCompleteSort_containMultiplePrefix_onlyReturnName() {
+        String command = "sort n/p/  ";
+        String expected = "sort n/";
+        assertAutoComplete(command, expected);
+
+        command = "sort reverse p/ ";
+        expected = "sort p/ reverse";
+        assertAutoComplete(command, expected);
+
+        command = "sort n/ reverse p/ ";
+        expected = "sort n/ reverse";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
     public void autoCompleteUnknownCommand_prefixMatch_autoCompleteCommand() {
         String command = "ad   n/Some Name  ";
         String expected = "add n/Some Name";
