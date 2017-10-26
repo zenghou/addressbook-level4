@@ -205,7 +205,8 @@ public class AutoCompleteTest {
         String expected = "remark 11 ";
         assertAutoComplete(command, expected);
 
-        command = "remark   a1, 1  a";
+        command = "   remark   a1, 1  a r/Some remark";
+        expected = "remark 11 r/Some remark";
         assertAutoComplete(command, expected);
     }
 

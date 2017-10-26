@@ -190,17 +190,14 @@ public class AutoComplete {
     private static String remarkCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
 
-        String indexString = argMultimap.getPreamble().trim();
-        Index index = null;
+        String indexString = argMultimap.getPreamble();
+        Index index;
         try {
             index = ParserUtil.parseIndex(indexString);
         } catch (IllegalValueException ive) {
-            indexString = formatSingleIndexString(indexString);
-        }
-
-        // if the index is invalid
-        if (index == null) {
-            return RemarkCommand.COMMAND_WORD + " " + indexString + " ";
+            // if the index is invalid
+            String restArgs = args.replace(indexString, "").trim();
+            return RemarkCommand.COMMAND_WORD + " " + formatSingleIndexString(indexString) + " " + restArgs;
         }
 
         // auto fill remark field
