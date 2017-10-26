@@ -19,6 +19,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
@@ -27,10 +28,11 @@ import seedu.address.testutil.PersonBuilder;
 public class RemarkCommandTest {
 
     public static final String TEST_REMARK = "This is a test remark";
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
     @Test
     public void execute_executeUndoableCommand_throwsCommandException() throws CommandException {
+        model.getUserCreds().validateCurrentSession();// validate user
         Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         RemarkCommand remarkCommand = prepareCommand(outOfBoundsIndex, new Remark(TEST_REMARK));
 
@@ -44,7 +46,9 @@ public class RemarkCommandTest {
 
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, personWithRemark.getRemark());
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
+                new UserCreds());
+        expectedModel.updateUserCreds(); // validate user
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), personWithRemark);
 
         String expectedMessage = String.format(RemarkCommand.MESSAGE_SUCCESS, personWithRemark);
@@ -80,6 +84,7 @@ public class RemarkCommandTest {
      * Returns a {@code RemarkCommand} with the parameter {@code index and remark}.
      */
     private RemarkCommand prepareCommand(Index index, Remark rmk) {
+        model.getUserCreds().validateCurrentSession();// validate user
         RemarkCommand remarkCommand = new RemarkCommand(index, rmk);
         remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
         return remarkCommand;

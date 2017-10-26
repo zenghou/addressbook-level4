@@ -27,6 +27,7 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
@@ -44,7 +45,7 @@ public class ExportCommandTest {
     /**
      * Typical address model consists of ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE
      */
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
     @Test
     public void equals() {
@@ -140,6 +141,7 @@ public class ExportCommandTest {
      * @return an {@code ExportCommand} with parameters {@code indexes} and {@code filePath}
      */
     private ExportCommand prepareCommand(Integer[] indexesInt, String filePath) {
+        model.getUserCreds().validateCurrentSession();// validate user
         List<Index> indexes = Arrays.stream(indexesInt).map(Index::fromOneBased).collect(Collectors.toList());
         ExportCommand export = new ExportCommand(indexes, filePath);
         export.setData(this.model, new CommandHistory(), new UndoRedoStack());

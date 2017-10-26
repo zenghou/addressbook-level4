@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 
@@ -17,6 +18,7 @@ public class HistoryCommandTest {
     @Before
     public void setUp() {
         Model model = new ModelManager();
+        model.getUserCreds().validateCurrentSession(); // validate user
         history = new CommandHistory();
         historyCommand = new HistoryCommand();
         historyCommand.setData(model, history, new UndoRedoStack());
@@ -45,6 +47,10 @@ public class HistoryCommandTest {
      * Asserts that the result message from the execution of {@code historyCommand} equals to {@code expectedMessage}
      */
     private void assertCommandResult(HistoryCommand historyCommand, String expectedMessage) {
-        assertEquals(expectedMessage, historyCommand.execute().feedbackToUser);
+        try {
+            assertEquals(expectedMessage, historyCommand.execute().feedbackToUser);
+        } catch (CommandException ce) {
+            ce.printStackTrace();
+        }
     }
 }

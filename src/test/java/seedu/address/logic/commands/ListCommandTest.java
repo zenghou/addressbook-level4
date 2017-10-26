@@ -11,6 +11,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 
 /**
@@ -24,8 +25,10 @@ public class ListCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+        model.getUserCreds().validateCurrentSession();// validate user
+        expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+        expectedModel.getUserCreds().validateCurrentSession();// validate user
 
         listCommand = new ListCommand();
         listCommand.setData(model, new CommandHistory(), new UndoRedoStack());

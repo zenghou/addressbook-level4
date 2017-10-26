@@ -17,9 +17,11 @@ import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -28,7 +30,7 @@ import seedu.address.model.person.ReadOnlyPerson;
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
     @Test
     public void equals() {
@@ -75,6 +77,7 @@ public class FindCommandTest {
      * Parses {@code userInput} into a {@code FindCommand}.
      */
     private FindCommand prepareCommand(String userInput) {
+        model.getUserCreds().validateCurrentSession();// validate user
         FindCommand command =
                 new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+"))));
         command.setData(model, new CommandHistory(), new UndoRedoStack());
@@ -88,11 +91,15 @@ public class FindCommandTest {
      *     - the {@code AddressBook} in model remains the same after executing the {@code command}
      */
     private void assertCommandSuccess(FindCommand command, String expectedMessage, List<ReadOnlyPerson> expectedList) {
+        model.getUserCreds().validateCurrentSession();// validate user
         AddressBook expectedAddressBook = new AddressBook(model.getAddressBook());
-        CommandResult commandResult = command.execute();
-
-        assertEquals(expectedMessage, commandResult.feedbackToUser);
-        assertEquals(expectedList, model.getFilteredPersonList());
-        assertEquals(expectedAddressBook, model.getAddressBook());
+        try {
+            CommandResult commandResult = command.execute();
+            assertEquals(expectedMessage, commandResult.feedbackToUser);
+            assertEquals(expectedList, model.getFilteredPersonList());
+            assertEquals(expectedAddressBook, model.getAddressBook());
+        } catch (CommandException ce) {
+            ce.printStackTrace();
+        }
     }
 }

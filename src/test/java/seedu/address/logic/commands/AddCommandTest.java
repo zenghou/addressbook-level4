@@ -25,6 +25,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.user.UserCreds;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -94,9 +95,11 @@ public class AddCommandTest {
     }
 
     /**
-     * A default model stub that have all of the methods failing.
+     * A default model stub that have all of the methods except getUserCreds() failing
+     * #getUserCreds() must work because session must be validated before Command is executed.
      */
     private class ModelStub implements Model {
+
         @Override
         public void addPerson(ReadOnlyPerson person) throws DuplicatePersonException {
             fail("This method should not be called.");
@@ -138,6 +141,19 @@ public class AddCommandTest {
         @Override
         public void removeTag(Tag tag) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public void updateUserCreds() {
+            fail("This method should not be called");
+        }
+
+        @Override
+        public UserCreds getUserCreds() {
+            // returns validated userCreds
+            UserCreds userCreds = new UserCreds();
+            userCreds.validateCurrentSession();
+            return userCreds;
         }
     }
 
