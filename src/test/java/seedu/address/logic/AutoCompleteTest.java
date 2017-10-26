@@ -18,6 +18,7 @@ import static seedu.address.testutil.PersonUtil.getPersonDetails;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -169,6 +170,9 @@ public class AutoCompleteTest {
         expected = EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
             + " " + getPersonDetails(expectedPerson).trim();
         assertAutoComplete(command, expected);
+
+        // index out of boundary -> leave the args
+        assertEquals(command, AutoComplete.autoComplete(command, new ArrayList<>()));
     }
 
     @Test

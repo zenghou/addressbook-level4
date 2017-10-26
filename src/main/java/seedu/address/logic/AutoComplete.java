@@ -129,7 +129,7 @@ public class AutoComplete {
             index = ParserUtil.parseIndex(indexString);
         } catch (IllegalValueException ive) {
             // if the index is invalid
-            String restArgs = args.replace(indexString, "").trim();
+            String restArgs = args.replaceFirst(indexString, "").trim();
             return EditCommand.COMMAND_WORD + " " + formatSingleIndexString(indexString) + " " + restArgs;
         }
 
@@ -143,7 +143,8 @@ public class AutoComplete {
                 + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person);
         } catch (IndexOutOfBoundsException e) {
-            prefixWithArgs = "";
+            String restArgs = args.replaceFirst(indexString, "").trim();
+            return EditCommand.COMMAND_WORD + " " + formatSingleIndexString(indexString) + " " + restArgs;
         }
 
         return EditCommand.COMMAND_WORD + " " + indexString +  " " + prefixWithArgs;
@@ -196,7 +197,7 @@ public class AutoComplete {
             index = ParserUtil.parseIndex(indexString);
         } catch (IllegalValueException ive) {
             // if the index is invalid
-            String restArgs = args.replace(indexString, "").trim();
+            String restArgs = args.replaceFirst(indexString, "").trim();
             return RemarkCommand.COMMAND_WORD + " " + formatSingleIndexString(indexString) + " " + restArgs;
         }
 
