@@ -30,6 +30,7 @@ public class LoginCommand extends Command {
         UserCreds savedUserCreds = model.getUserCreds();
         boolean isVerifiedUser = UserCreds.isValidUser(userCreds, savedUserCreds);
         if (isVerifiedUser) {
+            model.updateUserCreds();
             savedUserCreds.validateCurrentSession();
             return new CommandResult(MESSAGE_SUCCESS);
         }
