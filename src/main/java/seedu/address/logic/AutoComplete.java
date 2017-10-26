@@ -254,7 +254,7 @@ public class AutoComplete {
             prefixMatch.sort(String::compareTo);
             return promptForPossibleCommand(prefixMatch);
         } else { // no prefix-match
-            List<String> fuzzyMatch = fuzzyMatches(getSystemCommandWords(), command);
+            List<String> fuzzyMatch = fuzzyMatch(getSystemCommandWords(), command);
             if (fuzzyMatch.isEmpty()) {
                 return command + args;
             }
@@ -374,7 +374,7 @@ public class AutoComplete {
     /**
      * Finds the fuzzy match of tester in the Array.
      */
-    private static List<String> fuzzyMatches(String[] tests, String tester) {
+    private static List<String> fuzzyMatch(String[] tests, String tester) {
         HashSet<String> bestMatchesSet = new HashSet<>();
         bestMatchesSet.addAll(Arrays.stream(tests)
             .filter(p -> levenshteinDistance(tester, p) <= (p.length() / 2)) // fuzzy match cut-off
