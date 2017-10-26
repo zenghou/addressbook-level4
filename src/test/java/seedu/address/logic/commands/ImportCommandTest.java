@@ -16,7 +16,8 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
 import seedu.address.testutil.TypicalPersons;
 
 public class ImportCommandTest {
@@ -33,7 +34,7 @@ public class ImportCommandTest {
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
     @Test
     public void equals() {
@@ -108,7 +109,8 @@ public class ImportCommandTest {
         // check CommandResult
         assertEquals(result.feedbackToUser, String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, 1));
         // check Model
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         expectedModel.addPerson(TypicalPersons.HOON);
         assertEquals(command.model, expectedModel);
     }
@@ -119,8 +121,9 @@ public class ImportCommandTest {
     private ImportCommand prepareCommand(String filePath) {
         ImportCommand command = new ImportCommand(filePath);
         // typical address model consists of ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE
-        command.setData(new ModelManager(getTypicalAddressBook(), new UserPrefs()),
-            new CommandHistory(), new UndoRedoStack());
+        Model typicalAddressBookModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+        typicalAddressBookModel.getUserCreds().validateCurrentSession(); // validate user
+        command.setData(typicalAddressBookModel, new CommandHistory(), new UndoRedoStack());
         return command;
     }
 
@@ -128,6 +131,8 @@ public class ImportCommandTest {
      * Asserts if executing the given command throws {@code CommandException} with {@code exceptionMessage}.
      */
     private void assertCommandException(ImportCommand command, String exceptionMessage) {
+        model.getUserCreds().validateCurrentSession(); // validate user
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
         try {
             command.executeUndoableCommand();
         } catch (CommandException ce) {
