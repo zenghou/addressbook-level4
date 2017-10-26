@@ -36,6 +36,7 @@ public class ExportCommandSystemTest extends AddressBookSystemTest {
     public void export() throws Exception {
         String testFile = testFolder.getRoot().getPath() + "TestFile.xml";
         Model model = getModel();
+        model.getUserCreds().validateCurrentSession(); // validate user
 
         /* ----------------- Performing export operation while an unfiltered list is being shown -------------------- */
 
@@ -196,6 +197,7 @@ public class ExportCommandSystemTest extends AddressBookSystemTest {
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage,
                                       Index expectedSelectedCardIndex) {
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         executeCommand(command);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
