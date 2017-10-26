@@ -105,12 +105,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateUserCreds() {
+    public synchronized void updateUserCreds() {
         indicateUserCredsChanged();
     }
 
     /** Raises an event to indicate the UserCreds has changed */
-    private void indicateUserCredsChanged() {
+    private synchronized void indicateUserCredsChanged() {
         raise(new UserCredsChangedEvent());
     }
 
