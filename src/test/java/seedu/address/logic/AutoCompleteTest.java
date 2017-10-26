@@ -200,7 +200,7 @@ public class AutoCompleteTest {
     }
 
     @Test
-    public void autoCompleteRemark_invalidIndex_trimWhitespaces() {
+    public void autoCompleteRemark_invalidIndex_trimNonDigitChars() {
         String command = "remark aa1,1a";
         String expected = "remark 11 ";
         assertAutoComplete(command, expected);

@@ -156,8 +156,8 @@ public class AutoComplete {
         Pattern exportPattern = Pattern.compile("(?<possibleIndexList>.[^;]);(?<possibleFilePath>.*)");
         Matcher matcher = exportPattern.matcher(args);
 
-        String possibleIndexListString = "";
-        String possibleFilePath = "";
+        String possibleIndexListString;
+        String possibleFilePath;
         if (matcher.matches()) { // contains delimiter ";"
             possibleIndexListString = matcher.group("possibleIndexList");
             possibleFilePath = matcher.group("possibleFilePath");
@@ -168,7 +168,7 @@ public class AutoComplete {
         }
 
         // format Index List
-        possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s)+|(,)+"))
+        possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s|,)+"))
             .map(AutoComplete::formatSingleIndexString).filter(p -> !p.isEmpty()).collect(Collectors.joining(", "));
 
         // format file path
@@ -266,7 +266,7 @@ public class AutoComplete {
     }
 
     /**
-     * Formats the arguments into " PREFIX/ARGS" form.
+     * Formats the arguments into "PREFIX/ARGS" form. If the argument is invalid, it will be dropped.
      */
     private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, final Prefix prefix) {
         try {
@@ -277,8 +277,8 @@ public class AutoComplete {
     }
 
     /**
-     * Formats the argument into " PREFIX/ARGS" form. If the {@code ArgumentMultimap} does not contain the field,
-     * replace the argument with {@code ReadOnlyPerson}'s corresponding field.
+     * Formats the argument into "PREFIX/ARGS" form. If the {@code ArgumentMultimap} does not contain the field
+     * or the argument is invalid, replace the argument with {@code ReadOnlyPerson}'s corresponding field.
      */
     private static String formatPrefixWithArgs(ArgumentMultimap argMultimap, Prefix prefix, ReadOnlyPerson person) {
         String prefixWithArgs = formatPrefixWithArgs(argMultimap, prefix);
@@ -321,6 +321,7 @@ public class AutoComplete {
 
     /**
      * @return the corresponding field of a {@code ReadOnlyPerson} based on a {@code Prefix}.
+     * If there are multiple values in one field, they will be separated by a space.
      */
     private static String getPersonFieldOfPrefix(ReadOnlyPerson person, Prefix prefix) {
         requireNonNull(person);
@@ -352,10 +353,11 @@ public class AutoComplete {
     }
 
     /**
-     * Returns the suggested commands.
+     * Formats the suggestion {@code String} of possible commands.
      */
     private static String promptForPossibleCommand(List<String> possibleCommands) {
-        return "Do you mean: " + possibleCommands.stream().collect(Collectors.joining(" or ")) + " ?";
+        String suggestionFormat = "Do you mean: %1$s ?";
+        return String.format(suggestionFormat, possibleCommands.stream().collect(Collectors.joining(" or ")));
     }
 
     /**
@@ -376,7 +378,8 @@ public class AutoComplete {
      */
     private static List<String> fuzzyMatches(String[] tests, String tester) {
         HashSet<String> bestMatchesSet = new HashSet<>();
-        bestMatchesSet.addAll(Arrays.stream(tests).filter(p -> levenshteinDistance(tester, p) <= (p.length() / 2))
+        bestMatchesSet.addAll(Arrays.stream(tests)
+            .filter(p -> levenshteinDistance(tester, p) <= (p.length() / 2)) // fuzzy match cut-off
             .collect(Collectors.toList()));
         List<String> bestMatches = new ArrayList<>();
         bestMatches.addAll(bestMatchesSet);
@@ -389,11 +392,9 @@ public class AutoComplete {
     private static int levenshteinDistance(String s, String t) {
         if (s.length() == 0) {
             return t.length();
-        }
-        if (t.length() == 0) {
+        } else if (t.length() == 0) {
             return s.length();
-        }
-        if (s.charAt(0) == t.charAt(0)) {
+        } else if (s.charAt(0) == t.charAt(0)) {
             return levenshteinDistance(s.substring(1), t.substring(1));
         }
         int substitute = levenshteinDistance(s.substring(1), t.substring(1));
