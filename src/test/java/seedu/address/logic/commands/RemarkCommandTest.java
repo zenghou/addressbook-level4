@@ -31,6 +31,19 @@ public class RemarkCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
     @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+        RemarkCommand remarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(TEST_REMARK));
+
+        remarkCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(remarkCommand, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
+
+    @Test
     public void execute_executeUndoableCommand_throwsCommandException() throws CommandException {
         model.getUserCreds().validateCurrentSession(); // validate user
         Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);

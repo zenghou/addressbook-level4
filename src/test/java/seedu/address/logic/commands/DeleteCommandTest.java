@@ -30,6 +30,16 @@ public class DeleteCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
     @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+        assertCommandFailure(prepareCommand(INDEX_FIRST_PERSON), userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
+
+    @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
         model.getUserCreds().validateCurrentSession(); // validate user
         ReadOnlyPerson personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());

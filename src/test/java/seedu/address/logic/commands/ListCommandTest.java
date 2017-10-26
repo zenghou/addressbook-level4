@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showFirstPersonOnly;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -34,6 +35,18 @@ public class ListCommandTest {
         listCommand.setData(model, new CommandHistory(), new UndoRedoStack());
     }
 
+    @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+        ListCommand listCommand = new ListCommand();
+
+        listCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(listCommand, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
         assertCommandSuccess(listCommand, model, ListCommand.MESSAGE_SUCCESS, expectedModel);

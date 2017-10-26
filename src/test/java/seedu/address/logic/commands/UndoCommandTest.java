@@ -35,6 +35,18 @@ public class UndoCommandTest {
     }
 
     @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+
+        deleteCommandOne.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(deleteCommandOne, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
+
+    @Test
     public void execute() throws Exception {
         model.getUserCreds().validateCurrentSession(); // validate user
         UndoRedoStack undoRedoStack = prepareStack(

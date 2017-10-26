@@ -39,6 +39,21 @@ public class EditCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
     @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Person editedPerson = new PersonBuilder().build();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+        Command cmd = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+        cmd.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(cmd, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
+
+    @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() throws Exception {
         model.getUserCreds().validateCurrentSession(); // validate user
         Person editedPerson = new PersonBuilder().build();

@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Rule;
@@ -35,6 +36,21 @@ public class ImportCommandTest {
     public TemporaryFolder testFolder = new TemporaryFolder();
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+
+    @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+
+        String filePath = "SomeFile.xml";
+        ImportCommand importCommand = new ImportCommand(filePath);
+
+        importCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(importCommand, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
 
     @Test
     public void equals() {

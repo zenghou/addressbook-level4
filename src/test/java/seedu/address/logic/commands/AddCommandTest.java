@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -27,6 +29,7 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -38,6 +41,20 @@ public class AddCommandTest {
     public void constructor_nullPerson_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new AddCommand(null);
+    }
+
+    @Test
+    public void execute_invalidUser_failure() throws Exception {
+        Model model = new ModelManager();
+        Person validPerson = new PersonBuilder().build();
+
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+        Command cmd = new AddCommand(validPerson);
+        cmd.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(cmd, userCredsNotValidatedModel, userNotLoggedInMessage);
     }
 
     @Test

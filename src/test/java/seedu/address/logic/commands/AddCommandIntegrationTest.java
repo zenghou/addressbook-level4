@@ -30,11 +30,22 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
+    public void execute_invalidUser_failure() throws Exception {
+        Person validPerson = new PersonBuilder().build();
+
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+        assertCommandFailure(prepareCommand(validPerson, userCredsNotValidatedModel), userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
+
+    @Test
     public void execute_newPerson_success() throws Exception {
         Person validPerson = new PersonBuilder().build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         expectedModel.addPerson(validPerson);
 
         assertCommandSuccess(prepareCommand(validPerson, model), model,

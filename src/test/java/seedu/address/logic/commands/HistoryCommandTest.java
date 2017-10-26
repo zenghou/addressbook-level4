@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +12,8 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
 
 public class HistoryCommandTest {
     private HistoryCommand historyCommand;
@@ -22,6 +26,20 @@ public class HistoryCommandTest {
         history = new CommandHistory();
         historyCommand = new HistoryCommand();
         historyCommand.setData(model, history, new UndoRedoStack());
+    }
+
+    @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+
+        HistoryCommand historyCommand = new HistoryCommand();
+
+        historyCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(historyCommand, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
     }
 
     @Test

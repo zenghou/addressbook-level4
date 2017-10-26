@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.showFirstPersonOnly;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -46,6 +47,22 @@ public class ExportCommandTest {
      * Typical address model consists of ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE
      */
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+
+    @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+
+        List<Index> indexes = Arrays.asList(Index.fromOneBased(1), Index.fromOneBased(2));
+        String filePath = "TestFile.xml";
+        ExportCommand exportCommand = new ExportCommand(indexes, filePath);
+
+        exportCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(exportCommand, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
 
     @Test
     public void equals() {

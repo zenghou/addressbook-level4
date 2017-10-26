@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -13,6 +14,16 @@ import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 
 public class ClearCommandTest {
+
+    @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+        assertCommandFailure(prepareCommand(userCredsNotValidatedModel), userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
 
     @Test
     public void execute_emptyAddressBook_success() {
