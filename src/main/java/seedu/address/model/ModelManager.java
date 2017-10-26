@@ -115,13 +115,12 @@ public class ModelManager extends ComponentManager implements Model {
     private synchronized void indicateUserCredsChanged() {
         raise(new UserCredsChangedEvent());
     }
-  
+
     @Override
     public void sortPersonList(Comparator<ReadOnlyPerson> comparator, boolean isReversed)
             throws EmptyPersonListException {
         addressBook.sortPerson(comparator, isReversed);
     }
-  
     //=========== Filtered Person List Accessors =============================================================
 
     /**
