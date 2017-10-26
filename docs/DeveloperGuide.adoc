@@ -418,6 +418,35 @@ image::ImportCommandSequenceDiagram.png[width="800"]
 **Cons:** Cannot tell the `DuplicatedPersonException` is caused by persons in file or in address book +
 // end::exportimport[]
 
+=== User Login
+
+We are currently using a simple authenticating method to validate users. In summary, the user's username and password would be compared to the username and password stored in a file called `credentials.json`. More precisely, the password is stored as a hash value, using Java's `String#hashCode()` method to prevent the password from being openly stored.
+
+Before the user is logged in, the user would not be able to execute any commands. In this version, the user is still able to view the loaded list of contacts. In V1.4, the addressbook will not be loaded until the user is logged in.
+
+* Mechanism *
+
+A `LoginCommandParser` parses a user's username and password, and returns a `LoginCommand`. The username and password entered by the user would be encapsulated in a class `UserCreds`, which is a private attribute in the `LoginCommand`. When the `execute` method is called, the `UserCreds` attribute in the `LoginCommand` would be compared against the `UserCreds` in the model. The model gets `UserCreds` attribute by reading the JSON file `credentials.json`.
+
+Upon successful authentication, the attribute `isValidated` in the model's `UserCreds` would be flagged to true. This change of attribute in `UserCreds` would be raised as an event called `indicateUserCredsChanged`. In version V1.4, this event would be transmitted using Google's Event Bus to the UiManager, which will have a handler to make the necessary adjustments to the UI in response to the event.
+
+Once the user is logged in, every `Command` will check if the current user is validated using `model#getUserCreds()#isValidatedSession()`. If the result is true, the `Command` will be executed. Otherwise, a `CommandException` will be thrown.
+
+=== Design Consideration
+
+**Aspect:** Using an external library for more secure authentication
+**Alternative 1 (current choice):**: Validate a user by checking username and password (hasCode) stored in json file.
+**Alternative 2:**: Use an external library such as Apache Shiro.
+**Pros:** Simple authentication without external libraries. Allows for quick iteration.
+**Cons: **Primitive authentication which does not provide good security. Password hash can be cracked to reveal original password. JSON file is also susceptible to manipulations, which may alter the user's saved username and password.
+
+**Aspect** Changes to the GUI
+**Alternative 1 (current choice):** Allows users to view addressbook as it automatically loads.
+**Alternative 2:** Hides all panels except for CommandBox and ResultDisplay. Reveal other panels (e.g. PersonList) once user is logged in.
+**Alternative 3:** Show all panles, but only load addressbook once user is logged in.
+**Pros:** No changes needed for GUI
+**Cons:** Unauthorized users are still able to view the contact list, which may not be desirable
+
 === Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
