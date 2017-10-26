@@ -35,6 +35,11 @@ public interface Model {
     UserCreds getUserCreds();
 
     /**
+     * Indicates that isValidated attribute in UserCreds has to true.
+     */
+    void updateUserCreds();
+
+    /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      *
      * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to

@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.UserCredsChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -31,13 +32,14 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<ReadOnlyPerson> filteredPersons;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, userPrefs and userCreds.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs, UserCreds userCreds) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with address book: " + addressBook + ", user prefs " + userPrefs
+                + " and user creds " + userCreds);
 
         this.addressBook = new AddressBook(addressBook);
         this.userCreds = userCreds;
@@ -100,6 +102,16 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized UserCreds getUserCreds() {
         return userCreds;
+    }
+
+    @Override
+    public void updateUserCreds() {
+        indicateUserCredsChanged();
+    }
+
+    /** Raises an event to indicate the UserCreds has changed */
+    private void indicateUserCredsChanged() {
+        raise(new UserCredsChangedEvent());
     }
 
     //=========== Filtered Person List Accessors =============================================================
