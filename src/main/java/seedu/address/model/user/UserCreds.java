@@ -68,7 +68,7 @@ public class UserCreds {
 
     @Override
     public String toString() {
-        return "User Credentials should not be printed out";
+        return "User: " + username;
     }
 
     @Override
