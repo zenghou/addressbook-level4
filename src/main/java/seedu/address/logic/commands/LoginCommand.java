@@ -18,6 +18,7 @@ public class LoginCommand extends Command {
             + PREFIX_PASSWORD + "PASSWORD ";
 
     public static final String MESSAGE_SUCCESS = "Successfully logged in!";
+    public static final String MESSAGE_FAILURE = "Please ensure that username and password are entered correctly!";
 
     private UserCreds userCreds;
 
@@ -28,14 +29,14 @@ public class LoginCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
-        UserCreds savedUserCreds = model.getUserCreds();
-        boolean isVerifiedUser = UserCreds.isValidUser(userCreds, savedUserCreds);
+        UserCreds userCredsInModel = model.getUserCreds();
+        boolean isVerifiedUser = UserCreds.isValidUser(userCreds, userCredsInModel);
         if (isVerifiedUser) {
             model.updateUserCreds();
-            savedUserCreds.validateCurrentSession();
+            userCredsInModel.validateCurrentSession();
             return new CommandResult(MESSAGE_SUCCESS);
         }
-        throw new CommandException("Please ensure that username and password are entered correctly!");
+        throw new CommandException(MESSAGE_FAILURE);
     }
 
     @Override
