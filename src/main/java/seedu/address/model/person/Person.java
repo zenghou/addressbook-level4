@@ -22,18 +22,20 @@ public class Person implements ReadOnlyPerson {
     private ObjectProperty<Phone> phone;
     private ObjectProperty<Email> email;
     private ObjectProperty<Address> address;
+    private ObjectProperty<Birthday> birthday;
     private ObjectProperty<UniqueTagList> tags;
     private ObjectProperty<Remark> remark;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Person(Name name, Phone phone, Email email, Address address, Birthday birthday, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, birthday, tags);
         this.name = new SimpleObjectProperty<>(name);
         this.phone = new SimpleObjectProperty<>(phone);
         this.email = new SimpleObjectProperty<>(email);
         this.address = new SimpleObjectProperty<>(address);
+        this.birthday = new SimpleObjectProperty<>(birthday);
         // protect internal tags from changes in the arg list
         this.tags = new SimpleObjectProperty<>(new UniqueTagList(tags));
         this.remark = new SimpleObjectProperty<>(new Remark(""));
@@ -43,7 +45,7 @@ public class Person implements ReadOnlyPerson {
      * Creates a copy of the given ReadOnlyPerson.
      */
     public Person(ReadOnlyPerson source) {
-        this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(),
+        this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getBirthday(),
                 source.getTags());
         this.remark = new SimpleObjectProperty<>(source.getRemark());
     }
@@ -103,6 +105,14 @@ public class Person implements ReadOnlyPerson {
     public Address getAddress() {
         return address.get();
     }
+
+    @Override
+    public ObjectProperty<Birthday> birthdayProperty() { return birthday; }
+
+    @Override
+    public Birthday getBirthday() { return birthday.get(); }
+
+    public void setBirthday(Birthday birthday) { this.birthday.set(birthday); }
 
     @Override
     public void setRemark(Remark remark) {
