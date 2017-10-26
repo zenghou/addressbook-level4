@@ -1,7 +1,5 @@
 package seedu.address.ui;
 
-import static seedu.address.logic.AutoComplete.autoComplete;
-
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -115,7 +113,7 @@ public class CommandBox extends UiPart<Region> {
             initHistory();
             // handle command failure
             logger.info("Invalid command: " + commandTextField.getText());
-            commandTextField.setText(autoComplete(commandTextField.getText(), logic.getFilteredPersonList()));
+            commandTextField.setText(logic.autoCompleteCommand(commandTextField.getText()));
             setStyleToIndicateCommandFailure();
             raise(new NewResultAvailableEvent(e.getMessage()));
         }
