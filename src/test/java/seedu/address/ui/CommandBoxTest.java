@@ -28,6 +28,7 @@ public class CommandBoxTest extends GuiUnitTest {
     @Before
     public void setUp() {
         Model model = new ModelManager();
+        model.getUserCreds().validateCurrentSession(); // validate user
         Logic logic = new LogicManager(model);
 
         CommandBox commandBox = new CommandBox(logic);

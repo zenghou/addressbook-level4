@@ -59,6 +59,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
     @Test
     public void add() throws Exception {
         Model model = getModel();
+        model.getUserCreds().validateCurrentSession(); // validate user
         /* Case: add a person without tags to a non-empty address book, command with leading spaces and trailing spaces
          * -> added
          */
@@ -207,6 +208,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
      */
     private void assertCommandSuccess(String command, ReadOnlyPerson toAdd) {
         Model expectedModel = getModel();
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         try {
             expectedModel.addPerson(toAdd);
         } catch (DuplicatePersonException dpe) {
@@ -224,6 +226,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
      * @see AddCommandSystemTest#assertCommandSuccess(String, ReadOnlyPerson)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         executeCommand(command);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
@@ -242,6 +245,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
      */
     private void assertCommandFailure(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
 
         executeCommand(command);
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
