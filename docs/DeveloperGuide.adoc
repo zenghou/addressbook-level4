@@ -378,6 +378,46 @@ After a `SearchCommand` is returned to the `LogicManager`, it will be executed. 
 **Pros:** Easier for developers to override and add methods +
 **Cons:** Internal attributes are of different types and it might be more cumbersome to manipulate the data type.
 
+// tag::exportimport[]
+=== Export/Import mechanism
+
+We are using XML file to export and import data in address book. Export and Import are designed to allow users to share contacts with each other or synchronize their data in different devices. A list of persons with all information will be written into a specified file in XML format in `export` command. And `import` command will be able to read the file generate, and add the person list into the address book.
+
+`export` command accepts a list of indexes and a file path. (e.g. `export INDEXES;FILE_PATH`) The arguments will be passed to `ExportCommandParser#parse()` method, which will parse two parameters and create a `ExportCommand` object. Then `execute()` will be called by `LogicManager` after setting the address book data.
+
+A `List<ReadOnlyPerson>` is created by mapping the indexes and `filteredPersonList` in `Model`, and then saved using `PersonListStorage#savePersonList()`. The `PersonListStorage` interface is implemented by `XmlPersonListStorage`, where the `Person` is mapped to `XmlAdaptedPerson` and stored in `XmlSerializablePersonList`. Then the XML `Marshaller` writes all data into the file specified.
+
+The following sequence diagram shows how the export operation works:
+
+image::ExportCommandSequenceDiagram.png[width="800"]
+
+When `import` command is entered, the XML `Unmarshaller` will read the file and return a `XmlSerializablePersonList` object that contains the Person List. The the List is internally converted to a `UniquePersonList` by `XmlSerializablePersonList#getPersons()`, and returned to `ImportCommand`. Then the `Person`s are added to the address book sequentially by `Model#addPerson(Person)`.
+
+The following sequence diagram shows how the import operation works:
+
+image::ImportCommandSequenceDiagram.png[width="800"]
+
+==== Design Consideration
+
+**Aspect** Format of export file +
+**Alternative 1 (current choice):** Use XML format +
+**Pros:** XML format are currently used for saving the address book, so the save method has already been implemented +
+**Cons:** Person list need to be transformed to a XML root class while saving and transformed back while reading file +
+**Alternative 2:** Save add command as plan text +
+**Pros:** Generating command is easy and can be directly used +
+**Cons:** Needs to implement new file writer and reader +
+
+---
+
+**Aspect** The return type of `XmlPersonListStorage#readPersonList()` +
+**Alternative 1 (current choice):** Use `UniquePersonList` +
+**Pros:** The persons are unique when adding to address book +
+**Cons:** Needs to handle exception when encounter duplicated persons in the file +
+**Alternative 2:** Use `List<ReadOnlyPerson>` +
+**Pros:** Has no need to worry about reading the file +
+**Cons:** Cannot tell the `DuplicatedPersonException` is caused by persons in file or in address book +
+// end::exportimport[]
+
 === Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.

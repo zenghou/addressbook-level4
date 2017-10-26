@@ -48,7 +48,7 @@ public class XmlPersonListStorage implements PersonListStorage {
         File file = new File(filePath);
         if (!file.exists()) {
             logger.info("PersonList file " + filePath + " not found");
-            return Optional.empty();
+            throw new FileNotFoundException();
         }
         UniquePersonList persons;
         try {
