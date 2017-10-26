@@ -16,18 +16,18 @@ public class SortCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "sort";
     public static final String REVERSE_SEQUENCE = "reverse";
 
-    public static final String PREFIX_NAME = "n/";
-    public static final String PREFIX_PHONE = "p/";
+    public static final String PREFIX_NAME = "name";
+    public static final String PREFIX_PHONE = "phone";
 
     public static final String MESSAGE_SUCCESS = "list sorted by %1$s in %2$s order!";
     public static final String MESSAGE_PERSONS_LIST_EMPTY = "The list is empty!";
     public static final String MESSAGE_MULTIPLE_ATTRIBUTE_ERROR = "Only accepts one attribute!";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": sort the person list in ascending or descending order according to the prefix specified.\n"
+            + ": sort the person list in ascending or descending order according to the attribute specified.\n"
             + "Parameters: "
-            + "[PREFIX/[reverse]]\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + REVERSE_SEQUENCE;
+            + "[attribute [reverse]]\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + " " + REVERSE_SEQUENCE;
 
     private final String attribute;
     private final boolean isReversed;

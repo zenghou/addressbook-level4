@@ -3,7 +3,9 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_FOR_SORTING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_FOR_SORTING;
 
 import java.util.function.Consumer;
 
@@ -25,7 +27,7 @@ public class SortCommandParser implements Parser<SortCommand> {
     public SortCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME_FOR_SORTING, PREFIX_PHONE_FOR_SORTING);
 
         if (argMultimap.size() > 2) {
             throw new ParseException(
@@ -41,11 +43,11 @@ public class SortCommandParser implements Parser<SortCommand> {
         }
 
         if (argMultimap.size() == 1) {
-            attribute = PREFIX_NAME.getPrefix();
+            attribute = PREFIX_NAME_FOR_SORTING.getPrefix();
         }
 
-        argMultimap.getValue(PREFIX_NAME).ifPresent(setOrder(PREFIX_NAME));
-        argMultimap.getValue(PREFIX_PHONE).ifPresent(setOrder(PREFIX_PHONE));
+        argMultimap.getValue(PREFIX_NAME_FOR_SORTING).ifPresent(setOrder(PREFIX_NAME_FOR_SORTING));
+        argMultimap.getValue(PREFIX_PHONE_FOR_SORTING).ifPresent(setOrder(PREFIX_PHONE_FOR_SORTING));
 
         return new SortCommand(attribute, isReversed);
     }
