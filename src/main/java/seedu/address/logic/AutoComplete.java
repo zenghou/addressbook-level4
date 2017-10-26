@@ -129,7 +129,7 @@ public class AutoComplete {
             index = ParserUtil.parseIndex(indexString);
         } catch (IllegalValueException ive) {
             // if the index is invalid
-            String restArgs = args.substring(indexString.length() + 1).trim();
+            String restArgs = args.replace(indexString, "").trim();
             return EditCommand.COMMAND_WORD + " " + formatSingleIndexString(indexString) + " " + restArgs;
         }
 

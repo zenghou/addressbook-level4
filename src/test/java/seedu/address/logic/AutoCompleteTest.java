@@ -126,7 +126,7 @@ public class AutoCompleteTest {
         command = "edit a1,1a ";
         assertAutoComplete(command, expected);
 
-        command = "edit a1a1a n/Some Name";
+        command = "    edit   a1a 1   a    n/Some Name";
         expected = "edit 11 n/Some Name";
         assertAutoComplete(command, expected);
     }
