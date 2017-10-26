@@ -432,19 +432,21 @@ Upon successful authentication, the attribute `isValidated` in the model's `User
 
 Once the user is logged in, every `Command` will check if the current user is validated using `model#getUserCreds()#isValidatedSession()`. If the result is true, the `Command` will be executed. Otherwise, a `CommandException` will be thrown.
 
-=== Design Consideration
+==== Design Consideration
 
-**Aspect:** Using an external library for more secure authentication
-**Alternative 1 (current choice):**: Validate a user by checking username and password (hasCode) stored in json file.
-**Alternative 2:**: Use an external library such as Apache Shiro.
-**Pros:** Simple authentication without external libraries. Allows for quick iteration.
-**Cons: **Primitive authentication which does not provide good security. Password hash can be cracked to reveal original password. JSON file is also susceptible to manipulations, which may alter the user's saved username and password.
+**Aspect:** Using an external library for more secure authentication +
+**Alternative 1 (current choice):**: Validate a user by checking username and password (hasCode) stored in json file. +
+**Alternative 2:**: Use an external library such as Apache Shiro. +
+**Pros:** Simple authentication without external libraries. Allows for quick iteration. +
+**Cons: **Primitive authentication which does not provide good security. Password hash can be cracked to reveal original password. JSON file is also susceptible to manipulations, which may alter the user's saved username and password. +
 
-**Aspect** Changes to the GUI
-**Alternative 1 (current choice):** Allows users to view addressbook as it automatically loads.
-**Alternative 2:** Hides all panels except for CommandBox and ResultDisplay. Reveal other panels (e.g. PersonList) once user is logged in.
-**Alternative 3:** Show all panles, but only load addressbook once user is logged in.
-**Pros:** No changes needed for GUI
+---
+
+**Aspect** Changes to the GUI +
+**Alternative 1 (current choice):** Allows users to view addressbook as it automatically loads. +
+**Alternative 2:** Hides all panels except for CommandBox and ResultDisplay. Reveal other panels (e.g. PersonList) once user is logged in. +
+**Alternative 3:** Show all panles, but only load addressbook once user is logged in. +
+**Pros:** No changes needed for GUI +
 **Cons:** Unauthorized users are still able to view the contact list, which may not be desirable
 
 === Logging
