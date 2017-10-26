@@ -1,8 +1,8 @@
 package seedu.address.storage;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +50,9 @@ public class XmlPersonListStorageTest {
     }
 
     @Test
-    public void read_missingFile_emptyResult() throws Exception {
-        assertFalse(readPersonList("MissingFile.xml").isPresent());
+    public void read_missingFile_throwsFileNotFoundException() throws Exception {
+        thrown.expect(FileNotFoundException.class);
+        readPersonList("MissingFile.xml");
     }
 
     @Test
