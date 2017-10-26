@@ -36,7 +36,7 @@ public class RedoCommandTest {
 
     @Test
     public void execute() {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         UndoRedoStack undoRedoStack = prepareStack(
                 Collections.emptyList(), Arrays.asList(deleteCommandTwo, deleteCommandOne));
         RedoCommand redoCommand = new RedoCommand();

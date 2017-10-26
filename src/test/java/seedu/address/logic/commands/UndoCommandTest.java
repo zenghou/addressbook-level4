@@ -36,7 +36,7 @@ public class UndoCommandTest {
 
     @Test
     public void execute() throws Exception {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         UndoRedoStack undoRedoStack = prepareStack(
                 Arrays.asList(deleteCommandOne, deleteCommandTwo), Collections.emptyList());
         UndoCommand undoCommand = new UndoCommand();
@@ -46,7 +46,7 @@ public class UndoCommandTest {
 
         // multiple commands in undoStack
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
-        expectedModel.getUserCreds().validateCurrentSession();// validate user
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         deleteFirstPerson(expectedModel);
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 

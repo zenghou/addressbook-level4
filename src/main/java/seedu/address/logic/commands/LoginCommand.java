@@ -19,13 +19,14 @@ public class LoginCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Successfully logged in!";
 
-    UserCreds userCreds;
+    private UserCreds userCreds;
 
     public LoginCommand(String username, String password) {
         this.userCreds = new UserCreds(username, password);
 
     }
 
+    @Override
     public CommandResult execute() throws CommandException {
         UserCreds savedUserCreds = model.getUserCreds();
         boolean isVerifiedUser = UserCreds.isValidUser(userCreds, savedUserCreds);
@@ -37,6 +38,7 @@ public class LoginCommand extends Command {
         throw new CommandException("Please ensure that username and password are entered correctly!");
     }
 
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof LoginCommand // instanceof handles nulls

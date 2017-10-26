@@ -42,7 +42,7 @@ public class SelectCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         Index lastPersonIndex = Index.fromOneBased(model.getFilteredPersonList().size());
 
         assertExecutionSuccess(INDEX_FIRST_PERSON);
@@ -52,7 +52,7 @@ public class SelectCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_failure() {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
 
         assertExecutionFailure(outOfBoundsIndex, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -60,7 +60,7 @@ public class SelectCommandTest {
 
     @Test
     public void execute_validIndexFilteredList_success() {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         showFirstPersonOnly(model);
 
         assertExecutionSuccess(INDEX_FIRST_PERSON);
@@ -68,7 +68,7 @@ public class SelectCommandTest {
 
     @Test
     public void execute_invalidIndexFilteredList_failure() {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         showFirstPersonOnly(model);
 
         Index outOfBoundsIndex = INDEX_SECOND_PERSON;
@@ -124,7 +124,7 @@ public class SelectCommandTest {
      * is thrown with the {@code expectedMessage}.
      */
     private void assertExecutionFailure(Index index, String expectedMessage) {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         SelectCommand selectCommand = prepareCommand(index);
 
         try {
@@ -140,7 +140,7 @@ public class SelectCommandTest {
      * Returns a {@code SelectCommand} with parameters {@code index}.
      */
     private SelectCommand prepareCommand(Index index) {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         SelectCommand selectCommand = new SelectCommand(index);
         selectCommand.setData(model, new CommandHistory(), new UndoRedoStack());
         return selectCommand;

@@ -27,10 +27,10 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.user.UserCreds;
-import seedu.address.model.user.UserPrefs;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
 import seedu.address.storage.XmlPersonListStorage;
 
 //TODO: the export command test depends on Storage part. Consider separation of components.
@@ -141,7 +141,7 @@ public class ExportCommandTest {
      * @return an {@code ExportCommand} with parameters {@code indexes} and {@code filePath}
      */
     private ExportCommand prepareCommand(Integer[] indexesInt, String filePath) {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         List<Index> indexes = Arrays.stream(indexesInt).map(Index::fromOneBased).collect(Collectors.toList());
         ExportCommand export = new ExportCommand(indexes, filePath);
         export.setData(this.model, new CommandHistory(), new UndoRedoStack());

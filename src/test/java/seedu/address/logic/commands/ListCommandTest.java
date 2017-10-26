@@ -26,9 +26,9 @@ public class ListCommandTest {
     @Before
     public void setUp() {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        expectedModel.getUserCreds().validateCurrentSession();// validate user
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
 
         listCommand = new ListCommand();
         listCommand.setData(model, new CommandHistory(), new UndoRedoStack());

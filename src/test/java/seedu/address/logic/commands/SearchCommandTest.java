@@ -19,10 +19,11 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.user.UserCreds;
-import seedu.address.model.user.UserPrefs;
 import seedu.address.model.person.DetailsContainKeyphrasePredicate;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
+
 
 public class SearchCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
@@ -57,7 +58,7 @@ public class SearchCommandTest {
      * Parses {@code userInput} into a {@code SearchCommand}.
      */
     private SearchCommand prepareCommand(String userInput) {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         String preppedInput = userInput.trim();
         SearchCommand command =
                 new SearchCommand(new DetailsContainKeyphrasePredicate(preppedInput));
@@ -72,7 +73,7 @@ public class SearchCommandTest {
      *     - the {@code AddressBook} in model remains the same after executing the {@code command}
      */
     private void assertCommandSuccess(SearchCommand command, String expectedMessage, List<ReadOnlyPerson> expected) {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         AddressBook expectedAddressBook = new AddressBook(model.getAddressBook());
         try {
             CommandResult commandResult = command.execute();

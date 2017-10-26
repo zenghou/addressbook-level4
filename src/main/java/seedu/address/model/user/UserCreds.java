@@ -50,7 +50,7 @@ public class UserCreds {
     /**
      * Takes in a new String {@code password} and updates the passwordHash
      */
-    public void updatePassword(String newPassword){
+    public void updatePassword(String newPassword) {
         passwordHash = newPassword.hashCode();
     }
 

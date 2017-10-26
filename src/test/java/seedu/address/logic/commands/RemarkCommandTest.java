@@ -19,10 +19,10 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.user.UserCreds;
-import seedu.address.model.user.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
+import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
 import seedu.address.testutil.PersonBuilder;
 
 public class RemarkCommandTest {
@@ -32,7 +32,7 @@ public class RemarkCommandTest {
 
     @Test
     public void execute_executeUndoableCommand_throwsCommandException() throws CommandException {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         RemarkCommand remarkCommand = prepareCommand(outOfBoundsIndex, new Remark(TEST_REMARK));
 
@@ -84,7 +84,7 @@ public class RemarkCommandTest {
      * Returns a {@code RemarkCommand} with the parameter {@code index and remark}.
      */
     private RemarkCommand prepareCommand(Index index, Remark rmk) {
-        model.getUserCreds().validateCurrentSession();// validate user
+        model.getUserCreds().validateCurrentSession(); // validate user
         RemarkCommand remarkCommand = new RemarkCommand(index, rmk);
         remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
         return remarkCommand;

@@ -15,6 +15,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class LoginCommandParser implements Parser<LoginCommand> {
 
+    @Override
     public LoginCommand parse(String userInput) throws ParseException {
         requireNonNull(userInput);
         ArgumentMultimap argumentMultimap = ArgumentTokenizer.tokenize(userInput, PREFIX_USERNAME, PREFIX_PASSWORD);
