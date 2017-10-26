@@ -21,7 +21,6 @@ import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.commons.util.FxViewUtil;
 import seedu.address.logic.Logic;
-import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 
 /**
@@ -45,7 +44,6 @@ public class MainWindow extends UiPart<Region> {
     private PersonListPanel personListPanel;
     private Config config;
     private UserPrefs prefs;
-    private UserCreds creds;
 
     @FXML
     private StackPane browserPlaceholder;
@@ -65,7 +63,7 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     private StackPane statusbarPlaceholder;
 
-    public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic, UserCreds creds) {
+    public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
         super(FXML);
 
         // Set dependencies
@@ -73,7 +71,6 @@ public class MainWindow extends UiPart<Region> {
         this.logic = logic;
         this.config = config;
         this.prefs = prefs;
-        this.creds = creds;
 
         // Configure the UI
         setTitle(config.getAppTitle());
