@@ -5,6 +5,7 @@
         <phone>11111111</phone>
         <email>amy@example.com</email>
         <address>Block 312, Amy Street 1</address>
+        <birthday>2000/10/10</birthday>
         <remark></remark>
         <tagged>friend</tagged>
     </persons>
