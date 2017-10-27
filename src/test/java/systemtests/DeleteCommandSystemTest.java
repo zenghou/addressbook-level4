@@ -33,6 +33,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: delete the first person in the list, command with leading spaces and trailing spaces -> deleted */
         Model expectedModel = getModel();
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         String command = "     " + DeleteCommand.COMMAND_WORD + "      " + INDEX_FIRST_PERSON.getOneBased() + "       ";
         ReadOnlyPerson deletedPerson = removePerson(expectedModel, INDEX_FIRST_PERSON);
         String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPerson);
@@ -40,6 +41,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: delete the last person in the list -> deleted */
         Model modelBeforeDeletingLast = getModel();
+        modelBeforeDeletingLast.getUserCreds().validateCurrentSession(); // validate user
         Index lastPersonIndex = getLastIndex(modelBeforeDeletingLast);
         assertCommandSuccess(lastPersonIndex);
 
@@ -79,6 +81,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         /* Case: delete the selected person -> person list panel selects the person before the deleted person */
         showAllPersons();
         expectedModel = getModel();
+
         Index selectedIndex = getLastIndex(expectedModel);
         Index expectedIndex = Index.fromZeroBased(selectedIndex.getZeroBased() - 1);
         selectPerson(selectedIndex);
@@ -118,6 +121,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
      * @return the removed person
      */
     private ReadOnlyPerson removePerson(Model model, Index index) {
+        model.getUserCreds().validateCurrentSession(); // validate user
         ReadOnlyPerson targetPerson = getPerson(model, index);
         try {
             model.deletePerson(targetPerson);
@@ -134,6 +138,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
      */
     private void assertCommandSuccess(Index toDelete) {
         Model expectedModel = getModel();
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         ReadOnlyPerson deletedPerson = removePerson(expectedModel, toDelete);
         String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPerson);
 
@@ -154,6 +159,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
      * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         assertCommandSuccess(command, expectedModel, expectedResultMessage, null);
     }
 
@@ -165,6 +171,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage,
             Index expectedSelectedCardIndex) {
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         executeCommand(command);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
 
@@ -191,6 +198,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
      */
     private void assertCommandFailure(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
 
         executeCommand(command);
         assertApplicationDisplaysExpected(

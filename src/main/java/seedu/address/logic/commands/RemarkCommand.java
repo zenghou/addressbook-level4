@@ -47,6 +47,12 @@ public class RemarkCommand extends UndoableCommand {
 
     @Override
     protected CommandResult executeUndoableCommand() throws CommandException {
+        // check if user is validated
+        if (!model.getUserCreds().isValidSession()) {
+            throw new CommandException("Invalid session! Please log in first! \n"
+                    + LoginCommand.MESSAGE_USAGE);
+        }
+
         List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {

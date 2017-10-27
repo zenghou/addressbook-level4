@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -15,15 +16,31 @@ import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.person.DetailsContainKeyphrasePredicate;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
+
 
 public class SearchCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+
+    @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+        SearchCommand searchCommand = new SearchCommand(new DetailsContainKeyphrasePredicate("testing one"));
+
+        searchCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(searchCommand, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
 
     @Test
     public void equals() {
@@ -55,6 +72,7 @@ public class SearchCommandTest {
      * Parses {@code userInput} into a {@code SearchCommand}.
      */
     private SearchCommand prepareCommand(String userInput) {
+        model.getUserCreds().validateCurrentSession(); // validate user
         String preppedInput = userInput.trim();
         SearchCommand command =
                 new SearchCommand(new DetailsContainKeyphrasePredicate(preppedInput));
@@ -69,11 +87,16 @@ public class SearchCommandTest {
      *     - the {@code AddressBook} in model remains the same after executing the {@code command}
      */
     private void assertCommandSuccess(SearchCommand command, String expectedMessage, List<ReadOnlyPerson> expected) {
+        model.getUserCreds().validateCurrentSession(); // validate user
         AddressBook expectedAddressBook = new AddressBook(model.getAddressBook());
-        CommandResult commandResult = command.execute();
+        try {
+            CommandResult commandResult = command.execute();
 
-        assertEquals(expectedMessage, commandResult.feedbackToUser);
-        assertEquals(expected, model.getFilteredPersonList());
-        assertEquals(expectedAddressBook, model.getAddressBook());
+            assertEquals(expectedMessage, commandResult.feedbackToUser);
+            assertEquals(expected, model.getFilteredPersonList());
+            assertEquals(expectedAddressBook, model.getAddressBook());
+        } catch (CommandException ce) {
+            ce.printStackTrace();
+        }
     }
 }

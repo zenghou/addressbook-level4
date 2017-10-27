@@ -43,6 +43,12 @@ public class ImportCommand extends UndoableCommand {
     protected CommandResult executeUndoableCommand() throws CommandException {
         boolean foundDuplicatedPersonsInFile = false;
 
+        // check if user is validated
+        if (!model.getUserCreds().isValidSession()) {
+            throw new CommandException("Invalid session! Please log in first! \n"
+                    + LoginCommand.MESSAGE_USAGE);
+        }
+
         XmlPersonListStorage personListStorage = new XmlPersonListStorage(this.filePath);
         Optional<UniquePersonList> optionalPersonList = Optional.empty();
         try {

@@ -170,6 +170,7 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         String expectedResultMessage = String.format(
                 MESSAGE_PERSONS_LISTED_OVERVIEW, expectedModel.getFilteredPersonList().size());
 
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         executeCommand(command);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();

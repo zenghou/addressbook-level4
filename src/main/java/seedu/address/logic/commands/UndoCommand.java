@@ -19,6 +19,12 @@ public class UndoCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
+        // check if user is validated
+        if (!model.getUserCreds().isValidSession()) {
+            throw new CommandException("Invalid session! Please log in first! \n"
+                    + LoginCommand.MESSAGE_USAGE);
+        }
+
         requireAllNonNull(model, undoRedoStack);
 
         if (!undoRedoStack.canUndo()) {

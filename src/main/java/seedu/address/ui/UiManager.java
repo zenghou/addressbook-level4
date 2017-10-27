@@ -13,10 +13,12 @@ import seedu.address.MainApp;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.model.UserCredsChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
 
 /**
  * The manager of the UI component.
@@ -35,13 +37,15 @@ public class UiManager extends ComponentManager implements Ui {
     private Logic logic;
     private Config config;
     private UserPrefs prefs;
+    private UserCreds creds;
     private MainWindow mainWindow;
 
-    public UiManager(Logic logic, Config config, UserPrefs prefs) {
+    public UiManager(Logic logic, Config config, UserPrefs prefs, UserCreds creds) {
         super();
         this.logic = logic;
         this.config = config;
         this.prefs = prefs;
+        this.creds = creds;
     }
 
     @Override
@@ -117,5 +121,11 @@ public class UiManager extends ComponentManager implements Ui {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         showFileOperationAlertAndWait(FILE_OPS_ERROR_DIALOG_HEADER_MESSAGE, FILE_OPS_ERROR_DIALOG_CONTENT_MESSAGE,
                 event.exception);
+    }
+
+    @Subscribe
+    private void handleUserCredsChangedEvent(UserCredsChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        mainWindow.fillInnerParts();
     }
 }

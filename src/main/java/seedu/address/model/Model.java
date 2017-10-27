@@ -9,6 +9,7 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.EmptyPersonListException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.user.UserCreds;
 
 /**
  * The API of the Model component.
@@ -31,6 +32,14 @@ public interface Model {
 
     /** Adds the given person */
     void addPerson(ReadOnlyPerson person) throws DuplicatePersonException;
+
+    /** Get user credentials */
+    UserCreds getUserCreds();
+
+    /**
+     * Indicates that isValidated attribute in UserCreds has to true.
+     */
+    void updateUserCreds();
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.

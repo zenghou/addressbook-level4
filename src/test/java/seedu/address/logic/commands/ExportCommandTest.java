@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.showFirstPersonOnly;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -27,9 +28,10 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.user.UserCreds;
+import seedu.address.model.user.UserPrefs;
 import seedu.address.storage.XmlPersonListStorage;
 
 //TODO: the export command test depends on Storage part. Consider separation of components.
@@ -44,7 +46,23 @@ public class ExportCommandTest {
     /**
      * Typical address model consists of ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE
      */
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
+
+    @Test
+    public void execute_invalidUser_failure() throws Exception {
+        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
+                + LoginCommand.MESSAGE_USAGE;
+
+        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
+
+        List<Index> indexes = Arrays.asList(Index.fromOneBased(1), Index.fromOneBased(2));
+        String filePath = "TestFile.xml";
+        ExportCommand exportCommand = new ExportCommand(indexes, filePath);
+
+        exportCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
+        assertCommandFailure(exportCommand, userCredsNotValidatedModel,
+                userNotLoggedInMessage);
+    }
 
     @Test
     public void equals() {
@@ -140,6 +158,7 @@ public class ExportCommandTest {
      * @return an {@code ExportCommand} with parameters {@code indexes} and {@code filePath}
      */
     private ExportCommand prepareCommand(Integer[] indexesInt, String filePath) {
+        model.getUserCreds().validateCurrentSession(); // validate user
         List<Index> indexes = Arrays.stream(indexesInt).map(Index::fromOneBased).collect(Collectors.toList());
         ExportCommand export = new ExportCommand(indexes, filePath);
         export.setData(this.model, new CommandHistory(), new UndoRedoStack());
