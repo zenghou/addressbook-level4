@@ -5,6 +5,7 @@
         <phone>8482424</phone>
         <email>stefan@example.com</email>
         <address>little india</address>
+        <birthday>2000/08/08</birthday>
         <remark></remark>
     </persons>
 </personList>

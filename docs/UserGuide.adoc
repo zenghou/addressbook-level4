@@ -86,6 +86,19 @@ Shows a list of all persons in the address book. +
 Format: `list` +
 Shorthand for list: `l`
 
+=== Sorting persons list : `sort`
+
+Sorts the persons list according to the attribute specified in ascending or descending order. +
+Format: `sort PREFIX/ [reverse]` +
+
+[TIP]
+Sort function will sort the attribute in ascending order by default
+
+Examples:
+
+* `sort n/ reverse`
+* `sort p/`
+
 === Editing a person : `edit`
 
 Edits an existing person in the address book. +

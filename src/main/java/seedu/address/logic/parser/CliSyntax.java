@@ -10,6 +10,7 @@ public class CliSyntax {
     public static final String PREFIX_PHONE_STRING = "p/";
     public static final String PREFIX_EMAIL_STRING = "e/";
     public static final String PREFIX_ADDRESS_STRING = "a/";
+    public static final String PREFIX_BIRTHDAY_STRING = "b/";
     public static final String PREFIX_TAG_STRING = "t/";
     public static final String PREFIX_REMARK_STRING = "r/";
 
@@ -18,8 +19,11 @@ public class CliSyntax {
     public static final Prefix PREFIX_PHONE = new Prefix(PREFIX_PHONE_STRING);
     public static final Prefix PREFIX_EMAIL = new Prefix(PREFIX_EMAIL_STRING);
     public static final Prefix PREFIX_ADDRESS = new Prefix(PREFIX_ADDRESS_STRING);
+    public static final Prefix PREFIX_BIRTHDAY = new Prefix(PREFIX_BIRTHDAY_STRING);
     public static final Prefix PREFIX_TAG = new Prefix(PREFIX_TAG_STRING);
     public static final Prefix PREFIX_REMARK = new Prefix(PREFIX_REMARK_STRING);
+    public static final Prefix PREFIX_NAME_FOR_SORTING = new Prefix("name");
+    public static final Prefix PREFIX_PHONE_FOR_SORTING = new Prefix ("phone");
     public static final Prefix PREFIX_USERNAME = new Prefix("usr/");
     public static final Prefix PREFIX_PASSWORD = new Prefix("pwd/");
 

@@ -5,6 +5,7 @@
         <phone>8482424</phone>
         <email>stefan@example.com</email>
         <address>little india</address>
+        <birthday>2000/01/01</birthday>
         <remark></remark>
         <tagged>friend</tagged>
     </persons>
@@ -13,6 +14,7 @@
         <phone>8482424</phone>
         <email>stefan@example.com</email>
         <address>little india</address>
+        <birthday>2000/01/01</birthday>
         <remark></remark>
         <tagged>friend</tagged>
     </persons>
