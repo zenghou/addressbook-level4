@@ -4,31 +4,31 @@ import java.io.IOException;
 import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataConversionException;
-import seedu.address.model.user.UserPrefs;
+import seedu.address.model.user.UserCreds;
 
 /**
- * Represents a storage for {@link UserPrefs}.
+ * Represents a storage for {@link seedu.address.model.user.UserCreds}.
  */
-public interface UserPrefsStorage {
+public interface UserCredsStorage {
 
     /**
-     * Returns the file path of the UserPrefs data file.
+     * Returns the file path of the UserCreds data file.
      */
-    String getUserPrefsFilePath();
+    String getUserCredsFilePath();
 
     /**
-     * Returns UserPrefs data from storage.
+     * Returns UserCreds data from storage.
      *   Returns {@code Optional.empty()} if storage file is not found.
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */
-    Optional<UserPrefs> readUserPrefs() throws DataConversionException, IOException;
+    Optional<UserCreds> readUserCreds() throws DataConversionException, IOException;
 
     /**
-     * Saves the given {@link UserPrefs} to the storage.
-     * @param userPrefs cannot be null.
+     * Saves the given {@link UserCreds} to the storage.
+     * @param userCreds cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveUserPrefs(UserPrefs userPrefs) throws IOException;
+    void saveUserCreds(UserCreds userCreds) throws IOException;
 
 }

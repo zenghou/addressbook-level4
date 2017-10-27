@@ -54,6 +54,18 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 Format: `help`
 
+=== Logging in : `login`
+
+Validates the current user before executing commands. +
+Format: `login`
+
+[NOTE]
+User must be logged in before executing commands.
+
+Format:
+
+* `login usr/[enter username] pwd/[enter password]
+
 === Adding a person: `add`
 
 Adds a person to the address book +

@@ -31,6 +31,7 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
     @Test
     public void importCommand() throws Exception {
         Model expectedModel = getModel();
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         /* ----------------- Performing import operation while an unfiltered list is being shown -------------------- */
 
         /* Case: import one unique person into address book -> imported */
@@ -109,6 +110,7 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
      * @see ImportCommandSystemTest#assertCommandSuccess(String, Model, String)
      */
     private void assertCommandSuccess(String command, Model expectedModel, int numberOfPersonsImported) {
+        expectedModel.getUserCreds().validateCurrentSession(); // validatae user
         String expectedResultMessage = String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, numberOfPersonsImported);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
     }
@@ -125,6 +127,7 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
      * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
+        expectedModel.getUserCreds().validateCurrentSession(); // validate user
         executeCommand(command);
         expectedModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 

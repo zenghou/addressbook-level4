@@ -20,5 +20,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_ADDRESS = new Prefix(PREFIX_ADDRESS_STRING);
     public static final Prefix PREFIX_TAG = new Prefix(PREFIX_TAG_STRING);
     public static final Prefix PREFIX_REMARK = new Prefix(PREFIX_REMARK_STRING);
+    public static final Prefix PREFIX_USERNAME = new Prefix("usr/");
+    public static final Prefix PREFIX_PASSWORD = new Prefix("pwd/");
 
 }
