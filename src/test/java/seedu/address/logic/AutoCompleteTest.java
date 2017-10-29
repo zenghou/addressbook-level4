@@ -209,6 +209,32 @@ public class AutoCompleteTest {
     }
 
     @Test
+    public void autoCompleteLogin_invalidPrefix_ignoreInvalidField() {
+        String command = "login n/name usr/admin pwd/password";
+        String expected = "login usr/admin pwd/password";
+        assertAutoComplete(command, expected);
+
+        command = "login n/name pwd/password";
+        expected = "login usr/ pwd/password";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteLogin_noField_autoFillFields() {
+        String command = "login usr/admin ";
+        String expected = "login usr/admin pwd/";
+        assertAutoComplete(command, expected);
+
+        command = "login pwd/password";
+        expected = "login usr/ pwd/password";
+        assertAutoComplete(command, expected);
+
+        command = "login  ";
+        expected = "login usr/ pwd/";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
     public void autoCompleteRemark_invalidIndex_trimNonDigitChars() {
         String command = "remark aa1,1a";
         String expected = "remark 11 ";
