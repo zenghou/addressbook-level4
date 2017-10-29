@@ -33,6 +33,7 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.ImportCommand;
+import seedu.address.logic.commands.LoginCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
@@ -69,6 +70,9 @@ public class AutoComplete {
         case EditCommand.COMMAND_WORD:
         case EditCommand.COMMAND_ALIAS:
             return editCommandAutoComplete(arguments, filteredPersonList);
+
+        case LoginCommand.COMMAND_WORD:
+            return loginCommandAutoComplete(arguments);
 
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_ALIAS:
@@ -152,6 +156,13 @@ public class AutoComplete {
         }
 
         return EditCommand.COMMAND_WORD + " " + indexString +  " " + prefixWithArgs;
+    }
+
+    /**
+     * Auto-completes login command.
+     */
+    private static String loginCommandAutoComplete(String args) {
+        return "";
     }
 
     /**
