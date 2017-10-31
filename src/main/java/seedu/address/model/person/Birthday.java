@@ -22,6 +22,10 @@ public class Birthday {
      */
     public Birthday(String birthday) throws IllegalValueException {
         requireNonNull(birthday);
+        if (birthday.isEmpty()) {
+            this.value = "";
+            return;
+        }
         String trimmedBirthday = birthday.trim();
         if (!isValidBirthday(trimmedBirthday)) {
             throw new IllegalValueException(MESSAGE_BIRTHDAY_CONSTRAINTS);
