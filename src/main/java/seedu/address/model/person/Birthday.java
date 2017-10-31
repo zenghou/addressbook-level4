@@ -30,10 +30,24 @@ public class Birthday {
     }
 
     /**
+     * Creates Birthday that is empty.
+     */
+    private Birthday() {
+        this.value = "";
+    }
+
+    /**
      * Returns if a given string is a valid person email.
      */
     public static boolean isValidBirthday(String test) {
         return test.matches(BIRTHDAY_VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns an empty Birthday object.
+     */
+    public static Birthday getEmptyBirthday() {
+        return new Birthday();
     }
 
     @Override

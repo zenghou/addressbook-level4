@@ -35,10 +35,24 @@ public class Address {
     }
 
     /**
+     * Creates Address that is empty.
+     */
+    private Address() {
+        this.value = "";
+    }
+
+    /**
      * Returns true if a given string is a valid person email.
      */
     public static boolean isValidAddress(String test) {
         return test.matches(ADDRESS_VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns an empty Address object.
+     */
+    public static Address getEmptyAddress() {
+        return new Address();
     }
 
     @Override
