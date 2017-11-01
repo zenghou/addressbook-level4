@@ -9,12 +9,12 @@ import facebook4j.FacebookException;
 import facebook4j.FacebookFactory;
 import facebook4j.PictureSize;
 import facebook4j.auth.AccessToken;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
@@ -43,6 +43,9 @@ public class PersonProfile extends UiPart<Region> {
     @FXML
     private ImageView profilePicture;
 
+    @FXML
+    private FlowPane tags;
+
     public PersonProfile() {
         super(FXML);
         registerAsAnEventHandler(this);
@@ -51,12 +54,14 @@ public class PersonProfile extends UiPart<Region> {
     }
 
     /**
-     * Binds the individual UI elements to observe their respective {@code Person} properties
-     * so that they will be notified of any changes.
+     * Sets the individual UI elements to the respective {@code Person} properties
+     * so the profile correctly reflects the selected person.
      */
-    private void bindListeners(ReadOnlyPerson person) {
-        name.textProperty().bind(Bindings.convert(person.nameProperty()));
-        remark.textProperty().bind(Bindings.convert(person.remarkProperty()));
+    private void initPersonProfile(ReadOnlyPerson person) {
+        name.setText(person.getName().toString());
+        remark.setText(person.getRemark().toString());
+        tags.getChildren().clear(); // clear existing tags
+        person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 
     /**
@@ -78,7 +83,7 @@ public class PersonProfile extends UiPart<Region> {
     @Subscribe
     private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        bindListeners(event.getNewSelection().person);
+        initPersonProfile(event.getNewSelection().person);
         setProfilePicture();
     }
 }
