@@ -8,8 +8,6 @@ import facebook4j.Facebook;
 import facebook4j.FacebookException;
 import facebook4j.FacebookFactory;
 import facebook4j.PictureSize;
-import facebook4j.ResponseList;
-import facebook4j.User;
 import facebook4j.auth.AccessToken;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -18,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
-import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -41,6 +38,9 @@ public class PersonProfile extends UiPart<Region> {
     private Label name;
 
     @FXML
+    private Label remark;
+
+    @FXML
     private ImageView profilePicture;
 
     public PersonProfile() {
@@ -56,6 +56,7 @@ public class PersonProfile extends UiPart<Region> {
      */
     private void bindListeners(ReadOnlyPerson person) {
         name.textProperty().bind(Bindings.convert(person.nameProperty()));
+        remark.textProperty().bind(Bindings.convert(person.remarkProperty()));
     }
 
     /**
