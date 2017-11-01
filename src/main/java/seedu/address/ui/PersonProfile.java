@@ -29,10 +29,10 @@ public class PersonProfile extends UiPart<Region> {
 
     private final Facebook facebook = new FacebookFactory().getInstance();
 
-    private final String APP_ID = "383233665430563";
-    private final String APP_SECRET = "c127fe47ff977d7da7be5f38b4662ba5";
-    private final String APP_TOKEN = "383233665430563|lAaXz9VGaRFJNVLTI9iTKKl1pWk";
-    private final String DEFAULT_PICTURE = "images/fail.png";
+    private final String appId = "383233665430563";
+    private final String appSecret = "c127fe47ff977d7da7be5f38b4662ba5";
+    private final String appToken = "383233665430563|lAaXz9VGaRFJNVLTI9iTKKl1pWk";
+    private final String defaultProfilePicture = "images/fail.png";
 
     @FXML
     private Label name;
@@ -46,8 +46,8 @@ public class PersonProfile extends UiPart<Region> {
     public PersonProfile() {
         super(FXML);
         registerAsAnEventHandler(this);
-        facebook.setOAuthAppId(APP_ID, APP_SECRET);
-        facebook.setOAuthAccessToken(new AccessToken(APP_TOKEN, null));
+        facebook.setOAuthAppId(appId, appSecret);
+        facebook.setOAuthAccessToken(new AccessToken(appToken, null));
     }
 
     /**
@@ -69,7 +69,7 @@ public class PersonProfile extends UiPart<Region> {
             // TODO: Replace hardcoded userID with Dynamically get Facebook userId
             profilePic = new Image(facebook.getPictureURL("1253844668", PictureSize.large).toString());
         } catch (FacebookException fbe) {
-            profilePic = new Image(DEFAULT_PICTURE);
+            profilePic = new Image(defaultProfilePicture);
             fbe.printStackTrace();
         }
         profilePicture.setImage(profilePic);
