@@ -779,6 +779,24 @@ public class ImportCommandParser implements Parser<ImportCommand> {
     }
 }
 ```
+###### /java/seedu/address/model/person/Address.java
+``` java
+    /**
+     * Returns an empty Address object.
+     */
+    public static Address getEmptyAddress() {
+        return new Address();
+    }
+```
+###### /java/seedu/address/model/person/Birthday.java
+``` java
+    /**
+     * Returns an empty Birthday object.
+     */
+    public static Birthday getEmptyBirthday() {
+        return new Birthday();
+    }
+```
 ###### /java/seedu/address/storage/PersonListStorage.java
 ``` java
 package seedu.address.storage;
