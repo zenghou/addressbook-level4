@@ -60,6 +60,10 @@ Validates the current user before executing commands. +
 Format: `login`
 
 [NOTE]
+Default username: admin
+Default password: password
+
+[NOTE]
 User must be logged in before executing commands.
 
 Format:
