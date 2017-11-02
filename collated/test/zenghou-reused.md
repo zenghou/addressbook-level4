@@ -1,4 +1,6 @@
-//@@author zenghou-reused
+# zenghou-reused
+###### /java/seedu/address/storage/JsonUserCredsStorageTest.java
+``` java
 package seedu.address.storage;
 
 import static org.junit.Assert.assertEquals;
@@ -130,3 +132,4 @@ public class JsonUserCredsStorageTest {
         assertEquals(original, readBack);
     }
 }
+```
