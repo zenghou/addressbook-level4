@@ -31,7 +31,6 @@ public class PersonProfileTest extends GuiUnitTest {
     @Test
     public void equals() {
         PersonProfile personProfile = new PersonProfile();
-        
         // instance should not be null
         assertFalse(personProfile.equals(null));
 
