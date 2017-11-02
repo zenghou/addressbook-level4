@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.ui.testutil.GuiTestAssert.assertProfileEquals;
 
 import org.junit.Test;
@@ -24,6 +26,20 @@ public class PersonProfileTest extends GuiUnitTest {
                 new PersonCard(personWithTags, 1)));
         uiPartRule.setUiPart(personProfile);
         assertCardDisplay(personProfile, personWithTags);
+    }
+
+    @Test
+    public void equals() {
+        PersonProfile personProfile = new PersonProfile();
+        
+        // instance should not be null
+        assertFalse(personProfile.equals(null));
+
+        // different type -> return false
+        assertFalse(personProfile.equals(1));
+
+        // same default personProfile -> return true
+        assertTrue(personProfile.equals(new PersonProfile()));
     }
 
     /**
