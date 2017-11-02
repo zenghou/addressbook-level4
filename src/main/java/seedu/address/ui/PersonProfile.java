@@ -35,6 +35,9 @@ public class PersonProfile extends UiPart<Region> {
     private final String defaultProfilePicture = "images/fail.png";
 
     @FXML
+    private Label profile;
+
+    @FXML
     private Label name;
 
     @FXML
@@ -58,6 +61,7 @@ public class PersonProfile extends UiPart<Region> {
      * so the profile correctly reflects the selected person.
      */
     private void initPersonProfile(ReadOnlyPerson person) {
+        profile.setText("PROFILE");
         name.setText(person.getName().toString());
         remark.setText(person.getRemark().toString());
         tags.getChildren().clear(); // clear existing tags
@@ -85,5 +89,23 @@ public class PersonProfile extends UiPart<Region> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         initPersonProfile(event.getNewSelection().person);
         setProfilePicture();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof PersonCard)) {
+            return false;
+        }
+
+        // state check
+        PersonProfile profile = (PersonProfile) other;
+        return name.getText().equals(profile.name.getText())
+                && remark.getText().equals(profile.remark.getText());
     }
 }
