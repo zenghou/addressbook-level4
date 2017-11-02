@@ -424,7 +424,7 @@ We are currently using a simple authenticating method to validate users. In summ
 
 Before the user is logged in, the user would not be able to execute any commands. In this version, the user is still able to view the loaded list of contacts. In V1.4, the addressbook will not be loaded until the user is logged in.
 
-* Mechanism *
+*Mechanism*
 
 A `LoginCommandParser` parses a user's username and password, and returns a `LoginCommand`. The username and password entered by the user would be encapsulated in a class `UserCreds`, which is a private attribute in the `LoginCommand`. When the `execute` method is called, the `UserCreds` attribute in the `LoginCommand` would be compared against the `UserCreds` in the model. The model gets `UserCreds` attribute by reading the JSON file `credentials.json`.
 
