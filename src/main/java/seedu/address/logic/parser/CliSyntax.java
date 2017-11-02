@@ -5,6 +5,7 @@ package seedu.address.logic.parser;
  */
 public class CliSyntax {
 
+    //@@author HanYaodong
     /* Prefix name strings */
     public static final String PREFIX_NAME_STRING = "n/";
     public static final String PREFIX_PHONE_STRING = "p/";
@@ -15,6 +16,7 @@ public class CliSyntax {
     public static final String PREFIX_REMARK_STRING = "r/";
     public static final String PREFIX_USERNAME_STRING = "usr/";
     public static final String PREFIX_PASSWORD_STRING = "pwd/";
+    //@@author
 
 
     /* Prefix definitions */

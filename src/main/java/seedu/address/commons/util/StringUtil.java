@@ -97,6 +97,7 @@ public class StringUtil {
         return detail.toLowerCase().contains(keyphrase.toLowerCase());
     }
 
+    //@@author HanYaodong
     /**
      * Returns the command words in the program as an Array.
      */
