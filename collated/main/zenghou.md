@@ -388,6 +388,13 @@ public class Remark {
         this.value = remark;
     }
 
+    /**
+     * Returns an empty Birthday object.
+     */
+    public static Remark getEmptyRemark() {
+        return new Remark("");
+    }
+
     @Override
     public String toString() {
         return value;
