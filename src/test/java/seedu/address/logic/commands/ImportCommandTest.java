@@ -37,6 +37,7 @@ public class ImportCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
+    //@@author zenghou
     @Test
     public void execute_invalidUser_failure() throws Exception {
         String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
@@ -51,6 +52,7 @@ public class ImportCommandTest {
         assertCommandFailure(importCommand, userCredsNotValidatedModel,
                 userNotLoggedInMessage);
     }
+    //@@author
 
     @Test
     public void equals() {
