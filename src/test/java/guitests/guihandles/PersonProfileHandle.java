@@ -14,14 +14,14 @@ public class PersonProfileHandle extends NodeHandle<Node> {
     public static final String PROFILE_FIELD_ID = "#profile";
     public static final String NAME_FIELD_ID = "#name";
     public static final String REMARK_FIELD_ID = "#remark";
-    public static final String TAG_FIELD_ID = "tags";
+    public static final String TAG_FIELD_ID = "#tags";
 
     private final Label profileLabel;
     private final Label nameLabel;
     private final Label remarkLabel;
     private final List<Label> tagLabels;
 
-    protected PersonProfileHandle(Node profileNode) {
+    public PersonProfileHandle(Node profileNode) {
         super(profileNode);
 
         this.profileLabel = getChildNode(PROFILE_FIELD_ID);
