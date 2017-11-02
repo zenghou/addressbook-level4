@@ -145,7 +145,7 @@ public class MainWindow extends UiPart<Region> {
 
     }
 
-    //@@author zenghou
+    //@@author zenghou-unused
     /**
      * Fills up all the commandbox placeholder of this window.
      */
@@ -156,6 +156,7 @@ public class MainWindow extends UiPart<Region> {
         ResultDisplay resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
     }
+    //@@author
 
     void hide() {
         primaryStage.hide();
