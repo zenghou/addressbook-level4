@@ -47,12 +47,14 @@ public class Birthday {
         return test.matches(BIRTHDAY_VALIDATION_REGEX);
     }
 
+    //@@author HanYaodong
     /**
      * Returns an empty Birthday object.
      */
     public static Birthday getEmptyBirthday() {
         return new Birthday();
     }
+    //@@author
 
     @Override
     public String toString() {

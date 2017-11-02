@@ -52,12 +52,14 @@ public class Address {
         return test.matches(ADDRESS_VALIDATION_REGEX);
     }
 
+    //@@author HanYaodong
     /**
      * Returns an empty Address object.
      */
     public static Address getEmptyAddress() {
         return new Address();
     }
+    //@@author
 
     @Override
     public String toString() {
