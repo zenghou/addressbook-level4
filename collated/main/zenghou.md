@@ -1,5 +1,5 @@
 # zenghou
-###### /java/seedu/address/commons/core/Config.java
+###### \java\seedu\address\commons\core\Config.java
 ``` java
     public String getUserCredsFilePath() {
         return userCredsFilePath;
@@ -9,7 +9,7 @@
         this.userCredsFilePath = userCredsFilePath;
     }
 ```
-###### /java/seedu/address/commons/events/model/UserCredsChangedEvent.java
+###### \java\seedu\address\commons\events\model\UserCredsChangedEvent.java
 ``` java
 package seedu.address.commons.events.model;
 
@@ -26,7 +26,7 @@ public class UserCredsChangedEvent extends BaseEvent {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/LoginCommand.java
+###### \java\seedu\address\logic\commands\LoginCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -78,7 +78,7 @@ public class LoginCommand extends Command {
 
 }
 ```
-###### /java/seedu/address/logic/commands/RemarkCommand.java
+###### \java\seedu\address\logic\commands\RemarkCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -194,7 +194,7 @@ public class RemarkCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/SearchCommand.java
+###### \java\seedu\address\logic\commands\SearchCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -243,7 +243,7 @@ public class SearchCommand extends Command {
     }
 }
 ```
-###### /java/seedu/address/logic/parser/LoginCommandParser.java
+###### \java\seedu\address\logic\parser\LoginCommandParser.java
 ``` java
 package seedu.address.logic.parser;
 
@@ -287,7 +287,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
     }
 }
 ```
-###### /java/seedu/address/model/ModelManager.java
+###### \java\seedu\address\model\ModelManager.java
 ``` java
     /**
      * Returns userCreds to be used by Logic component for user verification
@@ -298,7 +298,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
     }
 
 ```
-###### /java/seedu/address/model/ModelManager.java
+###### \java\seedu\address\model\ModelManager.java
 ``` java
     @Override
     public synchronized void updateUserCreds() {
@@ -306,14 +306,14 @@ public class LoginCommandParser implements Parser<LoginCommand> {
     }
 
 ```
-###### /java/seedu/address/model/ModelManager.java
+###### \java\seedu\address\model\ModelManager.java
 ``` java
     /** Raises an event to indicate the UserCreds has changed */
     private synchronized void indicateUserCredsChanged() {
         raise(new UserCredsChangedEvent());
     }
 ```
-###### /java/seedu/address/model/person/DetailsContainKeyphrasePredicate.java
+###### \java\seedu\address\model\person\DetailsContainKeyphrasePredicate.java
 ``` java
 package seedu.address.model.person;
 
@@ -363,7 +363,7 @@ public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerso
     }
 }
 ```
-###### /java/seedu/address/model/person/Remark.java
+###### \java\seedu\address\model\person\Remark.java
 ``` java
 package seedu.address.model.person;
 
@@ -414,7 +414,7 @@ public class Remark {
 
 }
 ```
-###### /java/seedu/address/model/user/UserCreds.java
+###### \java\seedu\address\model\user\UserCreds.java
 ``` java
 package seedu.address.model.user;
 
@@ -496,18 +496,18 @@ public class UserCreds {
 
 }
 ```
-###### /java/seedu/address/storage/Storage.java
+###### \java\seedu\address\storage\Storage.java
 ``` java
     @Override
     Optional<UserCreds> readUserCreds() throws DataConversionException, IOException;
 
 ```
-###### /java/seedu/address/storage/Storage.java
+###### \java\seedu\address\storage\Storage.java
 ``` java
     @Override
     void saveUserCreds(UserCreds userCreds) throws IOException;
 ```
-###### /java/seedu/address/storage/StorageManager.java
+###### \java\seedu\address\storage\StorageManager.java
 ``` java
     @Override
     public String getUserCredsFilePath() {
@@ -515,7 +515,7 @@ public class UserCreds {
     }
 
 ```
-###### /java/seedu/address/storage/StorageManager.java
+###### \java\seedu\address\storage\StorageManager.java
 ``` java
     @Override
     public Optional<UserCreds> readUserCreds() throws DataConversionException, IOException {
@@ -523,14 +523,14 @@ public class UserCreds {
     }
 
 ```
-###### /java/seedu/address/storage/StorageManager.java
+###### \java\seedu\address\storage\StorageManager.java
 ``` java
     @Override
     public void saveUserCreds(UserCreds userCreds) throws IOException {
         userCredsStorage.saveUserCreds(userCreds);
     }
 ```
-###### /java/seedu/address/ui/PersonProfile.java
+###### \java\seedu\address\ui\PersonProfile.java
 ``` java
 package seedu.address.ui;
 
@@ -644,7 +644,7 @@ public class PersonProfile extends UiPart<Region> {
     }
 }
 ```
-###### /java/seedu/address/ui/UiManager.java
+###### \java\seedu\address\ui\UiManager.java
 ``` java
     @Subscribe
     private void handleUserCredsChangedEvent(UserCredsChangedEvent event) {
@@ -653,7 +653,7 @@ public class PersonProfile extends UiPart<Region> {
     }
 }
 ```
-###### /resources/view/PersonProfile.fxml
+###### \resources\view\PersonProfile.fxml
 ``` fxml
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>

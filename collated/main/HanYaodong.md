@@ -1,5 +1,5 @@
 # HanYaodong
-###### /java/seedu/address/commons/util/StringUtil.java
+###### \java\seedu\address\commons\util\StringUtil.java
 ``` java
     /**
      * Returns the command words in the program as an Array.
@@ -26,7 +26,7 @@
     }
 }
 ```
-###### /java/seedu/address/logic/AutoComplete.java
+###### \java\seedu\address\logic\AutoComplete.java
 ``` java
 package seedu.address.logic;
 
@@ -469,7 +469,7 @@ public class AutoComplete {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/ExportCommand.java
+###### \java\seedu\address\logic\commands\ExportCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -561,7 +561,7 @@ public class ExportCommand extends Command {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/ImportCommand.java
+###### \java\seedu\address\logic\commands\ImportCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -657,14 +657,14 @@ public class ImportCommand extends UndoableCommand {
 
 }
 ```
-###### /java/seedu/address/logic/LogicManager.java
+###### \java\seedu\address\logic\LogicManager.java
 ``` java
     @Override
     public String autoCompleteCommand(String command) {
         return AutoComplete.autoComplete(command, model.getFilteredPersonList());
     }
 ```
-###### /java/seedu/address/logic/parser/CliSyntax.java
+###### \java\seedu\address\logic\parser\CliSyntax.java
 ``` java
     /* Prefix name strings */
     public static final String PREFIX_NAME_STRING = "n/";
@@ -677,7 +677,7 @@ public class ImportCommand extends UndoableCommand {
     public static final String PREFIX_USERNAME_STRING = "usr/";
     public static final String PREFIX_PASSWORD_STRING = "pwd/";
 ```
-###### /java/seedu/address/logic/parser/ExportCommandParser.java
+###### \java\seedu\address\logic\parser\ExportCommandParser.java
 ``` java
 package seedu.address.logic.parser;
 
@@ -749,7 +749,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
     }
 }
 ```
-###### /java/seedu/address/logic/parser/ImportCommandParser.java
+###### \java\seedu\address\logic\parser\ImportCommandParser.java
 ``` java
 package seedu.address.logic.parser;
 
@@ -779,7 +779,7 @@ public class ImportCommandParser implements Parser<ImportCommand> {
     }
 }
 ```
-###### /java/seedu/address/model/person/Address.java
+###### \java\seedu\address\model\person\Address.java
 ``` java
     /**
      * Returns an empty Address object.
@@ -788,7 +788,7 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         return new Address();
     }
 ```
-###### /java/seedu/address/model/person/Birthday.java
+###### \java\seedu\address\model\person\Birthday.java
 ``` java
     /**
      * Returns an empty Birthday object.
@@ -797,7 +797,7 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         return new Birthday();
     }
 ```
-###### /java/seedu/address/storage/PersonListStorage.java
+###### \java\seedu\address\storage\PersonListStorage.java
 ``` java
 package seedu.address.storage;
 
@@ -860,7 +860,7 @@ public interface PersonListStorage {
 
 }
 ```
-###### /java/seedu/address/storage/XmlFileStorage.java
+###### \java\seedu\address\storage\XmlFileStorage.java
 ``` java
     /**
      * Returns person list in the file or an empty address book
@@ -876,7 +876,7 @@ public interface PersonListStorage {
 
 }
 ```
-###### /java/seedu/address/storage/XmlPersonListStorage.java
+###### \java\seedu\address\storage\XmlPersonListStorage.java
 ``` java
 package seedu.address.storage;
 
@@ -975,7 +975,7 @@ public class XmlPersonListStorage implements PersonListStorage {
     }
 }
 ```
-###### /java/seedu/address/storage/XmlSerializablePersonList.java
+###### \java\seedu\address\storage\XmlSerializablePersonList.java
 ``` java
 package seedu.address.storage;
 
@@ -1040,7 +1040,7 @@ public class XmlSerializablePersonList extends XmlSerializableData {
 
 }
 ```
-###### /java/seedu/address/ui/CommandBox.java
+###### \java\seedu\address\ui\CommandBox.java
 ``` java
     /**
      * Auto-completes the command in the command box.

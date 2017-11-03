@@ -1,3 +1,4 @@
+//@@author sunarjo-denny
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
@@ -50,6 +51,7 @@ public class SortCommandParser implements Parser<SortCommand> {
         return new SortCommand(attribute, isReversed);
     }
 
+    //@@author sunarjo-denny-reused
     private Consumer<String> setOrder(Prefix prefix) {
         return s-> {
             attribute = prefix.toString();
