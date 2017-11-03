@@ -167,18 +167,23 @@ public class AutoComplete {
      * Auto-completes export command.
      */
     private static String exportCommandAutoComplete(String args) {
-        Pattern exportPattern = Pattern.compile("(?<possibleIndexList>.[^;]);(?<possibleFilePath>.*)");
-        Matcher matcher = exportPattern.matcher(args);
+        if (args.trim().isEmpty()) {
+            return ExportCommand.COMMAND_WORD + " ";
+        }
 
         String possibleIndexListString;
-        String possibleFilePath;
-        if (matcher.matches()) { // contains delimiter ";"
-            possibleIndexListString = matcher.group("possibleIndexList");
-            possibleFilePath = matcher.group("possibleFilePath");
+        String possibleFilePath = "";
+        if (args.contains(";")) { // contains delimiter ";"
+            possibleIndexListString = args.substring(0, args.indexOf(';'));
+            possibleFilePath = args.substring(args.indexOf(';') + 1);
         } else { // try to find the index part and file part
             int possibleDelimiterIndex = Math.max(args.lastIndexOf(' '), args.lastIndexOf(','));
             possibleIndexListString = args.substring(0, possibleDelimiterIndex);
-            possibleFilePath = args.substring(possibleDelimiterIndex + 1);
+            if (possibleIndexListString.trim().isEmpty()) { // the only argument should be index
+                possibleIndexListString = args;
+            } else { // the last argument should be filePath
+                possibleFilePath = args.substring(possibleDelimiterIndex + 1);
+            }
         }
 
         // format Index List
