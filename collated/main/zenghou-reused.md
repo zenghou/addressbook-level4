@@ -1,5 +1,5 @@
 # zenghou-reused
-###### /java/seedu/address/storage/JsonUserCredsStorage.java
+###### \java\seedu\address\storage\JsonUserCredsStorage.java
 ``` java
 package seedu.address.storage;
 
@@ -47,7 +47,7 @@ public class JsonUserCredsStorage implements UserCredsStorage {
 
 }
 ```
-###### /java/seedu/address/storage/UserCredsStorage.java
+###### \java\seedu\address\storage\UserCredsStorage.java
 ``` java
 package seedu.address.storage;
 
