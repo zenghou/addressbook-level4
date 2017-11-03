@@ -338,8 +338,9 @@ public class AutoComplete {
         case PREFIX_PHONE_STRING:
             return prefix.getPrefix() + ParserUtil.parsePhone(firstArg).map(p -> p.value).orElse("");
         case PREFIX_TAG_STRING:
-            return ParserUtil.parseTags(argList).stream().map(p -> (prefix + p.tagName))
+            String tagString = ParserUtil.parseTags(argList).stream().map(p -> (prefix + p.tagName))
                 .collect(Collectors.joining(" "));
+            return tagString.isEmpty() ? PREFIX_TAG_STRING : tagString;
         case PREFIX_REMARK_STRING:
             return prefix.getPrefix() + firstArg.get().trim();
         case PREFIX_USERNAME_STRING:
