@@ -24,7 +24,11 @@ This app will not work with earlier versions of Java 8.
 +
 .  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your Address Book.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Open a terminal and run the command to start the app: `$ java -jar addressbook.jar`. The GUI should appear in a few seconds.
++
+[NOTE]
+Double-click to open address book may work, but there will be unexpected errors. +
+So run the program through terminal is much preferred.
 +
 image::Ui.png[width="790"]
 +
