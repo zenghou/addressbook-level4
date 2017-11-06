@@ -2,8 +2,6 @@ package seedu.address.logic;
 
 import java.util.logging.Logger;
 
-import com.sun.tools.javah.Util;
-
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
