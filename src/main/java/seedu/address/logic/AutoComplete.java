@@ -388,6 +388,21 @@ public class AutoComplete {
     }
 
     /**
+     * Formats the argument into range index list form.
+     */
+    private static String formatRangeIndexString(String arg) {
+        String numString = arg.replaceAll("((?!\\d|-).)+", "");
+        Matcher rangeIndexMatcher = Pattern.compile("(?<first>\\d+)-(?<second>\\d+).*").matcher(numString);
+        if (rangeIndexMatcher.matches()) { // range index
+            int firstNum = Integer.parseInt(rangeIndexMatcher.group("first"));
+            int secondNum = Integer.parseInt(rangeIndexMatcher.group("second"));
+            return Math.min(firstNum, secondNum) + "-" + Math.max(firstNum, secondNum);
+        } else { // single index, including number only on one side of '-'
+            return numString.replaceAll("\\D+", "");
+        }
+    }
+
+    /**
      * Formats the suggestion {@code String} of possible commands.
      */
     private static String promptForPossibleCommand(List<String> possibleCommands) {
