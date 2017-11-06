@@ -126,6 +126,6 @@ public class UiManager extends ComponentManager implements Ui {
     @Subscribe
     private void handleUserCredsChangedEvent(UserCredsChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        mainWindow.fillInnerParts();
+        mainWindow.fillRestOfInnerParts();
     }
 }
