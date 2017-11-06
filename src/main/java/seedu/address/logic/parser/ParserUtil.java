@@ -71,7 +71,15 @@ public class ParserUtil {
                 throw new IllegalValueException(MESSAGE_INVALID_INDEX);
             }
         }
-        return oneBasedIndexSet.stream().map(Index::fromOneBased).collect(Collectors.toList());
+
+        List<Index> indexList = new ArrayList<>();
+        for (int index : oneBasedIndexSet) {
+            if (index <= 0) {
+                throw new IllegalValueException(MESSAGE_INVALID_INDEX);
+            }
+            indexList.add(Index.fromOneBased(index));
+        }
+        return indexList;
     }
 
     /**

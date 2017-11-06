@@ -75,6 +75,13 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseRangeIndexList_outOfBoundaryIndex_throwsIllegalValueException() throws Exception {
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(MESSAGE_INVALID_INDEX);
+        ParserUtil.parseRangeIndexList("0-3");
+    }
+
+    @Test
     public void parseRangeIndexList_validRange_success() throws Exception {
         // one range index
         assertEqualsIndexCollection(INDEX_LIST_FIRST_TO_THIRD, ParserUtil.parseRangeIndexList("1-3"));
