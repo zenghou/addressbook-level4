@@ -84,7 +84,7 @@ public class ParserUtil {
             } else if (s.matches("^(\\d+)$")) {
                 oneBasedIndexSet.add(Integer.parseInt(s));
             } else {
-                throw new IllegalValueException("");
+                throw new IllegalValueException(MESSAGE_INVALID_INDEX);
             }
         }
         return oneBasedIndexSet.stream().map(Index::fromOneBased).collect(Collectors.toSet());
