@@ -43,7 +43,10 @@ public class AddCommandTest {
         new AddCommand(null);
     }
 
-    @Test
+    //@@author zenghou-unused
+    /** Initially used to test for invalid login since the check was done by command. However, this check will be
+     * conducted by LogicManager now. As such, all commands will be executed.
+     */
     public void execute_invalidUser_failure() throws Exception {
         Model model = new ModelManager();
         Person validPerson = new PersonBuilder().build();
@@ -56,6 +59,7 @@ public class AddCommandTest {
         cmd.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
         assertCommandFailure(cmd, userCredsNotValidatedModel, userNotLoggedInMessage);
     }
+    //@@author
 
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {

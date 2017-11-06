@@ -39,7 +39,9 @@ public class EditCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
     //@@author zenghou
-    @Test
+    /** Initially used to test for invalid login since the check was done by command. However, this check will be
+     * conducted by LogicManager now. As such, all commands will be executed.
+     */
     public void execute_invalidUser_failure() throws Exception {
         String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
                 + LoginCommand.MESSAGE_USAGE;

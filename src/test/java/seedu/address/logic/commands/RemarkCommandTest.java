@@ -31,7 +31,10 @@ public class RemarkCommandTest {
     public static final String TEST_REMARK = "This is a test remark";
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
-    @Test
+    //@@author zenghou-unused
+    /** Initially used to test for invalid login since the check was done by command. However, this check will be
+     * conducted by LogicManager now. As such, all commands will be executed.
+     */
     public void execute_invalidUser_failure() throws Exception {
         String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
                 + LoginCommand.MESSAGE_USAGE;
@@ -43,6 +46,7 @@ public class RemarkCommandTest {
         assertCommandFailure(remarkCommand, userCredsNotValidatedModel,
                 userNotLoggedInMessage);
     }
+    //@@author
 
     @Test
     public void execute_executeUndoableCommand_throwsCommandException() throws CommandException {

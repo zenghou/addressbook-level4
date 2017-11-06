@@ -35,8 +35,10 @@ public class ListCommandTest {
         listCommand.setData(model, new CommandHistory(), new UndoRedoStack());
     }
 
-    //@@author zenghou
-    @Test
+    //@@author zenghou-unused
+    /** Initially used to test for invalid login since the check was done by command. However, this check will be
+     * conducted by LogicManager now. As such, all commands will be executed.
+     */
     public void execute_invalidUser_failure() throws Exception {
         String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
                 + LoginCommand.MESSAGE_USAGE;
