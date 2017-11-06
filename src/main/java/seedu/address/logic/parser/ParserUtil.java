@@ -50,27 +50,11 @@ public class ParserUtil {
     }
 
     /**
-     * Parsers {@code oneBasedIndexList} into a List of {@code Index} and returns it.
-     * The numbers must be separated by whitespaces or ",".
-     * @throws IllegalValueException if the specified index is invalid (not non-zero unsigned integer).
-     */
-    public static List<Index> parseIndexList(String oneBasedIndexList) throws IllegalValueException {
-        String[] indexStrings = oneBasedIndexList.split("((,)|(\\s))+");
-        List<Index> indexes = new ArrayList<>();
-        for (String s : indexStrings) {
-            if (!s.trim().isEmpty()) {
-                indexes.add(parseIndex(s));
-            }
-        }
-        return indexes;
-    }
-
-    /**
      * Parses a {@code String} of one-based indexes that may contain single or range indexes into a {@code Set}.
      * Indexes must be separated by "," or whitespaces, and index range must be linked by "-".
      * @throws IllegalValueException if indexes are invalid, or the input {@code String} is not in valid format.
      */
-    public static Set<Index> parseRangeIndexList(String oneBasedIndexList) throws IllegalValueException {
+    public static List<Index> parseRangeIndexList(String oneBasedIndexList) throws IllegalValueException {
         oneBasedIndexList = oneBasedIndexList.replaceAll("\\s*-\\s*", "-");
         List<String> filteredIndexStrings = Arrays.stream(oneBasedIndexList.split("(,+)|(\\s+)"))
             .map(String::trim)
@@ -87,7 +71,7 @@ public class ParserUtil {
                 throw new IllegalValueException(MESSAGE_INVALID_INDEX);
             }
         }
-        return oneBasedIndexSet.stream().map(Index::fromOneBased).collect(Collectors.toSet());
+        return oneBasedIndexSet.stream().map(Index::fromOneBased).collect(Collectors.toList());
     }
 
     /**
