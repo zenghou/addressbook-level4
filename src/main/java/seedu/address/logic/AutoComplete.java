@@ -188,8 +188,12 @@ public class AutoComplete {
         }
 
         // format Index List
-        possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s|,)+"))
-            .map(AutoComplete::formatSingleIndexString).filter(p -> !p.isEmpty()).collect(Collectors.joining(", "));
+        try {
+            possibleIndexListString = wrapRangeIndexList(ParserUtil.parseRangeIndexList(possibleIndexListString));
+        } catch (IllegalValueException ive) {
+            possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s|,)+"))
+                .map(AutoComplete::formatRangeIndexString).filter(p -> !p.isEmpty()).collect(Collectors.joining(", "));
+        }
 
         // format file path
         possibleFilePath = possibleFilePath.trim();
