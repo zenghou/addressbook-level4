@@ -24,6 +24,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME_STRING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -400,6 +401,42 @@ public class AutoComplete {
         } else { // single index, including number only on one side of '-'
             return numString.replaceAll("\\D+", "");
         }
+    }
+
+    /**
+     * Wraps the Index list by range index.
+     */
+    private static String wrapRangeIndexList(List<Index> indexList) {
+        if (indexList.isEmpty()) {
+            return "";
+        }
+        List<Integer> oneBasedIndexList = indexList.stream().map(Index::getOneBased).collect(Collectors.toList());
+        Collections.sort(oneBasedIndexList);
+
+        List<List<Integer>> splitList = new ArrayList<>();
+        List<Integer> currentList = new ArrayList<>();
+        for (int i = 0; i < oneBasedIndexList.size() - 1; i++) {
+            currentList.add(oneBasedIndexList.get(i));
+            if (oneBasedIndexList.get(i + 1) != oneBasedIndexList.get(i) + 1) {
+                splitList.add(currentList);
+                currentList = new ArrayList<>();
+            }
+        }
+        currentList.add(oneBasedIndexList.get(oneBasedIndexList.size() - 1));
+        splitList.add(currentList);
+
+        List<String> oneBasedRangeIndexStrings = new ArrayList<>();
+        for (List<Integer> oneBasedRangeIndex : splitList) {
+            if (oneBasedRangeIndex.size() == 1) { // single index
+                oneBasedRangeIndexStrings.add(String.valueOf(oneBasedRangeIndex.get(0)));
+            } else {
+                int first = oneBasedRangeIndex.get(0);
+                int last = oneBasedRangeIndex.get(oneBasedRangeIndex.size() - 1);
+                oneBasedRangeIndexStrings.add(first + "-" + last);
+            }
+        }
+
+        return oneBasedRangeIndexStrings.stream().collect(Collectors.joining(", "));
     }
 
     /**
