@@ -29,8 +29,10 @@ public class AddCommandIntegrationTest {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
         model.getUserCreds().validateCurrentSession(); // validate user
     }
-    //@@author zenghou
-    @Test
+    //@@author zenghou-unused
+    /** Initially used to test for invalid login since the check was done by command. However, this check will be
+     *  conducted by LogicManager now. As such, all commands will be executed.
+     */
     public void execute_invalidUser_failure() throws Exception {
         Person validPerson = new PersonBuilder().build();
 

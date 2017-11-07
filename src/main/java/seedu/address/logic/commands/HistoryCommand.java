@@ -21,12 +21,6 @@ public class HistoryCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
-        // check if user is validated
-        if (!model.getUserCreds().isValidSession()) {
-            throw new CommandException("Invalid session! Please log in first! \n"
-                    + LoginCommand.MESSAGE_USAGE);
-        }
-
         List<String> previousCommands = history.getHistory();
 
         if (previousCommands.isEmpty()) {

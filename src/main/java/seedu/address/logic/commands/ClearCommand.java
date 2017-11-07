@@ -17,12 +17,6 @@ public class ClearCommand extends UndoableCommand {
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        // check if user is validated
-        if (!model.getUserCreds().isValidSession()) {
-            throw new CommandException("Invalid session! Please log in first! \n"
-                    + LoginCommand.MESSAGE_USAGE);
-        }
-
         requireNonNull(model);
         model.resetData(new AddressBook());
         return new CommandResult(MESSAGE_SUCCESS);

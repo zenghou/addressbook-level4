@@ -30,7 +30,10 @@ import seedu.address.model.user.UserPrefs;
 public class SearchCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
-    @Test
+    //@@author zenghou-unused
+    /** Initially used to test for invalid login since the check was done by command. However, this check will be
+     * conducted by LogicManager now. As such, all commands will be executed.
+     */
     public void execute_invalidUser_failure() throws Exception {
         String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
                 + LoginCommand.MESSAGE_USAGE;
@@ -42,6 +45,7 @@ public class SearchCommandTest {
         assertCommandFailure(searchCommand, userCredsNotValidatedModel,
                 userNotLoggedInMessage);
     }
+    //@@author
 
     @Test
     public void equals() {

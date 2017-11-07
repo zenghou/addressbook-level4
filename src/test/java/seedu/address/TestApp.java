@@ -15,7 +15,6 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlSerializableAddressBook;
@@ -42,8 +41,6 @@ public class TestApp extends MainApp {
 
     public TestApp(Supplier<ReadOnlyAddressBook> initialDataSupplier, String saveFileLocation) {
         super();
-        userCreds = new UserCreds(); // create dummy UserCreds
-        userCreds.validateCurrentSession(); // validate user
         this.initialDataSupplier = initialDataSupplier;
         this.saveFileLocation = saveFileLocation;
 
@@ -105,6 +102,7 @@ public class TestApp extends MainApp {
     @Override
     public void start(Stage primaryStage) {
         ui.start(primaryStage);
+        model.updateUserCreds(); // will raise event and load person panel list
     }
 
     public static void main(String[] args) {
