@@ -22,6 +22,8 @@ public interface ReadOnlyPerson {
     Address getAddress();
     ObjectProperty<Birthday> birthdayProperty();
     Birthday getBirthday();
+    ObjectProperty<Facebook> facebookProperty();
+    Facebook getFacebook();
     ObjectProperty<UniqueTagList> tagProperty();
     Set<Tag> getTags();
     ObjectProperty<Remark> remarkProperty();
@@ -45,6 +47,7 @@ public interface ReadOnlyPerson {
                 && other.getEmail().equals(this.getEmail())
                 && other.getAddress().equals(this.getAddress())
                 && other.getBirthday().equals(this.getBirthday())
+                && other.getFacebook().equals(this.getFacebook())
                 && other.getRemark().equals(this.getRemark()));
     }
 
@@ -62,6 +65,8 @@ public interface ReadOnlyPerson {
                 .append(getAddress())
                 .append(" Birthday: ")
                 .append(getBirthday())
+                .append(" Facebook: ")
+                .append(getFacebook())
                 .append(" Remark: ")
                 .append(getRemark())
                 .append(" Tags: ");
