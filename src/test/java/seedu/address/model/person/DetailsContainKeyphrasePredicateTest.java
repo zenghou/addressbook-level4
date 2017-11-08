@@ -13,6 +13,7 @@ public class DetailsContainKeyphrasePredicateTest {
             .withPhone("99887766")
             .withEmail("peterlim@gmail.com")
             .withAddress("Orchard Towers Block 39 #13-12")
+            .withFacebook("21")
             .withTags("business", "professional")
             .withRemark("met during a networking event")
             .build();
@@ -102,6 +103,14 @@ public class DetailsContainKeyphrasePredicateTest {
         DetailsContainKeyphrasePredicate predicateAddressDifferentCase = new DetailsContainKeyphrasePredicate("Orchard "
                 + "Towers Block 39 #13-12");
         assertTrue(predicateAddressDifferentCase.test(samplePerson));
+
+        // matches Facebook in full
+        DetailsContainKeyphrasePredicate predicateFacebookFull = new DetailsContainKeyphrasePredicate("21");
+        assertTrue(predicateAddressFull.test(samplePerson));
+
+        // matches Facebook partially
+        DetailsContainKeyphrasePredicate predicateFacebookPartially = new DetailsContainKeyphrasePredicate("1");
+        assertTrue(predicateAddressPartially.test(samplePerson));
 
         // matches Tag in full
         DetailsContainKeyphrasePredicate predicateTagFull = new DetailsContainKeyphrasePredicate("professional");
