@@ -58,6 +58,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 Format: `help`
 
+// tag::login[]
 === Logging in : `login`
 
 Validates the current user before executing commands. +
@@ -73,6 +74,10 @@ User must be logged in before executing commands.
 Format:
 
 * `login usr/[enter username] pwd/[enter password]
+
+Since v1.3.
+
+// end::login[]
 
 === Adding a person: `add`
 
@@ -152,6 +157,7 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
+// tag::search[]
 === Locating persons by details: `search`
 
 Finds persons whose details contain any of the given keywords. +
@@ -175,6 +181,10 @@ Returns `john` and `John Doe`
 Returns any person having names `John Doe`
 * `search mate` +
 Returns any person with details that matches `mate` such as `classmate` in tags.
+
+Since v1.2.
+
+// end::search[]
 
 === Deleting a person : `delete`
 
@@ -371,8 +381,10 @@ e.g. `delete 3`
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
 * *Find* : `find KEYWORD [MORE_KEYWORDS]` +
 e.g. `find James Jake`
+* *Login* : `login [usr/username] [pwd/password]`
 * *List* : `list`
 * *Help* : `help`
+* *Search* : `search [keyphrase]`
 * *Select* : `select INDEX` +
 e.g.`select 2`
 * *Export* : `export INDEXES ; FILE_PATH` +
