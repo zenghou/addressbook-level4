@@ -8,8 +8,7 @@ AddressBook - Level 4 is a desktop address book application used for teaching So
 
 *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] {give links to collated code files}
 
-=== Enhancement Added: +
-`remark` Command
+=== Enhancement Added: `remark` Command
 ==== External behavior
 
 ---
@@ -41,7 +40,7 @@ include::../DeveloperGuide.adoc[tag=remark]
 
 ---
 
-=== Enhancement Added: Add command `search`
+=== Enhancement Added: `search` Command
 ==== External behavior
 
 ---
@@ -74,7 +73,7 @@ include::../DeveloperGuide.adoc[tag=search]
 
 ---
 
-=== Enhancement Added: Add command `login`
+=== Enhancement Added: `login` Command
 ==== External behavior
 
 ---
@@ -106,7 +105,7 @@ include::../DeveloperGuide.adoc[tag=login]
 
 ---
 
-=== Enhancement Added: Add profile icture for contact
+=== Enhancement Added: Profile picture for contact
 ==== External behavior
 
 ---
