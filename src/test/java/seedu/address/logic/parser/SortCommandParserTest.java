@@ -13,7 +13,7 @@ import seedu.address.logic.commands.SortCommand;
  */
 public class SortCommandParserTest {
     private SortCommandParser parser = new SortCommandParser();
-    
+
     @Test
     public void parse_invalidArgs_throwsParseException() {
         assertParseFailure(parser, " ",
