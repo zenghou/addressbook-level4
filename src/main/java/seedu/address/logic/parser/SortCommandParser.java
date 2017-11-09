@@ -35,13 +35,15 @@ public class SortCommandParser implements Parser<SortCommand> {
             );
         }
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME_FOR_SORTING)) {
+        if (!(arePrefixesPresent(argMultimap, PREFIX_NAME_FOR_SORTING) 
+                || arePrefixesPresent(argMultimap, PREFIX_PHONE_FOR_SORTING))) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         /**
          * Invalid command arguments would result in a loaded preamble
          */
+        //@@author sunarjo-denny-reused
         if (!argMultimap.getPreamble().equals("")) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
@@ -55,8 +57,7 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         return new SortCommand(attribute, isReversed);
     }
-
-    //@@author sunarjo-denny-reused
+    
     private Consumer<String> setOrder(Prefix prefix) {
         return s-> {
             attribute = prefix.toString();
