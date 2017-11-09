@@ -8,14 +8,18 @@ AddressBook - Level 4 is a desktop address book application used for teaching So
 
 *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] {give links to collated code files}
 
-=== Enhancement Added: Undo/Redo
-
+=== Enhancement Added: Remark Command
 ==== External behavior
 
 ---
-#Start of Extract [from: User Guide]#
 
-include::../UserGuide.adoc[tag=undoredo]
+Adds a `remark` to a person in the address book
+Format: `remark INDEX [r/REMARK]`
+
+
+#Start of Extract [from: UserGuide]#
+
+include::../UserGuide.adoc[tag=remark]
 
 #End of Extract#
 
@@ -23,14 +27,14 @@ include::../UserGuide.adoc[tag=undoredo]
 
 ==== Justification
 
-{Justify the need for, and the current design (i.e. external behavior) of, the feature}
+* While a `remark` field is similar in nature to `tag` field, they serve different purpose. The former is used to store short phrase about a person (e.g. Likes to drink coffee and has good sense of humor) whereas the latter is suited for classifying persons in the address book. 
 
 ==== Implementation
 
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::../DeveloperGuide.adoc[tag=undoredo]
+include::../DeveloperGuide.adoc[tag=remark]
 
 #End of Extract#
 
