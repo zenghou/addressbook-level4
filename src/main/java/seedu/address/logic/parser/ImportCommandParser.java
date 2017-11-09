@@ -1,4 +1,3 @@
-//@@author HanYaodong
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -6,6 +5,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+//@@author HanYaodong
 /**
  * Parses input argument to a file path and creates a new ImportCommand.
  */

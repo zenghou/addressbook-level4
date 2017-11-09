@@ -1,4 +1,3 @@
-//@@author HanYaodong
 package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
@@ -22,6 +21,7 @@ import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 import seedu.address.testutil.TypicalPersons;
 
+//@@author HanYaodong
 public class ImportCommandTest {
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandTest/");
 

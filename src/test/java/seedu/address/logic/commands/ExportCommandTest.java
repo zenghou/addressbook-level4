@@ -1,4 +1,3 @@
-//@@author HanYaodong
 package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
@@ -35,6 +34,7 @@ import seedu.address.model.user.UserCreds;
 import seedu.address.model.user.UserPrefs;
 import seedu.address.storage.XmlPersonListStorage;
 
+//@@author HanYaodong
 //TODO: the export command test depends on Storage part. Consider separation of components.
 public class ExportCommandTest {
 
