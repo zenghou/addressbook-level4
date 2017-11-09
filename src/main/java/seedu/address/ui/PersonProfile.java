@@ -63,8 +63,8 @@ public class PersonProfile extends UiPart<Region> {
      */
     private void initPersonProfile(ReadOnlyPerson person) {
         profile.setText("PROFILE");
-        name.setText(person.getName().toString());
-        remark.setText(person.getRemark().toString());
+        name.setText(person.getName().toString().toUpperCase());
+        remark.setText("\"" + person.getRemark().toString() + "\"");
         tags.getChildren().clear(); // clear existing tags
         person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
