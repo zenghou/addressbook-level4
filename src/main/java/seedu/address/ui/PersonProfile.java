@@ -40,7 +40,7 @@ public class PersonProfile extends UiPart<Region> {
 
     @FXML
     private Label name;
-    
+
     @FXML
     private Label birthday;
 
