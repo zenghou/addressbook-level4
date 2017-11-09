@@ -40,6 +40,9 @@ public class PersonProfile extends UiPart<Region> {
 
     @FXML
     private Label name;
+    
+    @FXML
+    private Label birthday;
 
     @FXML
     private Label remark;
@@ -64,6 +67,7 @@ public class PersonProfile extends UiPart<Region> {
     private void initPersonProfile(ReadOnlyPerson person) {
         profile.setText("PROFILE");
         name.setText(person.getName().toString().toUpperCase());
+        birthday.setText(person.getBirthday().toString());
         remark.setText("\"" + person.getRemark().toString() + "\"");
         tags.getChildren().clear(); // clear existing tags
         person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

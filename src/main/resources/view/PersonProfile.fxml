@@ -19,13 +19,17 @@
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="230.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="455.0" minHeight="10.0" prefHeight="443.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <VBox prefHeight="482.0" prefWidth="306.0">
+      <Label fx:id="profile" />
+      <VBox prefHeight="482.0" prefWidth="306.0" styleClass="profile-wrapper" GridPane.rowIndex="1">
          <children>
-            <Label fx:id="profile" />
-            <ImageView fx:id="profilePicture" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" translateX="93.0" />
+            <ImageView fx:id="profilePicture" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" translateX="93.0">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></ImageView>
             <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="300.0" styleClass="name" textAlignment="CENTER">
                <VBox.margin>
                   <Insets left="5.0" right="5.0" top="5.0" />
@@ -39,6 +43,14 @@
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
+                  </Label>
+                  <Label fx:id="birthday" styleClass="birthday-field">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
                   </Label>
                </children>
                <padding>
