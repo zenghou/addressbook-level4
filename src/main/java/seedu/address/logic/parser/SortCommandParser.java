@@ -35,7 +35,7 @@ public class SortCommandParser implements Parser<SortCommand> {
             );
         }
 
-        if (!(arePrefixesPresent(argMultimap, PREFIX_NAME_FOR_SORTING) 
+        if (!(arePrefixesPresent(argMultimap, PREFIX_NAME_FOR_SORTING)
                 || arePrefixesPresent(argMultimap, PREFIX_PHONE_FOR_SORTING))) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
