@@ -57,7 +57,6 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         return new SortCommand(attribute, isReversed);
     }
-    
     private Consumer<String> setOrder(Prefix prefix) {
         return s-> {
             attribute = prefix.toString();
