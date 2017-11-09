@@ -6,7 +6,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 == Project: AddressBook - Level 4
 AddressBook - Level 4 is a desktop address book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 6 kLoC.
 
-*Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] {give links to collated code files}
+*Code contributed*: [https://github.com/CS2103AUG2017-F11-B4/main/blob/master/collated/main/zenghou.md[Functional code]] [https://github.com/CS2103AUG2017-F11-B4/main/blob/master/collated/test/zenghou.md[Test code]] {give links to collated code files}
 
 === Enhancement Added: `remark` Command
 ==== External behavior
@@ -19,7 +19,7 @@ Format: `remark INDEX [r/REMARK]`
 
 #Start of Extract [from: UserGuide]#
 
-include::docs/UserGuide.adoc[tag=remark]
+include::../UserGuide.adoc[tag=remark]
 
 #End of Extract#
 
@@ -34,7 +34,7 @@ While a `remark` field is similar in nature to `tag` field, they serve different
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::docs/DeveloperGuide.adoc[tag=remark]
+include::../DeveloperGuide.adoc[tag=remark]
 
 #End of Extract#
 
@@ -52,7 +52,7 @@ Format: `search [keyphrase]`
 
 #Start of Extract [from: UserGuide]#
 
-include::docs/UserGuide.adoc[tag=search]
+include::../UserGuide.adoc[tag=search]
 
 #End of Extract#
 
@@ -67,7 +67,7 @@ include::docs/UserGuide.adoc[tag=search]
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::docs/DeveloperGuide.adoc[tag=search]
+include::../DeveloperGuide.adoc[tag=search]
 
 #End of Extract#
 
@@ -84,7 +84,7 @@ Format: `login [usr/username] [pwd/password]`
 
 #Start of Extract [from: UserGuide]#
 
-include::docs/UserGuide.adoc[tag=login]
+include::../UserGuide.adoc[tag=login]
 
 #End of Extract#
 
@@ -99,7 +99,7 @@ Since this address book stores personal information about people, there should b
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::docs/DeveloperGuide.adoc[tag=login]
+include::../DeveloperGuide.adoc[tag=login]
 
 #End of Extract#
 
@@ -123,19 +123,13 @@ As this address book is meant for University students to store their contacts, i
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::docs/DeveloperGuide.adoc[tag=facebookProfilePicture]
+include::../DeveloperGuide.adoc[tag=facebookProfilePicture]
 
 #End of Extract#
 
 ---
 
-{Explain similar to the Undo/Redo feature above.}
-
 === Other contributions
 
 * Add non-functional requirements (Pull requests https://github.com/CS2103AUG2017-F11-B4/main/pull/4)
 * Designed UI mockup (Pull requests https://github.com/CS2103AUG2017-F11-B4/main/pull/19)
-
-== Project: PowerPointLabs
-
-{Optionally (not graded), you may include other projects in your portfolio.}
