@@ -9,6 +9,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_STRING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FACEBOOK;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FACEBOOK_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
@@ -111,13 +113,14 @@ public class AutoComplete {
      */
     private static String addCommandAutoComplete(String args) {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
-            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_TAG);
+            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_FACEBOOK, PREFIX_TAG);
         return AddCommand.COMMAND_WORD + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_NAME) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_PHONE) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_BIRTHDAY) + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_FACEBOOK) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_TAG);
     }
 
@@ -133,7 +136,7 @@ public class AutoComplete {
      */
     private static String editCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
-            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_TAG);
+            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_FACEBOOK, PREFIX_TAG);
 
         String indexString = argMultimap.getPreamble();
         Index index;
@@ -154,6 +157,7 @@ public class AutoComplete {
                 + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_BIRTHDAY, person) + " "
+                + formatPrefixWithArgs(argMultimap, PREFIX_FACEBOOK, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person);
         } catch (IndexOutOfBoundsException e) {
             String restArgs = args.replaceFirst(indexString, "").trim();
@@ -328,6 +332,8 @@ public class AutoComplete {
             return prefix.getPrefix() + ParserUtil.parseBirthday(firstArg).map(p -> p.value).orElse("");
         case PREFIX_EMAIL_STRING:
             return prefix.getPrefix() + ParserUtil.parseEmail(firstArg).map(p -> p.value).orElse("");
+        case PREFIX_FACEBOOK_STRING:
+            return prefix.getPrefix() + ParserUtil.parseFacebook(firstArg).map(p -> p.value).orElse("");
         case PREFIX_NAME_STRING:
             return prefix.getPrefix() + ParserUtil.parseName(firstArg).map(p -> p.fullName).orElse("");
         case PREFIX_PHONE_STRING:
@@ -365,6 +371,8 @@ public class AutoComplete {
             return person.getAddress().value;
         case PREFIX_BIRTHDAY_STRING:
             return person.getBirthday().value;
+        case PREFIX_FACEBOOK_STRING:
+            return  person.getFacebook().value;
         case PREFIX_REMARK_STRING:
             return person.getRemark().value;
         case PREFIX_TAG_STRING:
