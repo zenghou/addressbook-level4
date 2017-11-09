@@ -12,7 +12,6 @@ import seedu.address.logic.commands.SortCommand;
  * To test that sort command parses correctly
  */
 public class SortCommandParserTest {
-    
     private SortCommandParser parser = new SortCommandParser();
     
     @Test
