@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_FOR_SORTING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_FOR_SORTING;
 
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -32,6 +33,10 @@ public class SortCommandParser implements Parser<SortCommand> {
             throw new ParseException(
                     String.format(SortCommand.MESSAGE_MULTIPLE_ATTRIBUTE_ERROR, SortCommand.MESSAGE_USAGE)
             );
+        }
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME_FOR_SORTING)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         /**
@@ -64,5 +69,13 @@ public class SortCommandParser implements Parser<SortCommand> {
                 return;
             }
         };
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }
