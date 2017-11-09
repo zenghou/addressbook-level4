@@ -8,7 +8,7 @@ AddressBook - Level 4 is a desktop address book application used for teaching So
 
 *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] {give links to collated code files}
 
-=== Enhancement Added: Remark Command
+=== Enhancement Added: `remark` Command
 ==== External behavior
 
 ---
@@ -27,7 +27,7 @@ include::../UserGuide.adoc[tag=remark]
 
 ==== Justification
 
-* While a `remark` field is similar in nature to `tag` field, they serve different purpose. The former is used to store short phrase about a person (e.g. Likes to drink coffee and has good sense of humor) whereas the latter is suited for classifying persons in the address book. 
+While a `remark` field is similar in nature to `tag` field, they serve different purpose. The former is used to store short phrase about a person (e.g. Likes to drink coffee and has good sense of humor) whereas the latter is suited for classifying persons in the address book.
 
 ==== Implementation
 
@@ -40,7 +40,94 @@ include::../DeveloperGuide.adoc[tag=remark]
 
 ---
 
-=== Enhancement Proposed: Add command `remark`
+=== Enhancement Proposed: Add command `search`
+==== External behavior
+
+---
+
+Similar to the `find` command. 
+This comand searches for persons whose details contain the given keyphrase
+Format: `search [keyphrase]`
+
+
+#Start of Extract [from: UserGuide]#
+
+include::../UserGuide.adoc[tag=search]
+
+#End of Extract#
+
+---
+
+==== Justification
+
+`Search` is similar to `find`, but is more extensive. Instead of looking only at the name of the person in the addressbook, every other detail is checked. This might be useful when users are trying to search for persons who live in a particular location (e.g. search Clementi Road), or for persons who have gmail accounts (e.g. search @gmail.com). From a user experience perspective, there is high degree of consistency between this search command and the search command users would expect of web browsers, word processors and the likes.
+
+==== Implementation
+
+---
+#Start of Extract [from: Developer Guide]#
+
+include::../DeveloperGuide.adoc[tag=search]
+
+#End of Extract#
+
+---
+
+=== Enhancement Proposed: Add command `login`
+==== External behavior
+
+---
+
+Authenticates the current user before giving read or write access.
+Format: `login [usr/username] [pwd/password]`
+
+
+#Start of Extract [from: UserGuide]#
+
+include::../UserGuide.adoc[tag=login]
+
+#End of Extract#
+
+---
+
+==== Justification
+
+Since this address book stores personal information about people, there should be some degree of security and privacy protection when it comes to using this address book. Therefore, without logging in, a user may not see or modify the contents of the address book. 
+
+==== Implementation
+
+---
+#Start of Extract [from: Developer Guide]#
+
+include::../DeveloperGuide.adoc[tag=login]
+
+#End of Extract#
+
+---
+
+=== Enhancement Proposed: Add profile icture for contact
+==== External behavior
+
+---
+
+Contacts in the address book will now be assigned to their profile pictures used on Facebook, if any. Otherwise, a default image would be used. The contact's Facebook id has to be saved before the retrieval is possible.
+
+---
+
+==== Justification
+
+As this address book is meant for University students to store their contacts, it is expected to store a significant number of contacts. As such, it might be difficult to visually recognize and identify contacts solely by the words and their contact information. Moreover, this visual search may be demanding especially when contacts share the same first names. Therefore, by having a contact image, the user would be able to quickly identify their target contact.
+
+==== Implementation
+
+---
+#Start of Extract [from: Developer Guide]#
+
+include::../DeveloperGuide.adoc[tag=facebookProfilePicture]
+
+#End of Extract#
+
+---
 
 {Explain similar to the Undo/Redo feature above.}
 
