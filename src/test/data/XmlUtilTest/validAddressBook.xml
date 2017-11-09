@@ -6,6 +6,7 @@
         <email isPrivate="false">hans@example.com</email>
         <address isPrivate="false">4th street</address>
         <birthday isPrivate="false">2000/01/01</birthday>
+        <facebook isPrivate="false">4</facebook>
         <remark isPrivate="false">likes pineapple</remark>
 
     </persons>
@@ -15,6 +16,7 @@
         <email isPrivate="false">ruth@example.com</email>
         <address isPrivate="false">81th street</address>
         <birthday isPrivate="false">2000/02/02</birthday>
+        <facebook isPrivate="false">5</facebook>
         <remark isPrivate="false">likes coffee</remark>
     </persons>
     <persons>
@@ -23,6 +25,7 @@
         <email isPrivate="false">heinz@example.com</email>
         <address isPrivate="false">wall street</address>
         <birthday isPrivate="false">2000/03/03</birthday>
+        <facebook isPrivate="false">6</facebook>
         <remark isPrivate="false">likes milk tea</remark>
     </persons>
     <persons>
@@ -31,6 +34,7 @@
         <email isPrivate="false">cornelia@example.com</email>
         <address isPrivate="false">10th street</address>
         <birthday isPrivate="false">2000/04/04</birthday>
+        <facebook isPrivate="false">7</facebook>
         <remark isPrivate="false">likes dragon fruit</remark>
     </persons>
     <persons>
@@ -39,6 +43,7 @@
         <email isPrivate="false">werner@example.com</email>
         <address isPrivate="false">michegan ave</address>
         <birthday isPrivate="false">2000/05/05</birthday>
+        <facebook isPrivate="false">8</facebook>
         <remark isPrivate="false">likes dolphins</remark>
     </persons>
     <persons>
@@ -47,6 +52,7 @@
         <email isPrivate="false">lydia@example.com</email>
         <address isPrivate="false">little tokyo</address>
         <birthday isPrivate="false">2000/06/06</birthday>
+        <facebook isPrivate="false">9</facebook>
         <remark isPrivate="false">likes to drink alcohol</remark>
     </persons>
     <persons>
@@ -55,6 +61,7 @@
         <email isPrivate="false">anna@example.com</email>
         <address isPrivate="false">4th street</address>
         <birthday isPrivate="false">2000/07/07</birthday>
+        <facebook isPrivate="false">10</facebook>
         <remark isPrivate="false">likes talking a stroll in the park</remark>
     </persons>
     <persons>
@@ -63,6 +70,7 @@
         <email isPrivate="false">stefan@example.com</email>
         <address isPrivate="false">little india</address>
         <birthday isPrivate="false">2000/08/08</birthday>
+        <facebook isPrivate="false">11</facebook>
         <remark isPrivate="false">likes watching movies</remark>
     </persons>
     <persons>
@@ -71,6 +79,7 @@
         <email isPrivate="false">hans@example.com</email>
         <address isPrivate="false">chicago ave</address>
         <birthday isPrivate="false">2000/09/09</birthday>
+        <facebook isPrivate="false">12</facebook>
         <remark isPrivate="false">likes partying</remark>
     </persons>
 </addressbook>

@@ -7,6 +7,7 @@
         <email>stefan@example.com</email>
         <address>little india</address>
         <birthday>2000/01/01</birthday>
+        <facebook>11</facebook>
         <remark></remark>
         <tagged>friend</tagged>
     </persons>
@@ -16,6 +17,7 @@
         <email>stefan@example.com</email>
         <address>little india</address>
         <birthday>2000/01/01</birthday>
+        <facebook>11</facebook>
         <remark></remark>
         <tagged>friend</tagged>
     </persons>

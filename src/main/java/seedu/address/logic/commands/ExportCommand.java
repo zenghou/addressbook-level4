@@ -21,8 +21,9 @@ public class ExportCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
         + ": Exports persons identified by the index numbers used in the last person listing to a specified save file."
-        + "\n" + "Parameters: INDEXES; FILE_PATH (Indexes must be positive integers separated by commas or spaces)\n"
-        + "Example: " + COMMAND_WORD + " 1, 2 3; /Users/[User Name]/Desktop/persons.xml";
+        + "\n" + "Parameters: INDEXES; FILE_PATH\n"
+        + "(Indexes must be positive integers or two indexes linked by \"-\" separated by commas or spaces)\n"
+        + "Example: " + COMMAND_WORD + " 1-3, 4 6; /Users/[User Name]/Desktop/persons.xml";
 
     public static final String MESSAGE_EXPORT_PERSON_SUCCESS = "Your contacts: %1$shave been exported to file: %2$s";
 
@@ -36,12 +37,6 @@ public class ExportCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
-        // check if user is validated
-        if (!model.getUserCreds().isValidSession()) {
-            throw new CommandException("Invalid session! Please log in first! \n"
-                    + LoginCommand.MESSAGE_USAGE);
-        }
-
         List<ReadOnlyPerson> personsToSave = null;
 
         try {

@@ -43,7 +43,7 @@ public class ExportCommandParserTest {
 
     @Test
     public void parse_invalidIndex_failure() {
-        String input = "1, 2 3-4 ; " + VALID_FILE_PATH;
+        String input = "1, 2 3-4 a; " + VALID_FILE_PATH;
         assertParseFailure(parser, input, EXPECTED_MATCH_ERROR_MESSAGE);
 
         String negativeIndexInput = "-1 ; " + VALID_FILE_PATH;
@@ -77,6 +77,11 @@ public class ExportCommandParserTest {
         List<Index> indexes = getIndexListFromOneBasedArray(1, 2, 3);
         String input = "1, 2 3 ; " + VALID_FILE_PATH;
         ExportCommand exportCommand = new ExportCommand(indexes, VALID_FILE_PATH.trim());
+        assertParseSuccess(parser, input, exportCommand);
+
+        indexes = getIndexListFromOneBasedArray(1, 2, 3, 5, 7, 8, 9);
+        input = "1, 2, 3 5 7-9;" + VALID_FILE_PATH;
+        exportCommand = new ExportCommand(indexes, VALID_FILE_PATH.trim());
         assertParseSuccess(parser, input, exportCommand);
     }
 

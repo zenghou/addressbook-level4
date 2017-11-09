@@ -62,12 +62,12 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
          * -> imported with duplicated persons ignored
          */
         ReadOnlyPerson james = new PersonBuilder().withName("James Turner").withPhone("66666666")
-            .withEmail("james@example.com").withAddress("Sydney").withBirthday("2000/01/01")
-                .withTags("friends").build();
+                .withEmail("james@example.com").withAddress("Sydney").withBirthday("2000/01/01")
+                .withFacebook("30").withTags("friends").build();
         expectedModel.addPerson(james);
         command = getCommandWord("DuplicatedPersonInAddressBook.xml");
         expectedMessage = ImportCommand.MESSAGE_DUPLICATED_PERSON_IN_ADDRESS_BOOK_WARNING
-            + String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, 2);
+                + String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, 2);
         assertCommandSuccess(command, expectedModel, expectedMessage);
 
         /* Case: import to an empty address book -> imported */

@@ -20,7 +20,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
     public static final String MISSING_FILE_PATH = "Missing file path!\n";
 
     private static final Pattern INDEXES_AND_FILEPATH =
-        Pattern.compile("(?<oneBasedIndexListString>.(((\\d)*(,)*(\\s)*)+));(?<filePath>.*)");
+        Pattern.compile("(?<oneBasedIndexListString>.(((\\d)*(,)*(\\s)*(-)*)+));(?<filePath>.*)");
 
     @Override
     public ExportCommand parse(String args) throws ParseException {
@@ -35,7 +35,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         // parse indexes
         List<Index> indexes;
         try {
-            indexes = ParserUtil.parseIndexList(oneBasedIndexListString);
+            indexes = ParserUtil.parseRangeIndexList(oneBasedIndexListString);
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }

@@ -24,7 +24,11 @@ This app will not work with earlier versions of Java 8.
 +
 .  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your Address Book.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Open a terminal and run the command to start the app: `$ java -jar addressbook.jar`. The GUI should appear in a few seconds.
++
+[NOTE]
+Double-click to open address book may work, but there will be unexpected errors. +
+So run the program through terminal is much preferred.
 +
 image::Ui.png[width="790"]
 +
@@ -73,8 +77,11 @@ Format:
 === Adding a person: `add`
 
 Adds a person to the address book +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL [a/ADDRESS] [b/BIRTHDAY] [t/TAG]...` +
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL [a/ADDRESS] [b/BIRTHDAY] [f/FACEBOOK] [t/TAG]...` +
 Shorthand for add: `a`
+
+[NOTE]
+Facebook represents a person's Facebook ID (a long number), rather than the Facebook username.
 
 [TIP]
 A person can have any number of tags (including 0)
@@ -82,7 +89,7 @@ A person can have any number of tags (including 0)
 Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 f/153080620724s t/criminal`
 
 === Listing all persons : `list`
 
@@ -106,7 +113,7 @@ Examples:
 === Editing a person : `edit`
 
 Edits an existing person in the address book. +
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [b/BIRTHDAY] [t/TAG]...` +
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [b/BIRTHDAY] [f/FACEBOOK] [t/TAG]...` +
 Shorthand for edit: `e`
 
 ****
@@ -217,7 +224,8 @@ Exports persons identified by the index numbers used in the last person listing 
 Format: `export INDEXES ; FILE_PATH` +
 
 ****
-* The indexes refers to the index number shown in the most recent listing, and must be positive numbers separated by whitespaces or commas (,).
+* The indexes must be positive numbers or two indexes linked by "-" (e. g. "1-4"), and they should be separated by whitespaces or commas (e.g. 1-3, 4 6).
+* The indexes refers to the index number shown in the most recent listing.
 * `INDEXES` and `FILE_PATH` must be separated by ";".
 * If the given file exsits, it will be overwritten without warning.
 * The persons are exported to a XML format file, so a `.xml` extension will be automatically added, if the given file does not have one.
@@ -227,8 +235,8 @@ Format: `export INDEXES ; FILE_PATH` +
 Examples:
 
 * `list` +
-`export 1, 2 3; Persons.xml` +
-Exports 1st, 2nd and 3rd person in the address book to `Persons.xml` in the current working directory.
+`export 1-3, 5; Persons.xml` +
+Exports 1st, 2nd, 3rd and 5th person in the address book to `Persons.xml` in the current working directory.
 
 Since v1.1.
 
