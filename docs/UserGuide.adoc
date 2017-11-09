@@ -218,6 +218,7 @@ Selects the 2nd person in the address book.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
+// tag::exportimport[]
 === Exporting a list of persons : `export`
 
 Exports persons identified by the index numbers used in the last person listing to a specified save file. +
@@ -261,6 +262,7 @@ Imports MyContacts.xml relative to your working directory.
 Import command supports different platforms and corresponding style.
 
 Since v1.2.
+// end::exportimport[]
 
 === Listing entered commands : `history`
 
@@ -335,6 +337,7 @@ Shorthand for clear: `c`
 Exits the program. +
 Format: `exit`
 
+// tag::autocomplete[]
 === Auto-complete commands
 
 Address book has auto-complete function for the commands. If you hit `TAB` in the command box or if you try to execute an error command, the command box will show the auto-completed command and suggestions. +
@@ -349,6 +352,7 @@ The auto-complete function will work in the following ways:
 * try to guess what command is being inputting when the command word is invalid.
 
 Since v1.3.
+// end::autocomplete[]
 
 === Saving the data
 

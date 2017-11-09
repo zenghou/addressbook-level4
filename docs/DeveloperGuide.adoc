@@ -472,6 +472,7 @@ In the event that an image cannot be retrieved from Facebook, a default image st
 **Pros**: Hassle free for users +
 **Cons**: The app id, app secret and token are stored in the open, which may pose security issues.
 
+// tag::autocomplete[]
 === Auto-Complete
 
 All auto-complete functions are implemented in one class, `AutoComplete`, including command fill-in and command word guess. +
@@ -495,6 +496,7 @@ The final return String will be the auto-completed command or a suggestion of po
 **Alternative 2:** More advanced matching methods (e. g. Bitap algorithm). +
 **Pros:** More accurate search with better performance. +
 **Cons:** Much more difficult to implement. +
+// end::autocomplete[]
 
 === Logging
 
