@@ -19,7 +19,7 @@ Format: `remark INDEX [r/REMARK]`
 
 #Start of Extract [from: UserGuide]#
 
-include::../UserGuide.adoc[tag=remark]
+include::docs/UserGuide.adoc[tag=remark]
 
 #End of Extract#
 
@@ -34,7 +34,7 @@ While a `remark` field is similar in nature to `tag` field, they serve different
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::../DeveloperGuide.adoc[tag=remark]
+include::docs/DeveloperGuide.adoc[tag=remark]
 
 #End of Extract#
 
@@ -52,7 +52,7 @@ Format: `search [keyphrase]`
 
 #Start of Extract [from: UserGuide]#
 
-include::../UserGuide.adoc[tag=search]
+include::docs/UserGuide.adoc[tag=search]
 
 #End of Extract#
 
@@ -67,7 +67,7 @@ include::../UserGuide.adoc[tag=search]
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::../DeveloperGuide.adoc[tag=search]
+include::docs/DeveloperGuide.adoc[tag=search]
 
 #End of Extract#
 
@@ -84,7 +84,7 @@ Format: `login [usr/username] [pwd/password]`
 
 #Start of Extract [from: UserGuide]#
 
-include::../UserGuide.adoc[tag=login]
+include::docs/UserGuide.adoc[tag=login]
 
 #End of Extract#
 
@@ -99,7 +99,7 @@ Since this address book stores personal information about people, there should b
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::../DeveloperGuide.adoc[tag=login]
+include::docs/DeveloperGuide.adoc[tag=login]
 
 #End of Extract#
 
@@ -123,7 +123,7 @@ As this address book is meant for University students to store their contacts, i
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::../DeveloperGuide.adoc[tag=facebookProfilePicture]
+include::docs/DeveloperGuide.adoc[tag=facebookProfilePicture]
 
 #End of Extract#
 
