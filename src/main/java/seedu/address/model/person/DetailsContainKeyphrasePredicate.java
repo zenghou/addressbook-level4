@@ -39,10 +39,11 @@ public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerso
         boolean emailContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getEmail().value, keyphrase);
         boolean phoneContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getPhone().value, keyphrase);
         boolean addressContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getAddress().value, keyphrase);
+        boolean facebookContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getFacebook().value, keyphrase);
         boolean remarkContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getRemark().value, keyphrase);
         boolean tagContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getTags().toString(), keyphrase);
 
         return nameContainsKeyphrase || emailContainsKeyphrase || phoneContainsKeyphrase || addressContainsKeyphrase
-                || remarkContainsKeyphrase || tagContainsKeyphrase;
+                || facebookContainsKeyphrase || remarkContainsKeyphrase || tagContainsKeyphrase;
     }
 }

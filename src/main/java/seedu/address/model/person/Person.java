@@ -23,19 +23,22 @@ public class Person implements ReadOnlyPerson {
     private ObjectProperty<Email> email;
     private ObjectProperty<Address> address;
     private ObjectProperty<Birthday> birthday;
+    private ObjectProperty<Facebook> facebook;
     private ObjectProperty<UniqueTagList> tags;
     private ObjectProperty<Remark> remark;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Birthday birthday, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Birthday birthday,
+                  Facebook facebook, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, birthday, tags);
         this.name = new SimpleObjectProperty<>(name);
         this.phone = new SimpleObjectProperty<>(phone);
         this.email = new SimpleObjectProperty<>(email);
         this.address = new SimpleObjectProperty<>(address);
         this.birthday = new SimpleObjectProperty<>(birthday);
+        this.facebook = new SimpleObjectProperty<>(facebook);
         // protect internal tags from changes in the arg list
         this.tags = new SimpleObjectProperty<>(new UniqueTagList(tags));
         this.remark = new SimpleObjectProperty<>(new Remark(""));
@@ -46,7 +49,7 @@ public class Person implements ReadOnlyPerson {
      */
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getBirthday(),
-                source.getTags());
+               source.getFacebook(), source.getTags());
         this.remark = new SimpleObjectProperty<>(source.getRemark());
     }
 
@@ -120,6 +123,20 @@ public class Person implements ReadOnlyPerson {
         this.birthday.set(birthday);
     }
 
+    public void setFacebook(Facebook facebook) {
+        this.facebook.set(facebook);
+    }
+
+    @Override
+    public ObjectProperty<Facebook> facebookProperty() {
+        return facebook;
+    }
+
+    @Override
+    public Facebook getFacebook() {
+        return facebook.get();
+    }
+
     @Override
     public void setRemark(Remark remark) {
         this.remark.set(remark);
@@ -174,7 +191,7 @@ public class Person implements ReadOnlyPerson {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, birthday, facebook, tags);
     }
 
     @Override

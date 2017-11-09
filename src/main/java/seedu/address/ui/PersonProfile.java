@@ -73,11 +73,10 @@ public class PersonProfile extends UiPart<Region> {
      * Retrieves a profile picture from Facebook {@see Facebook#getPictureURL}and sets that image as the contact image
      * for the Person's profile. A default image would be assigned if no picture is retrieved from Facebook.
      */
-    private void setProfilePicture() {
+    private void setProfilePicture(ReadOnlyPerson person) {
         Image profilePic;
         try {
-            // TODO: Replace hardcoded userID with Dynamically get Facebook userId
-            profilePic = new Image(facebook.getPictureURL("1253844668", PictureSize.large).toString());
+            profilePic = new Image(facebook.getPictureURL(person.getFacebook().value, PictureSize.large).toString());
         } catch (FacebookException fbe) {
             profilePic = new Image(defaultProfilePicture);
             fbe.printStackTrace();
@@ -88,8 +87,9 @@ public class PersonProfile extends UiPart<Region> {
     @Subscribe
     private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        initPersonProfile(event.getNewSelection().person);
-        setProfilePicture();
+        ReadOnlyPerson selectedPerson = event.getNewSelection().person;
+        initPersonProfile(selectedPerson);
+        setProfilePicture(selectedPerson);
     }
 
     @Override

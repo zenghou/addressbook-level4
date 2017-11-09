@@ -14,6 +14,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Facebook;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -89,9 +90,10 @@ public class RemarkCommand extends UndoableCommand {
         Email email = personToAddRemarkTo.getEmail();
         Address address = personToAddRemarkTo.getAddress();
         Birthday birthday = personToAddRemarkTo.getBirthday();
+        Facebook facebook = personToAddRemarkTo.getFacebook();
         Set<Tag> tags = personToAddRemarkTo.getTags();
 
-        Person personWithRemark = new Person(name, phone, email, address, birthday, tags);
+        Person personWithRemark = new Person(name, phone, email, address, birthday, facebook, tags);
         personWithRemark.setRemark(rmk);
 
         return personWithRemark;
