@@ -100,15 +100,15 @@ Shorthand for list: `l`
 === Sorting persons list : `sort`
 
 Sorts the persons list according to the attribute specified in ascending or descending order. +
-Format: `sort PREFIX/ [reverse]` +
+Format: `sort attribute [reverse]` +
 
 [TIP]
 Sort function will sort the attribute in ascending order by default
 
 Examples:
 
-* `sort n/ reverse`
-* `sort p/`
+* `sort name reverse`
+* `sort phone`
 
 === Editing a person : `edit`
 
