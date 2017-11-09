@@ -133,8 +133,8 @@ include::../DeveloperGuide.adoc[tag=facebookProfilePicture]
 
 === Other contributions
 
-* Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
-* Wrote additional tests to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
+* Add non-functional requirements (Pull requests https://github.com/CS2103AUG2017-F11-B4/main/pull/4)
+* Designed UI mockup (Pull requests https://github.com/CS2103AUG2017-F11-B4/main/pull/19)
 
 == Project: PowerPointLabs
 
