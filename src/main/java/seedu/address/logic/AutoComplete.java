@@ -24,6 +24,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME_STRING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -167,23 +168,32 @@ public class AutoComplete {
      * Auto-completes export command.
      */
     private static String exportCommandAutoComplete(String args) {
-        Pattern exportPattern = Pattern.compile("(?<possibleIndexList>.[^;]);(?<possibleFilePath>.*)");
-        Matcher matcher = exportPattern.matcher(args);
+        if (args.trim().isEmpty()) {
+            return ExportCommand.COMMAND_WORD + " ";
+        }
 
         String possibleIndexListString;
-        String possibleFilePath;
-        if (matcher.matches()) { // contains delimiter ";"
-            possibleIndexListString = matcher.group("possibleIndexList");
-            possibleFilePath = matcher.group("possibleFilePath");
+        String possibleFilePath = "";
+        if (args.contains(";")) { // contains delimiter ";"
+            possibleIndexListString = args.substring(0, args.indexOf(';'));
+            possibleFilePath = args.substring(args.indexOf(';') + 1);
         } else { // try to find the index part and file part
             int possibleDelimiterIndex = Math.max(args.lastIndexOf(' '), args.lastIndexOf(','));
             possibleIndexListString = args.substring(0, possibleDelimiterIndex);
-            possibleFilePath = args.substring(possibleDelimiterIndex + 1);
+            if (possibleIndexListString.trim().isEmpty()) { // the only argument should be index
+                possibleIndexListString = args;
+            } else { // the last argument should be filePath
+                possibleFilePath = args.substring(possibleDelimiterIndex + 1);
+            }
         }
 
         // format Index List
-        possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s|,)+"))
-            .map(AutoComplete::formatSingleIndexString).filter(p -> !p.isEmpty()).collect(Collectors.joining(", "));
+        try {
+            possibleIndexListString = wrapRangeIndexList(ParserUtil.parseRangeIndexList(possibleIndexListString));
+        } catch (IllegalValueException ive) {
+            possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s|,)+"))
+                .map(AutoComplete::formatRangeIndexString).filter(p -> !p.isEmpty()).collect(Collectors.joining(", "));
+        }
 
         // format file path
         possibleFilePath = possibleFilePath.trim();
@@ -333,8 +343,9 @@ public class AutoComplete {
         case PREFIX_PHONE_STRING:
             return prefix.getPrefix() + ParserUtil.parsePhone(firstArg).map(p -> p.value).orElse("");
         case PREFIX_TAG_STRING:
-            return ParserUtil.parseTags(argList).stream().map(p -> (prefix + p.tagName))
+            String tagString = ParserUtil.parseTags(argList).stream().map(p -> (prefix + p.tagName))
                 .collect(Collectors.joining(" "));
+            return tagString.isEmpty() ? PREFIX_TAG_STRING : tagString;
         case PREFIX_REMARK_STRING:
             return prefix.getPrefix() + firstArg.get().trim();
         case PREFIX_USERNAME_STRING:
@@ -379,6 +390,57 @@ public class AutoComplete {
      */
     private static String formatSingleIndexString(String arg) {
         return arg.replaceAll("\\D", "");
+    }
+
+    /**
+     * Formats the argument into range index list form.
+     */
+    private static String formatRangeIndexString(String arg) {
+        String numString = arg.replaceAll("((?!\\d|-).)+", "");
+        Matcher rangeIndexMatcher = Pattern.compile("(?<first>\\d+)-(?<second>\\d+).*").matcher(numString);
+        if (rangeIndexMatcher.matches()) { // range index
+            int firstNum = Integer.parseInt(rangeIndexMatcher.group("first"));
+            int secondNum = Integer.parseInt(rangeIndexMatcher.group("second"));
+            return Math.min(firstNum, secondNum) + "-" + Math.max(firstNum, secondNum);
+        } else { // single index, including number only on one side of '-'
+            return numString.replaceAll("\\D+", "");
+        }
+    }
+
+    /**
+     * Wraps the Index list by range index.
+     */
+    private static String wrapRangeIndexList(List<Index> indexList) {
+        if (indexList.isEmpty()) {
+            return "";
+        }
+        List<Integer> oneBasedIndexList = indexList.stream().map(Index::getOneBased).collect(Collectors.toList());
+        Collections.sort(oneBasedIndexList);
+
+        List<List<Integer>> splitList = new ArrayList<>();
+        List<Integer> currentList = new ArrayList<>();
+        for (int i = 0; i < oneBasedIndexList.size() - 1; i++) {
+            currentList.add(oneBasedIndexList.get(i));
+            if (oneBasedIndexList.get(i + 1) != oneBasedIndexList.get(i) + 1) {
+                splitList.add(currentList);
+                currentList = new ArrayList<>();
+            }
+        }
+        currentList.add(oneBasedIndexList.get(oneBasedIndexList.size() - 1));
+        splitList.add(currentList);
+
+        List<String> oneBasedRangeIndexStrings = new ArrayList<>();
+        for (List<Integer> oneBasedRangeIndex : splitList) {
+            if (oneBasedRangeIndex.size() == 1) { // single index
+                oneBasedRangeIndexStrings.add(String.valueOf(oneBasedRangeIndex.get(0)));
+            } else {
+                int first = oneBasedRangeIndex.get(0);
+                int last = oneBasedRangeIndex.get(oneBasedRangeIndex.size() - 1);
+                oneBasedRangeIndexStrings.add(first + "-" + last);
+            }
+        }
+
+        return oneBasedRangeIndexStrings.stream().collect(Collectors.joining(", "));
     }
 
     /**

@@ -182,19 +182,47 @@ public class AutoCompleteTest {
     }
 
     @Test
+    public void autoCompleteExport_noArg_trimSpaces() {
+        String command = "export    ";
+        String expected = "export ";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
     public void autoCompleteExport_invalidIndexes_trimNonDigitChars() {
         String command = "export 1a 2a,, 3*.;   SomeFile.xml ";
         String expected = "export 1, 2, 3; SomeFile.xml";
+        assertAutoComplete(command, expected);
+
+        command = "export a1-3-10a,4 6aa ,,  ; SomeFile.xml";
+        expected = "export 1-3, 4, 6; SomeFile.xml";
         assertAutoComplete(command, expected);
     }
 
     @Test
     public void autoCompleteExport_noDelimiter_trimNonDigitChars() {
         String command = "export 1, 2, 3 SomeFile.xml ";
-        String expected = "export 1, 2, 3; SomeFile.xml";
+        String expected = "export 1-3; SomeFile.xml";
         assertAutoComplete(command, expected);
 
         command = "export 1, 2, 3,SomeFile.xml ";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteExport_continuousIndexes_wrapContinuousIndexes() {
+        String command = "export 1, 2, 3, 4; SomeFile.xml ";
+        String expected = "export 1-4; SomeFile.xml";
+        assertAutoComplete(command, expected);
+
+        command = "export 1-3, 4; SomeFile.xml ";
+        assertAutoComplete(command, expected);
+
+        command = "export 3-1, 4; SomeFile.xml ";
+        assertAutoComplete(command, expected);
+
+        command = "export 1,2,3,6,10,12,11; SomeFile.xml ";
+        expected = "export 1-3, 6, 10-12; SomeFile.xml";
         assertAutoComplete(command, expected);
     }
 

@@ -5,20 +5,22 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
-import static seedu.address.logic.parser.ParserUtil.parseIndexList;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_LIST_FIRST_TO_THIRD;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -66,15 +68,32 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseIndexList_validInput_success() throws Exception {
-        // separated by whitespaces
-        assertEquals(INDEX_LIST_FIRST_TO_THIRD, ParserUtil.parseIndexList("1 2 3"));
+    public void parseRangeIndexList_invalidInput_throwsIllegalValueException() throws Exception {
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(MESSAGE_INVALID_INDEX);
+        ParserUtil.parseRangeIndexList("1-3, a");
+    }
 
-        // separated by ","
-        assertEquals(INDEX_LIST_FIRST_TO_THIRD, parseIndexList("1, 2, 3"));
+    @Test
+    public void parseRangeIndexList_outOfBoundaryIndex_throwsIllegalValueException() throws Exception {
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(MESSAGE_INVALID_INDEX);
+        ParserUtil.parseRangeIndexList("0-3");
+    }
 
-        // Leading and trailing whitespaces and ","s
-        assertEquals(INDEX_LIST_FIRST_TO_THIRD, parseIndexList("  ,, ,1, 2 3  ,,"));
+    @Test
+    public void parseRangeIndexList_validRange_success() throws Exception {
+        // one range index
+        assertEqualsIndexCollection(INDEX_LIST_FIRST_TO_THIRD, ParserUtil.parseRangeIndexList("1-3"));
+
+        // multiple range indexes
+        assertEqualsIndexCollection(INDEX_LIST_FIRST_TO_THIRD, ParserUtil.parseRangeIndexList("1, 2-3"));
+    }
+
+    private void assertEqualsIndexCollection(Collection<Index> set1, Collection<Index> set2) {
+        Set<Integer> integerSet1 = set1.stream().map(Index::getZeroBased).collect(Collectors.toSet());
+        Set<Integer> integerSet2 = set2.stream().map(Index::getZeroBased).collect(Collectors.toSet());
+        assertEquals(integerSet1, integerSet2);
     }
 
     @Test

@@ -3,11 +3,14 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -47,17 +50,50 @@ public class ParserUtil {
     }
 
     /**
-     * Parsers {@code oneBasedIndexList} into a List of {@code Index} and returns it.
-     * The numbers must be separated by whitespaces or ",".
-     * @throws IllegalValueException if the specified index is invalid (not non-zero unsigned integer).
+     * Parses a {@code String} of one-based indexes that may contain single or range indexes into a {@code Set}.
+     * Indexes must be separated by "," or whitespaces, and index range must be linked by "-".
+     * @throws IllegalValueException if indexes are invalid, or the input {@code String} is not in valid format.
      */
-    public static List<Index> parseIndexList(String oneBasedIndexList) throws IllegalValueException {
-        String[] indexStrings = oneBasedIndexList.split("((,)|(\\s))+");
-        List<Index> indexes = new ArrayList<>();
-        for (String s : indexStrings) {
-            if (!s.trim().isEmpty()) {
-                indexes.add(parseIndex(s));
+    public static List<Index> parseRangeIndexList(String oneBasedIndexList) throws IllegalValueException {
+        oneBasedIndexList = oneBasedIndexList.replaceAll("\\s*-\\s*", "-");
+        List<String> filteredIndexStrings = Arrays.stream(oneBasedIndexList.split("(,+)|(\\s+)"))
+            .map(String::trim)
+            .filter(((Predicate<String>) String::isEmpty).negate())
+            .collect(Collectors.toList());
+
+        Set<Integer> oneBasedIndexSet = new HashSet<>();
+        for (String s : filteredIndexStrings) {
+            if (s.matches("^(\\d+)-(\\d+)$")) {
+                oneBasedIndexSet.addAll(parseRangeIndex(s));
+            } else if (s.matches("^(\\d+)$")) {
+                oneBasedIndexSet.add(Integer.parseInt(s));
+            } else {
+                throw new IllegalValueException(MESSAGE_INVALID_INDEX);
             }
+        }
+
+        List<Index> indexList = new ArrayList<>();
+        for (int index : oneBasedIndexSet) {
+            if (index <= 0) {
+                throw new IllegalValueException(MESSAGE_INVALID_INDEX);
+            }
+            indexList.add(Index.fromOneBased(index));
+        }
+        return indexList;
+    }
+
+    /**
+     * Parses a {@code oneBasedRangeIndex} into a List of {@code Index}.
+     */
+    private static List<Integer> parseRangeIndex(String oneBasedRangeIndex) {
+        int separatorIndex = oneBasedRangeIndex.indexOf('-');
+        int firstIndex = Integer.parseInt(oneBasedRangeIndex.substring(0, separatorIndex).trim());
+        int secondIndex = Integer.parseInt(oneBasedRangeIndex.substring(separatorIndex + 1).trim());
+        int start = Math.min(firstIndex, secondIndex);
+        int end = Math.max(firstIndex, secondIndex);
+        List<Integer> indexes = new ArrayList<>();
+        for (Integer i = start; i <= end; i++) {
+            indexes.add(i);
         }
         return indexes;
     }
