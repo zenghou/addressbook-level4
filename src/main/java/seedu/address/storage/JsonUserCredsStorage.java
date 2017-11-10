@@ -1,4 +1,4 @@
-//@@author zenghou-reused
+//@@author zenghou
 package seedu.address.storage;
 
 import java.io.IOException;
