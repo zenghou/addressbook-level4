@@ -23,7 +23,9 @@ include::../UserGuide.adoc[tag=exportimport]
 
 ==== Justification
 
-{Justify the need for, and the current design (i.e. external behavior) of, the feature}
+User may want to transport part of their address book contacts to another location, or to share with their friends of their common friends. An export and import command can be useful in this situation, so that users do not need to pick the ones they want to share in a big .xml file and risk of breaking it. +
+
+Currently, the export command can accept a list of indexes to refer to the persons, and a file path to store the person list. The file then can be imported into another address book, and manuel editing is also feasible for advanced users.
 
 ==== Implementation
 
@@ -51,7 +53,7 @@ include::../UserGuide.adoc[tag=autocomplete]
 
 ==== Justification
 
-{Justify the need for, and the current design (i.e. external behavior) of, the feature}
+Command can be complicated for a CLT system while more and more functions are introduced. Entering a long command just to do a simple thing can be boring, so auto-complete is necessary in most places.
 
 ==== Implementation
 
