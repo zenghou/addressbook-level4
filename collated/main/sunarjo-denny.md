@@ -1,5 +1,5 @@
 # sunarjo-denny
-###### \java\seedu\address\logic\commands\SortCommand.java
+###### /java/seedu/address/logic/commands/SortCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -80,7 +80,7 @@ public class SortCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\AddressBookParser.java
+###### /java/seedu/address/logic/parser/AddressBookParser.java
 ``` java
     public Command parseCommand(String userInput) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
@@ -164,7 +164,7 @@ public class SortCommand extends UndoableCommand {
 
 }
 ```
-###### \java\seedu\address\logic\parser\SortCommandParser.java
+###### /java/seedu/address/logic/parser/SortCommandParser.java
 ``` java
 package seedu.address.logic.parser;
 
@@ -174,6 +174,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_FOR_SORTING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_FOR_SORTING;
 
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -201,25 +202,16 @@ public class SortCommandParser implements Parser<SortCommand> {
             );
         }
 
-        /**
-         * Invalid command arguments would result in a loaded preamble
-         */
-        if (!argMultimap.getPreamble().equals("")) {
+        if (!(arePrefixesPresent(argMultimap, PREFIX_NAME_FOR_SORTING)
+                || arePrefixesPresent(argMultimap, PREFIX_PHONE_FOR_SORTING))) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
-        if (argMultimap.size() == 1) {
-            attribute = PREFIX_NAME_FOR_SORTING.getPrefix();
-        }
-
-        argMultimap.getValue(PREFIX_NAME_FOR_SORTING).ifPresent(setOrder(PREFIX_NAME_FOR_SORTING));
-        argMultimap.getValue(PREFIX_PHONE_FOR_SORTING).ifPresent(setOrder(PREFIX_PHONE_FOR_SORTING));
-
-        return new SortCommand(attribute, isReversed);
-    }
-
+        /**
+         * Invalid command arguments would result in a loaded preamble
+         */
 ```
-###### \java\seedu\address\model\person\Birthday.java
+###### /java/seedu/address/model/person/Birthday.java
 ``` java
 package seedu.address.model.person;
 
@@ -271,7 +263,28 @@ public class Birthday {
     }
 
 ```
-###### \resources\view\LightTheme.css
+###### /java/seedu/address/model/person/Birthday.java
+``` java
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Birthday // instanceof handles nulls
+                && this.value.equals(((Birthday) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+}
+```
+###### /resources/view/LightTheme.css
 ``` css
 .label {
     -fx-font-size: 11pt;
@@ -612,22 +625,66 @@ public class Birthday {
     -fx-background-radius: 0;
 }
 
+.profile-wrapper {
+    -fx-border-color: #aaaaaa;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+}
+
+.name {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-color: #1d1d1d
+    -fx-font-size: 20;
+}
+
+.birthday {
+    -fx-border-color: #aaaaaa;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+}
+
+.birthday-field {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 15;
+}
+
+.remarks {
+    -fx-border-color: #aaaaaa;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+}
+
+.remarks-content {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 15;
+}
+
 #tags {
     -fx-hgap: 7;
     -fx-vgap: 3;
 }
 
 #tags .label {
-    -fx-text-fill: white;
-    -fx-background-color: #3e7b91;
+    -fx-text-fill: black;
+    -fx-background-color: transparent;
+    -fx-border-color:#aaaaaa;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
     -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
     -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 15;
+}
+
+.tags-box {
+    -fx-border-color: #aaaaaa;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
 }
 ```
-###### \resources\view\MainWindow.fxml
+###### /resources/view/MainWindow.fxml
 ``` fxml
+
 <VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
   <stylesheets>
     <URL value="@LightTheme.css" />
@@ -662,10 +719,13 @@ public class Birthday {
                <Insets bottom="5" left="10" right="10" top="5" />
              </padding>
            </StackPane>
-            <StackPane fx:id="personProfilePlaceholder" prefWidth="600.0">
+            <StackPane fx:id="personProfilePlaceholder" alignment="TOP_LEFT" prefWidth="600.0">
                <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </StackPane>
          </children>
       </VBox>
@@ -674,7 +734,7 @@ public class Birthday {
   <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
 </VBox>
 ```
-###### \resources\view\PersonListCard.fxml
+###### /resources/view/PersonListCard.fxml
 ``` fxml
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
   <GridPane HBox.hgrow="ALWAYS">

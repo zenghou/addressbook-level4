@@ -67,20 +67,6 @@ public class PersonProfileHandle extends NodeHandle<Node> {
         model.getUserCreds().validateCurrentSession(); // validate user
     }
 ```
-###### /java/seedu/address/logic/commands/AddCommandIntegrationTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        Person validPerson = new PersonBuilder().build();
-
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        assertCommandFailure(prepareCommand(validPerson, userCredsNotValidatedModel), userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
 ###### /java/seedu/address/logic/commands/AddCommandTest.java
 ``` java
         @Override
@@ -96,33 +82,11 @@ public class PersonProfileHandle extends NodeHandle<Node> {
             return userCreds;
         }
 ```
-###### /java/seedu/address/logic/commands/ClearCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
-        assertCommandFailure(prepareCommand(userCredsNotValidatedModel), userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
-###### /java/seedu/address/logic/commands/DeleteCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        assertCommandFailure(prepareCommand(INDEX_FIRST_PERSON), userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
 ###### /java/seedu/address/logic/commands/EditCommandTest.java
 ``` java
-    @Test
+    /** Initially used to test for invalid login since the check was done by command. However, this check will be
+     * conducted by LogicManager now. As such, all commands will be executed.
+     */
     public void execute_invalidUser_failure() throws Exception {
         String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
                 + LoginCommand.MESSAGE_USAGE;
@@ -137,27 +101,11 @@ public class PersonProfileHandle extends NodeHandle<Node> {
                 userNotLoggedInMessage);
     }
 ```
-###### /java/seedu/address/logic/commands/ExportCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-
-        List<Index> indexes = Arrays.asList(Index.fromOneBased(1), Index.fromOneBased(2));
-        String filePath = "TestFile.xml";
-        ExportCommand exportCommand = new ExportCommand(indexes, filePath);
-
-        exportCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(exportCommand, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
 ###### /java/seedu/address/logic/commands/FindCommandTest.java
 ``` java
-    @Test
+    /** Initially used to test for invalid login since the check was done by command. However, this check will be
+     * conducted by LogicManager now. As such, all commands will be executed.
+     */
     public void execute_invalidUser_failure() throws Exception {
         String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
                 + LoginCommand.MESSAGE_USAGE;
@@ -170,54 +118,6 @@ public class PersonProfileHandle extends NodeHandle<Node> {
 
         findCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
         assertCommandFailure(findCommand, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
-###### /java/seedu/address/logic/commands/HistoryCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
-
-        HistoryCommand historyCommand = new HistoryCommand();
-
-        historyCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(historyCommand, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
-###### /java/seedu/address/logic/commands/ImportCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-
-        String filePath = "SomeFile.xml";
-        ImportCommand importCommand = new ImportCommand(filePath);
-
-        importCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(importCommand, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
-###### /java/seedu/address/logic/commands/ListCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        ListCommand listCommand = new ListCommand();
-
-        listCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(listCommand, userCredsNotValidatedModel,
                 userNotLoggedInMessage);
     }
 ```
@@ -305,21 +205,6 @@ public class LoginCommandTest {
 
 }
 ```
-###### /java/seedu/address/logic/commands/RedoCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        RedoCommand redoCommand = new RedoCommand();
-
-        redoCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(redoCommand, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
 ###### /java/seedu/address/logic/commands/RemarkCommandTest.java
 ``` java
 package seedu.address.logic.commands;
@@ -354,80 +239,6 @@ public class RemarkCommandTest {
     public static final String TEST_REMARK = "This is a test remark";
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        RemarkCommand remarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(TEST_REMARK));
-
-        remarkCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(remarkCommand, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-
-    @Test
-    public void execute_executeUndoableCommand_throwsCommandException() throws CommandException {
-        model.getUserCreds().validateCurrentSession(); // validate user
-        Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        RemarkCommand remarkCommand = prepareCommand(outOfBoundsIndex, new Remark(TEST_REMARK));
-
-        assertCommandFailure(remarkCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-    }
-
-    @Test
-    public void execute_addRemark_success() throws Exception {
-        Person personWithRemark = new PersonBuilder(model.getFilteredPersonList()
-                .get(INDEX_FIRST_PERSON.getZeroBased())).withRemark("Test Remark").build();
-
-        RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, personWithRemark.getRemark());
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
-                new UserCreds());
-        expectedModel.updateUserCreds(); // validate user
-        expectedModel.updatePerson(model.getFilteredPersonList().get(0), personWithRemark);
-
-        String expectedMessage = String.format(RemarkCommand.MESSAGE_SUCCESS, personWithRemark);
-
-        assertCommandSuccess(remarkCommand, model, expectedMessage, expectedModel);
-        assertEquals(expectedModel.getFilteredPersonList().get(0), personWithRemark);
-    }
-
-    @Test
-    public void equals() {
-        RemarkCommand firstRemarkCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(TEST_REMARK));
-        RemarkCommand secondRemarkCommand = new RemarkCommand(INDEX_SECOND_PERSON, new Remark(TEST_REMARK));
-
-        // same object therefore same content -> returns true
-        assertTrue(firstRemarkCommand.equals(firstRemarkCommand));
-
-        // same values -> return true
-        assertTrue(firstRemarkCommand.equals(new RemarkCommand(INDEX_FIRST_PERSON,
-                new Remark("This is a test remark"))));
-
-        // different Indices -> return False
-        assertFalse(firstRemarkCommand.equals(secondRemarkCommand));
-
-        // different types -> return False
-        assertFalse(firstRemarkCommand.equals("test"));
-
-        // null -> return false
-        assertFalse(firstRemarkCommand.equals(null));
-
-    }
-
-    /**
-     * Returns a {@code RemarkCommand} with the parameter {@code index and remark}.
-     */
-    private RemarkCommand prepareCommand(Index index, Remark rmk) {
-        model.getUserCreds().validateCurrentSession(); // validate user
-        RemarkCommand remarkCommand = new RemarkCommand(index, rmk);
-        remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return remarkCommand;
-    }
-
-}
 ```
 ###### /java/seedu/address/logic/commands/SearchCommandTest.java
 ``` java
@@ -462,106 +273,6 @@ import seedu.address.model.user.UserPrefs;
 public class SearchCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new UserCreds());
 
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        SearchCommand searchCommand = new SearchCommand(new DetailsContainKeyphrasePredicate("testing one"));
-
-        searchCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(searchCommand, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-
-    @Test
-    public void equals() {
-        SearchCommand searchCommandOne = new SearchCommand(new DetailsContainKeyphrasePredicate("testing one"));
-        SearchCommand searchCommandTwo = new SearchCommand(new DetailsContainKeyphrasePredicate("testing two"));
-
-        // same object -> returns true
-        assertTrue(searchCommandOne.equals(searchCommandOne));
-        assertTrue(searchCommandOne.equals(new SearchCommand(new DetailsContainKeyphrasePredicate("testing one"))));
-
-        // different object -> returns false
-        assertFalse(searchCommandOne.equals(searchCommandTwo));
-
-        // different type -> returns false
-        assertFalse(searchCommandOne.equals(1));
-
-        // null -> returns false
-        assertFalse(searchCommandOne.equals(null));
-    }
-
-    @Test
-    public void execute_keyPhrase_singlePersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
-        SearchCommand command = prepareCommand("Alice Pauline");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(ALICE));
-    }
-
-    /**
-     * Parses {@code userInput} into a {@code SearchCommand}.
-     */
-    private SearchCommand prepareCommand(String userInput) {
-        model.getUserCreds().validateCurrentSession(); // validate user
-        String preppedInput = userInput.trim();
-        SearchCommand command =
-                new SearchCommand(new DetailsContainKeyphrasePredicate(preppedInput));
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        return command;
-    }
-
-    /**
-     * Asserts that {@code command} is successfully executed, and<br>
-     *     - the command feedback is equal to {@code expectedMessage}<br>
-     *     - the {@code FilteredList<ReadOnlyPerson>} is equal to {@code expectedList}<br>
-     *     - the {@code AddressBook} in model remains the same after executing the {@code command}
-     */
-    private void assertCommandSuccess(SearchCommand command, String expectedMessage, List<ReadOnlyPerson> expected) {
-        model.getUserCreds().validateCurrentSession(); // validate user
-        AddressBook expectedAddressBook = new AddressBook(model.getAddressBook());
-        try {
-            CommandResult commandResult = command.execute();
-
-            assertEquals(expectedMessage, commandResult.feedbackToUser);
-            assertEquals(expected, model.getFilteredPersonList());
-            assertEquals(expectedAddressBook, model.getAddressBook());
-        } catch (CommandException ce) {
-            ce.printStackTrace();
-        }
-    }
-}
-```
-###### /java/seedu/address/logic/commands/SelectCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-        SelectCommand selectCommand = new SelectCommand(INDEX_FIRST_PERSON);
-
-        selectCommand.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(selectCommand, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
-```
-###### /java/seedu/address/logic/commands/UndoCommandTest.java
-``` java
-    @Test
-    public void execute_invalidUser_failure() throws Exception {
-        String userNotLoggedInMessage = "Invalid session! Please log in first! \n"
-                + LoginCommand.MESSAGE_USAGE;
-
-        Model userCredsNotValidatedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new UserCreds());
-
-        deleteCommandOne.setData(userCredsNotValidatedModel, new CommandHistory(), new UndoRedoStack());
-        assertCommandFailure(deleteCommandOne, userCredsNotValidatedModel,
-                userNotLoggedInMessage);
-    }
 ```
 ###### /java/seedu/address/logic/parser/LoginCommandParserTest.java
 ``` java
@@ -705,6 +416,7 @@ public class DetailsContainKeyphrasePredicateTest {
             .withPhone("99887766")
             .withEmail("peterlim@gmail.com")
             .withAddress("Orchard Towers Block 39 #13-12")
+            .withFacebook("21")
             .withTags("business", "professional")
             .withRemark("met during a networking event")
             .build();
@@ -794,6 +506,14 @@ public class DetailsContainKeyphrasePredicateTest {
         DetailsContainKeyphrasePredicate predicateAddressDifferentCase = new DetailsContainKeyphrasePredicate("Orchard "
                 + "Towers Block 39 #13-12");
         assertTrue(predicateAddressDifferentCase.test(samplePerson));
+
+        // matches Facebook in full
+        DetailsContainKeyphrasePredicate predicateFacebookFull = new DetailsContainKeyphrasePredicate("21");
+        assertTrue(predicateAddressFull.test(samplePerson));
+
+        // matches Facebook partially
+        DetailsContainKeyphrasePredicate predicateFacebookPartially = new DetailsContainKeyphrasePredicate("1");
+        assertTrue(predicateAddressPartially.test(samplePerson));
 
         // matches Tag in full
         DetailsContainKeyphrasePredicate predicateTagFull = new DetailsContainKeyphrasePredicate("professional");
