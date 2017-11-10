@@ -45,7 +45,7 @@ include::../DeveloperGuide.adoc[tag=remark]
 
 ---
 
-Similar to the `find` command. 
+Similar to the `find` command.
 This comand searches for persons whose details contain the given keyphrase
 Format: `search [keyphrase]`
 
@@ -92,7 +92,7 @@ include::../UserGuide.adoc[tag=login]
 
 ==== Justification
 
-Since this address book stores personal information about people, there should be some degree of security and privacy protection when it comes to using this address book. Therefore, without logging in, a user may not see or modify the contents of the address book. 
+Since this address book stores personal information about people, there should be some degree of security and privacy protection when it comes to using this address book. Therefore, without logging in, a user may not see or modify the contents of the address book.
 
 ==== Implementation
 
