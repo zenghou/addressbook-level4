@@ -1,4 +1,3 @@
-//@@author HanYaodong
 package seedu.address.logic;
 
 import static org.junit.Assert.assertEquals;
@@ -45,6 +44,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.Remark;
 
+//@@author HanYaodong
 public class AutoCompleteTest {
 
     @Rule

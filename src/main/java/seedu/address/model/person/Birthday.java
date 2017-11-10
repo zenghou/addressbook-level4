@@ -55,7 +55,7 @@ public class Birthday {
     public static Birthday getEmptyBirthday() {
         return new Birthday();
     }
-    //@@author
+    //@@author sunarjo-denny
 
     @Override
     public String toString() {

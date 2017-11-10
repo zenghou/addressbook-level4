@@ -1,4 +1,3 @@
-//@@author HanYaodong
 package systemtests;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -22,6 +21,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.testutil.PersonBuilder;
 
+//@@author HanYaodong
 public class ImportCommandSystemTest extends AddressBookSystemTest {
 
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandSystemTest/");
