@@ -12,10 +12,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FACEBOOK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FACEBOOK_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_FOR_SORTING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_FOR_SORTING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK_STRING;
@@ -257,10 +259,10 @@ public class AutoComplete {
      */
     private static String sortCommandAutoComplete(String args) {
         StringBuilder formattedArg = new StringBuilder();
-        if (args.contains(PREFIX_NAME_STRING)) {
-            formattedArg.append(PREFIX_NAME_STRING);
-        } else if (args.contains(PREFIX_PHONE_STRING)) {
-            formattedArg.append(PREFIX_PHONE_STRING);
+        if (args.contains(PREFIX_NAME_FOR_SORTING.getPrefix())) {
+            formattedArg.append(PREFIX_NAME_FOR_SORTING.getPrefix());
+        } else if (args.contains(PREFIX_PHONE_FOR_SORTING.getPrefix())) {
+            formattedArg.append(PREFIX_PHONE_FOR_SORTING.getPrefix());
         }
         if (args.contains("reverse")) {
             formattedArg.append(" ").append("reverse");

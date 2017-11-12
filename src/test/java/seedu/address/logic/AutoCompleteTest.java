@@ -306,16 +306,16 @@ public class AutoCompleteTest {
 
     @Test
     public void autoCompleteSort_containMultiplePrefix_onlyReturnName() {
-        String command = "sort n/p/  ";
-        String expected = "sort n/";
+        String command = "sort name phone  ";
+        String expected = "sort name";
         assertAutoComplete(command, expected);
 
-        command = "sort reverse p/ ";
-        expected = "sort p/ reverse";
+        command = "sort reverse phone ";
+        expected = "sort phone reverse";
         assertAutoComplete(command, expected);
 
-        command = "sort n/ reverse p/ ";
-        expected = "sort n/ reverse";
+        command = "sort name reverse phone ";
+        expected = "sort name reverse";
         assertAutoComplete(command, expected);
     }
 
