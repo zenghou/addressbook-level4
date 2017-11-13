@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_FOR_SORTING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_FOR_SORTING;
 
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -34,9 +35,15 @@ public class SortCommandParser implements Parser<SortCommand> {
             );
         }
 
+        if (!(arePrefixesPresent(argMultimap, PREFIX_NAME_FOR_SORTING)
+                || arePrefixesPresent(argMultimap, PREFIX_PHONE_FOR_SORTING))) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
         /**
          * Invalid command arguments would result in a loaded preamble
          */
+        //@@author sunarjo-denny-reused
         if (!argMultimap.getPreamble().equals("")) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
@@ -50,8 +57,6 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         return new SortCommand(attribute, isReversed);
     }
-
-    //@@author sunarjo-denny-reused
     private Consumer<String> setOrder(Prefix prefix) {
         return s-> {
             attribute = prefix.toString();
@@ -64,5 +69,13 @@ public class SortCommandParser implements Parser<SortCommand> {
                 return;
             }
         };
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

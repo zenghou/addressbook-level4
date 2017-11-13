@@ -1,4 +1,3 @@
-//@@author HanYaodong
 package seedu.address.logic;
 
 import static org.junit.Assert.assertEquals;
@@ -45,6 +44,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.Remark;
 
+//@@author HanYaodong
 public class AutoCompleteTest {
 
     @Rule
@@ -306,16 +306,16 @@ public class AutoCompleteTest {
 
     @Test
     public void autoCompleteSort_containMultiplePrefix_onlyReturnName() {
-        String command = "sort n/p/  ";
-        String expected = "sort n/";
+        String command = "sort name phone  ";
+        String expected = "sort name";
         assertAutoComplete(command, expected);
 
-        command = "sort reverse p/ ";
-        expected = "sort p/ reverse";
+        command = "sort reverse phone ";
+        expected = "sort phone reverse";
         assertAutoComplete(command, expected);
 
-        command = "sort n/ reverse p/ ";
-        expected = "sort n/ reverse";
+        command = "sort name reverse phone ";
+        expected = "sort name reverse";
         assertAutoComplete(command, expected);
     }
 

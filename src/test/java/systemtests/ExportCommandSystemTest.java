@@ -1,4 +1,3 @@
-//@@author HanYaodong
 package systemtests;
 
 import static org.junit.Assert.assertTrue;
@@ -25,6 +24,7 @@ import seedu.address.logic.parser.ExportCommandParser;
 import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyPerson;
 
+//@@author HanYaodong
 public class ExportCommandSystemTest extends AddressBookSystemTest {
 
     private static final String EXPECTED_MESSAGE_INVALID_COMMAND =

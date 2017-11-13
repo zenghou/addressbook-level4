@@ -1,50 +1,6 @@
 # HanYaodong
 ###### /java/seedu/address/logic/AutoCompleteTest.java
 ``` java
-package seedu.address.logic;
-
-import static org.junit.Assert.assertEquals;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.BIRTHDAY_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_STRING;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE_STRING;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.testutil.PersonUtil.getPersonDetails;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.ExitCommand;
-import seedu.address.logic.commands.ExportCommand;
-import seedu.address.logic.commands.ImportCommand;
-import seedu.address.logic.commands.SearchCommand;
-import seedu.address.logic.commands.SelectCommand;
-import seedu.address.logic.commands.SortCommand;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
-import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.model.person.Remark;
-
 public class AutoCompleteTest {
 
     @Rule
@@ -54,56 +10,56 @@ public class AutoCompleteTest {
     public void autoCompleteAdd_missingOneField_addMissingPrefix() {
         // missing phone
         String command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-            + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
-        String expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY
-            + " " + PREFIX_PHONE + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
+                + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
+        String expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY + " " + PREFIX_PHONE + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
         assertAutoComplete(command, expected);
 
         // missing address
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
-            + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
-        expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY
-            + PHONE_DESC_AMY + EMAIL_DESC_AMY + " " + PREFIX_ADDRESS + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + BIRTHDAY_DESC_AMY
+                + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
+        expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + " " + PREFIX_ADDRESS
+                + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
         assertAutoComplete(command, expected);
     }
 
     @Test
     public void autoCompleteAdd_missingMultipleFields_addMissingPrefixes() {
         // missing name and email
-        String command = AddCommand.COMMAND_WORD + PHONE_DESC_AMY + ADDRESS_DESC_AMY
-            + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
-        String expected = AddCommand.COMMAND_WORD + " " + PREFIX_NAME + PHONE_DESC_AMY
-            + " " + PREFIX_EMAIL + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
+        String command = AddCommand.COMMAND_WORD + PHONE_DESC_AMY + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY
+                + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
+        String expected = AddCommand.COMMAND_WORD + " " + PREFIX_NAME + PHONE_DESC_AMY + " " + PREFIX_EMAIL
+                + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
         assertAutoComplete(command, expected);
 
         // all fields are missing
         command = AddCommand.COMMAND_WORD;
         expected = AddCommand.COMMAND_WORD + " " + PREFIX_NAME + " " + PREFIX_PHONE + " " + PREFIX_EMAIL
-            + " " + PREFIX_ADDRESS + " " + PREFIX_BIRTHDAY + " " + PREFIX_TAG;
+                + " " + PREFIX_ADDRESS + " " + PREFIX_BIRTHDAY + " " + PREFIX_FACEBOOK + " " + PREFIX_TAG;
         assertAutoComplete(command, expected);
     }
 
     @Test
     public void autoCompleteAdd_invalidFields_addMissingPrefixes() {
         // invalid phone
-        String command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + " " + PREFIX_PHONE + "abc"
-            + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
-        String expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY
-            + " " + PREFIX_PHONE + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
+        String command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + " " + PREFIX_PHONE + "abc" + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
+        String expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY + " " + PREFIX_PHONE + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
         assertAutoComplete(command, expected);
 
         // two name field -> choose the first one
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_AMY
-            + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
-        expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
-            + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
+        expected = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
         assertAutoComplete(command, expected);
     }
 
     @Test
     public void autoCompleteAdd_allValidFields_noChange() {
-        String command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
-            + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BIRTHDAY_DESC_AMY + TAG_DESC_FRIEND;
+        String command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + BIRTHDAY_DESC_AMY + FACEBOOK_DESC_AMY + TAG_DESC_FRIEND;
         assertAutoComplete(command, command);
     }
 
@@ -184,19 +140,47 @@ public class AutoCompleteTest {
     }
 
     @Test
+    public void autoCompleteExport_noArg_trimSpaces() {
+        String command = "export    ";
+        String expected = "export ";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
     public void autoCompleteExport_invalidIndexes_trimNonDigitChars() {
         String command = "export 1a 2a,, 3*.;   SomeFile.xml ";
         String expected = "export 1, 2, 3; SomeFile.xml";
+        assertAutoComplete(command, expected);
+
+        command = "export a1-3-10a,4 6aa ,,  ; SomeFile.xml";
+        expected = "export 1-3, 4, 6; SomeFile.xml";
         assertAutoComplete(command, expected);
     }
 
     @Test
     public void autoCompleteExport_noDelimiter_trimNonDigitChars() {
         String command = "export 1, 2, 3 SomeFile.xml ";
-        String expected = "export 1, 2, 3; SomeFile.xml";
+        String expected = "export 1-3; SomeFile.xml";
         assertAutoComplete(command, expected);
 
         command = "export 1, 2, 3,SomeFile.xml ";
+        assertAutoComplete(command, expected);
+    }
+
+    @Test
+    public void autoCompleteExport_continuousIndexes_wrapContinuousIndexes() {
+        String command = "export 1, 2, 3, 4; SomeFile.xml ";
+        String expected = "export 1-4; SomeFile.xml";
+        assertAutoComplete(command, expected);
+
+        command = "export 1-3, 4; SomeFile.xml ";
+        assertAutoComplete(command, expected);
+
+        command = "export 3-1, 4; SomeFile.xml ";
+        assertAutoComplete(command, expected);
+
+        command = "export 1,2,3,6,10,12,11; SomeFile.xml ";
+        expected = "export 1-3, 6, 10-12; SomeFile.xml";
         assertAutoComplete(command, expected);
     }
 
@@ -377,42 +361,6 @@ public class AutoCompleteTest {
 ```
 ###### /java/seedu/address/logic/commands/ExportCommandTest.java
 ``` java
-package seedu.address.logic.commands;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.showFirstPersonOnly;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
-import static seedu.address.testutil.TypicalPersons.DANIEL;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.TemporaryFolder;
-
-import seedu.address.commons.core.Messages;
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.CommandHistory;
-import seedu.address.logic.UndoRedoStack;
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.model.person.UniquePersonList;
-import seedu.address.model.user.UserCreds;
-import seedu.address.model.user.UserPrefs;
-import seedu.address.storage.XmlPersonListStorage;
-
 //TODO: the export command test depends on Storage part. Consider separation of components.
 public class ExportCommandTest {
 
@@ -430,29 +378,6 @@ public class ExportCommandTest {
 ```
 ###### /java/seedu/address/logic/commands/ImportCommandTest.java
 ``` java
-package seedu.address.logic.commands;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.TemporaryFolder;
-
-import seedu.address.commons.util.FileUtil;
-import seedu.address.logic.CommandHistory;
-import seedu.address.logic.UndoRedoStack;
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.user.UserCreds;
-import seedu.address.model.user.UserPrefs;
-import seedu.address.testutil.TypicalPersons;
-
 public class ImportCommandTest {
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandTest/");
 
@@ -516,7 +441,7 @@ public class ExportCommandParserTest {
 
     @Test
     public void parse_invalidIndex_failure() {
-        String input = "1, 2 3-4 ; " + VALID_FILE_PATH;
+        String input = "1, 2 3-4 a; " + VALID_FILE_PATH;
         assertParseFailure(parser, input, EXPECTED_MATCH_ERROR_MESSAGE);
 
         String negativeIndexInput = "-1 ; " + VALID_FILE_PATH;
@@ -550,6 +475,11 @@ public class ExportCommandParserTest {
         List<Index> indexes = getIndexListFromOneBasedArray(1, 2, 3);
         String input = "1, 2 3 ; " + VALID_FILE_PATH;
         ExportCommand exportCommand = new ExportCommand(indexes, VALID_FILE_PATH.trim());
+        assertParseSuccess(parser, input, exportCommand);
+
+        indexes = getIndexListFromOneBasedArray(1, 2, 3, 5, 7, 8, 9);
+        input = "1, 2, 3 5 7-9;" + VALID_FILE_PATH;
+        exportCommand = new ExportCommand(indexes, VALID_FILE_PATH.trim());
         assertParseSuccess(parser, input, exportCommand);
     }
 
@@ -599,6 +529,25 @@ public class ImportCommandParserTest {
         String validFilePathWithSpaces = "  ValidFile.xml   ";
         assertEquals(parser.parse(validFilePathWithSpaces), new ImportCommand(validFilePath));
 
+    }
+}
+```
+###### /java/seedu/address/model/person/FacebookTest.java
+``` java
+public class FacebookTest {
+
+    @Test
+    public void isValidFacebook() {
+        // blank facebook
+        assertFalse(Facebook.isValidFacebookId(""));
+        assertFalse(Facebook.isValidFacebookId("  "));
+
+        // not numerical facebook
+        assertFalse(Facebook.isValidFacebookId("zuck"));
+        assertFalse(Facebook.isValidFacebookId("some.user.name"));
+
+        // valid facebook
+        assertTrue(Facebook.isValidFacebookId("12345"));
     }
 }
 ```
@@ -809,32 +758,6 @@ public class XmlPersonListStorageTest {
 ```
 ###### /java/systemtests/ExportCommandSystemTest.java
 ``` java
-package systemtests;
-
-import static org.junit.Assert.assertTrue;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.AutoComplete.autoComplete;
-import static seedu.address.testutil.TestUtil.getLastIndex;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.ExportCommand;
-import seedu.address.logic.parser.ExportCommandParser;
-import seedu.address.model.Model;
-import seedu.address.model.person.ReadOnlyPerson;
-
 public class ExportCommandSystemTest extends AddressBookSystemTest {
 
     private static final String EXPECTED_MESSAGE_INVALID_COMMAND =
@@ -1076,29 +999,6 @@ public class ExportCommandSystemTest extends AddressBookSystemTest {
 ```
 ###### /java/systemtests/ImportCommandSystemTest.java
 ``` java
-package systemtests;
-
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.AutoComplete.autoComplete;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
-import static seedu.address.testutil.TypicalPersons.AMY;
-import static seedu.address.testutil.TypicalPersons.BOB;
-import static seedu.address.testutil.TypicalPersons.HOON;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
-import seedu.address.commons.util.FileUtil;
-import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.ImportCommand;
-import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.UndoCommand;
-import seedu.address.model.Model;
-import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.testutil.PersonBuilder;
-
 public class ImportCommandSystemTest extends AddressBookSystemTest {
 
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/ImportCommandSystemTest/");
@@ -1139,12 +1039,12 @@ public class ImportCommandSystemTest extends AddressBookSystemTest {
          * -> imported with duplicated persons ignored
          */
         ReadOnlyPerson james = new PersonBuilder().withName("James Turner").withPhone("66666666")
-            .withEmail("james@example.com").withAddress("Sydney").withBirthday("2000/01/01")
-                .withTags("friends").build();
+                .withEmail("james@example.com").withAddress("Sydney").withBirthday("2000/01/01")
+                .withFacebook("30").withTags("friends").build();
         expectedModel.addPerson(james);
         command = getCommandWord("DuplicatedPersonInAddressBook.xml");
         expectedMessage = ImportCommand.MESSAGE_DUPLICATED_PERSON_IN_ADDRESS_BOOK_WARNING
-            + String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, 2);
+                + String.format(ImportCommand.MESSAGE_IMPORT_SUCCESS, 2);
         assertCommandSuccess(command, expectedModel, expectedMessage);
 
         /* Case: import to an empty address book -> imported */

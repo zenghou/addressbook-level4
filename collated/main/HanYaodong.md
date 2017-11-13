@@ -1,5 +1,5 @@
 # HanYaodong
-###### \java\seedu\address\commons\util\StringUtil.java
+###### /java/seedu/address/commons/util/StringUtil.java
 ``` java
     /**
      * Returns the command words in the program as an Array.
@@ -26,7 +26,7 @@
     }
 }
 ```
-###### \java\seedu\address\logic\AutoComplete.java
+###### /java/seedu/address/logic/AutoComplete.java
 ``` java
 package seedu.address.logic;
 
@@ -38,6 +38,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_STRING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FACEBOOK;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FACEBOOK_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME_STRING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PASSWORD;
@@ -53,6 +55,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_USERNAME_STRING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -140,13 +143,14 @@ public class AutoComplete {
      */
     private static String addCommandAutoComplete(String args) {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
-            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_TAG);
+            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_FACEBOOK, PREFIX_TAG);
         return AddCommand.COMMAND_WORD + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_NAME) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_PHONE) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_BIRTHDAY) + " "
+            + formatPrefixWithArgs(argMultimap, PREFIX_FACEBOOK) + " "
             + formatPrefixWithArgs(argMultimap, PREFIX_TAG);
     }
 
@@ -162,7 +166,7 @@ public class AutoComplete {
      */
     private static String editCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
-            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_TAG);
+            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_FACEBOOK, PREFIX_TAG);
 
         String indexString = argMultimap.getPreamble();
         Index index;
@@ -183,6 +187,7 @@ public class AutoComplete {
                 + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_BIRTHDAY, person) + " "
+                + formatPrefixWithArgs(argMultimap, PREFIX_FACEBOOK, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person);
         } catch (IndexOutOfBoundsException e) {
             String restArgs = args.replaceFirst(indexString, "").trim();
@@ -196,23 +201,32 @@ public class AutoComplete {
      * Auto-completes export command.
      */
     private static String exportCommandAutoComplete(String args) {
-        Pattern exportPattern = Pattern.compile("(?<possibleIndexList>.[^;]);(?<possibleFilePath>.*)");
-        Matcher matcher = exportPattern.matcher(args);
+        if (args.trim().isEmpty()) {
+            return ExportCommand.COMMAND_WORD + " ";
+        }
 
         String possibleIndexListString;
-        String possibleFilePath;
-        if (matcher.matches()) { // contains delimiter ";"
-            possibleIndexListString = matcher.group("possibleIndexList");
-            possibleFilePath = matcher.group("possibleFilePath");
+        String possibleFilePath = "";
+        if (args.contains(";")) { // contains delimiter ";"
+            possibleIndexListString = args.substring(0, args.indexOf(';'));
+            possibleFilePath = args.substring(args.indexOf(';') + 1);
         } else { // try to find the index part and file part
             int possibleDelimiterIndex = Math.max(args.lastIndexOf(' '), args.lastIndexOf(','));
             possibleIndexListString = args.substring(0, possibleDelimiterIndex);
-            possibleFilePath = args.substring(possibleDelimiterIndex + 1);
+            if (possibleIndexListString.trim().isEmpty()) { // the only argument should be index
+                possibleIndexListString = args;
+            } else { // the last argument should be filePath
+                possibleFilePath = args.substring(possibleDelimiterIndex + 1);
+            }
         }
 
         // format Index List
-        possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s|,)+"))
-            .map(AutoComplete::formatSingleIndexString).filter(p -> !p.isEmpty()).collect(Collectors.joining(", "));
+        try {
+            possibleIndexListString = wrapRangeIndexList(ParserUtil.parseRangeIndexList(possibleIndexListString));
+        } catch (IllegalValueException ive) {
+            possibleIndexListString = Arrays.stream(possibleIndexListString.split("(\\s|,)+"))
+                .map(AutoComplete::formatRangeIndexString).filter(p -> !p.isEmpty()).collect(Collectors.joining(", "));
+        }
 
         // format file path
         possibleFilePath = possibleFilePath.trim();
@@ -357,13 +371,16 @@ public class AutoComplete {
             return prefix.getPrefix() + ParserUtil.parseBirthday(firstArg).map(p -> p.value).orElse("");
         case PREFIX_EMAIL_STRING:
             return prefix.getPrefix() + ParserUtil.parseEmail(firstArg).map(p -> p.value).orElse("");
+        case PREFIX_FACEBOOK_STRING:
+            return prefix.getPrefix() + ParserUtil.parseFacebook(firstArg).map(p -> p.value).orElse("");
         case PREFIX_NAME_STRING:
             return prefix.getPrefix() + ParserUtil.parseName(firstArg).map(p -> p.fullName).orElse("");
         case PREFIX_PHONE_STRING:
             return prefix.getPrefix() + ParserUtil.parsePhone(firstArg).map(p -> p.value).orElse("");
         case PREFIX_TAG_STRING:
-            return ParserUtil.parseTags(argList).stream().map(p -> (prefix + p.tagName))
+            String tagString = ParserUtil.parseTags(argList).stream().map(p -> (prefix + p.tagName))
                 .collect(Collectors.joining(" "));
+            return tagString.isEmpty() ? PREFIX_TAG_STRING : tagString;
         case PREFIX_REMARK_STRING:
             return prefix.getPrefix() + firstArg.get().trim();
         case PREFIX_USERNAME_STRING:
@@ -394,6 +411,8 @@ public class AutoComplete {
             return person.getAddress().value;
         case PREFIX_BIRTHDAY_STRING:
             return person.getBirthday().value;
+        case PREFIX_FACEBOOK_STRING:
+            return  person.getFacebook().value;
         case PREFIX_REMARK_STRING:
             return person.getRemark().value;
         case PREFIX_TAG_STRING:
@@ -408,6 +427,57 @@ public class AutoComplete {
      */
     private static String formatSingleIndexString(String arg) {
         return arg.replaceAll("\\D", "");
+    }
+
+    /**
+     * Formats the argument into range index list form.
+     */
+    private static String formatRangeIndexString(String arg) {
+        String numString = arg.replaceAll("((?!\\d|-).)+", "");
+        Matcher rangeIndexMatcher = Pattern.compile("(?<first>\\d+)-(?<second>\\d+).*").matcher(numString);
+        if (rangeIndexMatcher.matches()) { // range index
+            int firstNum = Integer.parseInt(rangeIndexMatcher.group("first"));
+            int secondNum = Integer.parseInt(rangeIndexMatcher.group("second"));
+            return Math.min(firstNum, secondNum) + "-" + Math.max(firstNum, secondNum);
+        } else { // single index, including number only on one side of '-'
+            return numString.replaceAll("\\D+", "");
+        }
+    }
+
+    /**
+     * Wraps the Index list by range index.
+     */
+    private static String wrapRangeIndexList(List<Index> indexList) {
+        if (indexList.isEmpty()) {
+            return "";
+        }
+        List<Integer> oneBasedIndexList = indexList.stream().map(Index::getOneBased).collect(Collectors.toList());
+        Collections.sort(oneBasedIndexList);
+
+        List<List<Integer>> splitList = new ArrayList<>();
+        List<Integer> currentList = new ArrayList<>();
+        for (int i = 0; i < oneBasedIndexList.size() - 1; i++) {
+            currentList.add(oneBasedIndexList.get(i));
+            if (oneBasedIndexList.get(i + 1) != oneBasedIndexList.get(i) + 1) {
+                splitList.add(currentList);
+                currentList = new ArrayList<>();
+            }
+        }
+        currentList.add(oneBasedIndexList.get(oneBasedIndexList.size() - 1));
+        splitList.add(currentList);
+
+        List<String> oneBasedRangeIndexStrings = new ArrayList<>();
+        for (List<Integer> oneBasedRangeIndex : splitList) {
+            if (oneBasedRangeIndex.size() == 1) { // single index
+                oneBasedRangeIndexStrings.add(String.valueOf(oneBasedRangeIndex.get(0)));
+            } else {
+                int first = oneBasedRangeIndex.get(0);
+                int last = oneBasedRangeIndex.get(oneBasedRangeIndex.size() - 1);
+                oneBasedRangeIndexStrings.add(first + "-" + last);
+            }
+        }
+
+        return oneBasedRangeIndexStrings.stream().collect(Collectors.joining(", "));
     }
 
     /**
@@ -469,7 +539,7 @@ public class AutoComplete {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\ExportCommand.java
+###### /java/seedu/address/logic/commands/ExportCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -493,8 +563,9 @@ public class ExportCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
         + ": Exports persons identified by the index numbers used in the last person listing to a specified save file."
-        + "\n" + "Parameters: INDEXES; FILE_PATH (Indexes must be positive integers separated by commas or spaces)\n"
-        + "Example: " + COMMAND_WORD + " 1, 2 3; /Users/[User Name]/Desktop/persons.xml";
+        + "\n" + "Parameters: INDEXES; FILE_PATH\n"
+        + "(Indexes must be positive integers or two indexes linked by \"-\" separated by commas or spaces)\n"
+        + "Example: " + COMMAND_WORD + " 1-3, 4 6; /Users/[User Name]/Desktop/persons.xml";
 
     public static final String MESSAGE_EXPORT_PERSON_SUCCESS = "Your contacts: %1$shave been exported to file: %2$s";
 
@@ -508,12 +579,6 @@ public class ExportCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
-        // check if user is validated
-        if (!model.getUserCreds().isValidSession()) {
-            throw new CommandException("Invalid session! Please log in first! \n"
-                    + LoginCommand.MESSAGE_USAGE);
-        }
-
         List<ReadOnlyPerson> personsToSave = null;
 
         try {
@@ -561,7 +626,7 @@ public class ExportCommand extends Command {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\ImportCommand.java
+###### /java/seedu/address/logic/commands/ImportCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -607,13 +672,6 @@ public class ImportCommand extends UndoableCommand {
     @Override
     protected CommandResult executeUndoableCommand() throws CommandException {
         boolean foundDuplicatedPersonsInFile = false;
-
-        // check if user is validated
-        if (!model.getUserCreds().isValidSession()) {
-            throw new CommandException("Invalid session! Please log in first! \n"
-                    + LoginCommand.MESSAGE_USAGE);
-        }
-
         XmlPersonListStorage personListStorage = new XmlPersonListStorage(this.filePath);
         Optional<UniquePersonList> optionalPersonList = Optional.empty();
         try {
@@ -657,50 +715,24 @@ public class ImportCommand extends UndoableCommand {
 
 }
 ```
-###### \java\seedu\address\logic\LogicManager.java
+###### /java/seedu/address/logic/LogicManager.java
 ``` java
     @Override
     public String autoCompleteCommand(String command) {
         return AutoComplete.autoComplete(command, model.getFilteredPersonList());
     }
 ```
-###### \java\seedu\address\logic\parser\CliSyntax.java
+###### /java/seedu/address/logic/parser/ExportCommandParser.java
 ``` java
-    /* Prefix name strings */
-    public static final String PREFIX_NAME_STRING = "n/";
-    public static final String PREFIX_PHONE_STRING = "p/";
-    public static final String PREFIX_EMAIL_STRING = "e/";
-    public static final String PREFIX_ADDRESS_STRING = "a/";
-    public static final String PREFIX_BIRTHDAY_STRING = "b/";
-    public static final String PREFIX_TAG_STRING = "t/";
-    public static final String PREFIX_REMARK_STRING = "r/";
-    public static final String PREFIX_USERNAME_STRING = "usr/";
-    public static final String PREFIX_PASSWORD_STRING = "pwd/";
-```
-###### \java\seedu\address\logic\parser\ExportCommandParser.java
-``` java
-package seedu.address.logic.parser;
-
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.logic.commands.ExportCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-
 /**
- *
+ * Parses input argument to an index list and file path and creates a new ImportCommand.
  */
 public class ExportCommandParser implements Parser<ExportCommand> {
 
     public static final String MISSING_FILE_PATH = "Missing file path!\n";
 
     private static final Pattern INDEXES_AND_FILEPATH =
-        Pattern.compile("(?<oneBasedIndexListString>.(((\\d)*(,)*(\\s)*)+));(?<filePath>.*)");
+        Pattern.compile("(?<oneBasedIndexListString>.(((\\d)*(,)*(\\s)*(-)*)+));(?<filePath>.*)");
 
     @Override
     public ExportCommand parse(String args) throws ParseException {
@@ -715,7 +747,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         // parse indexes
         List<Index> indexes;
         try {
-            indexes = ParserUtil.parseIndexList(oneBasedIndexListString);
+            indexes = ParserUtil.parseRangeIndexList(oneBasedIndexListString);
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
@@ -749,15 +781,8 @@ public class ExportCommandParser implements Parser<ExportCommand> {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\ImportCommandParser.java
+###### /java/seedu/address/logic/parser/ImportCommandParser.java
 ``` java
-package seedu.address.logic.parser;
-
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
-import seedu.address.logic.commands.ImportCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-
 /**
  * Parses input argument to a file path and creates a new ImportCommand.
  */
@@ -779,7 +804,7 @@ public class ImportCommandParser implements Parser<ImportCommand> {
     }
 }
 ```
-###### \java\seedu\address\model\person\Address.java
+###### /java/seedu/address/model/person/Address.java
 ``` java
     /**
      * Returns an empty Address object.
@@ -788,7 +813,7 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         return new Address();
     }
 ```
-###### \java\seedu\address\model\person\Birthday.java
+###### /java/seedu/address/model/person/Birthday.java
 ``` java
     /**
      * Returns an empty Birthday object.
@@ -797,7 +822,78 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         return new Birthday();
     }
 ```
-###### \java\seedu\address\storage\PersonListStorage.java
+###### /java/seedu/address/model/person/Facebook.java
+``` java
+/**
+ * Represents a Person's Facebook ID in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidFacebookId(String)}
+ */
+public class Facebook {
+    public static final String MESSAGE_FACEBOOK_CONSTRAINTS =
+        "Person facebook should be in the format ";
+    public static final String FACEBOOK_ID_VALIDATION_REGEX = "\\d+";
+
+    public final String value;
+
+    /**
+     * Validates given facebook.
+     *
+     * @throws IllegalValueException if given facebook string is invalid.
+     */
+    public Facebook(String facebookId) throws IllegalValueException {
+        requireNonNull(facebookId);
+        if (facebookId.isEmpty()) {
+            this.value = "";
+            return;
+        }
+        String trimmedFacebookId = facebookId.trim();
+        if (!isValidFacebookId(trimmedFacebookId)) {
+            throw new IllegalValueException(MESSAGE_FACEBOOK_CONSTRAINTS);
+        }
+        this.value = trimmedFacebookId;
+    }
+
+    /**
+     * Creates Birthday that is empty.
+     */
+    private Facebook() {
+        this.value = "";
+    }
+
+    /**
+     * Returns if a given string is a valid person email.
+     */
+    public static boolean isValidFacebookId(String test) {
+        return test.matches(FACEBOOK_ID_VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns an empty Birthday object.
+     */
+    public static Facebook getEmptyFacebook() {
+        return new Facebook();
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+            || (other instanceof Facebook // instanceof handles nulls
+            && this.value.equals(((Facebook) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+}
+```
+###### /java/seedu/address/storage/PersonListStorage.java
 ``` java
 package seedu.address.storage;
 
@@ -860,7 +956,7 @@ public interface PersonListStorage {
 
 }
 ```
-###### \java\seedu\address\storage\XmlFileStorage.java
+###### /java/seedu/address/storage/XmlFileStorage.java
 ``` java
     /**
      * Returns person list in the file or an empty address book
@@ -876,7 +972,7 @@ public interface PersonListStorage {
 
 }
 ```
-###### \java\seedu\address\storage\XmlPersonListStorage.java
+###### /java/seedu/address/storage/XmlPersonListStorage.java
 ``` java
 package seedu.address.storage;
 
@@ -975,7 +1071,7 @@ public class XmlPersonListStorage implements PersonListStorage {
     }
 }
 ```
-###### \java\seedu\address\storage\XmlSerializablePersonList.java
+###### /java/seedu/address/storage/XmlSerializablePersonList.java
 ``` java
 package seedu.address.storage;
 
@@ -1040,7 +1136,7 @@ public class XmlSerializablePersonList extends XmlSerializableData {
 
 }
 ```
-###### \java\seedu\address\ui\CommandBox.java
+###### /java/seedu/address/ui/CommandBox.java
 ``` java
     /**
      * Auto-completes the command in the command box.

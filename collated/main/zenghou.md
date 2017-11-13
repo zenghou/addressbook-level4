@@ -1,5 +1,5 @@
 # zenghou
-###### \java\seedu\address\commons\core\Config.java
+###### /java/seedu/address/commons/core/Config.java
 ``` java
     public String getUserCredsFilePath() {
         return userCredsFilePath;
@@ -9,7 +9,7 @@
         this.userCredsFilePath = userCredsFilePath;
     }
 ```
-###### \java\seedu\address\commons\events\model\UserCredsChangedEvent.java
+###### /java/seedu/address/commons/events/model/UserCredsChangedEvent.java
 ``` java
 package seedu.address.commons.events.model;
 
@@ -26,7 +26,7 @@ public class UserCredsChangedEvent extends BaseEvent {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\LoginCommand.java
+###### /java/seedu/address/logic/commands/LoginCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -78,7 +78,7 @@ public class LoginCommand extends Command {
 
 }
 ```
-###### \java\seedu\address\logic\commands\RemarkCommand.java
+###### /java/seedu/address/logic/commands/RemarkCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -95,6 +95,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Facebook;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -129,11 +130,6 @@ public class RemarkCommand extends UndoableCommand {
 
     @Override
     protected CommandResult executeUndoableCommand() throws CommandException {
-        // check if user is validated
-        if (!model.getUserCreds().isValidSession()) {
-            throw new CommandException("Invalid session! Please log in first! \n"
-                    + LoginCommand.MESSAGE_USAGE);
-        }
 
         List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
 
@@ -175,9 +171,10 @@ public class RemarkCommand extends UndoableCommand {
         Email email = personToAddRemarkTo.getEmail();
         Address address = personToAddRemarkTo.getAddress();
         Birthday birthday = personToAddRemarkTo.getBirthday();
+        Facebook facebook = personToAddRemarkTo.getFacebook();
         Set<Tag> tags = personToAddRemarkTo.getTags();
 
-        Person personWithRemark = new Person(name, phone, email, address, birthday, tags);
+        Person personWithRemark = new Person(name, phone, email, address, birthday, facebook, tags);
         personWithRemark.setRemark(rmk);
 
         return personWithRemark;
@@ -194,7 +191,7 @@ public class RemarkCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\SearchCommand.java
+###### /java/seedu/address/logic/commands/SearchCommand.java
 ``` java
 package seedu.address.logic.commands;
 
@@ -225,12 +222,6 @@ public class SearchCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
-        // check if user is validated
-        if (!model.getUserCreds().isValidSession()) {
-            throw new CommandException("Invalid session! Please log in first! \n"
-                    + LoginCommand.MESSAGE_USAGE);
-        }
-
         model.updateFilteredPersonList(predicate);
         return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
     }
@@ -243,7 +234,7 @@ public class SearchCommand extends Command {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\LoginCommandParser.java
+###### /java/seedu/address/logic/parser/LoginCommandParser.java
 ``` java
 package seedu.address.logic.parser;
 
@@ -287,7 +278,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
     }
 }
 ```
-###### \java\seedu\address\model\ModelManager.java
+###### /java/seedu/address/model/ModelManager.java
 ``` java
     /**
      * Returns userCreds to be used by Logic component for user verification
@@ -298,7 +289,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
     }
 
 ```
-###### \java\seedu\address\model\ModelManager.java
+###### /java/seedu/address/model/ModelManager.java
 ``` java
     @Override
     public synchronized void updateUserCreds() {
@@ -306,14 +297,14 @@ public class LoginCommandParser implements Parser<LoginCommand> {
     }
 
 ```
-###### \java\seedu\address\model\ModelManager.java
+###### /java/seedu/address/model/ModelManager.java
 ``` java
     /** Raises an event to indicate the UserCreds has changed */
     private synchronized void indicateUserCredsChanged() {
         raise(new UserCredsChangedEvent());
     }
 ```
-###### \java\seedu\address\model\person\DetailsContainKeyphrasePredicate.java
+###### /java/seedu/address/model/person/DetailsContainKeyphrasePredicate.java
 ``` java
 package seedu.address.model.person;
 
@@ -355,15 +346,16 @@ public class DetailsContainKeyphrasePredicate implements Predicate<ReadOnlyPerso
         boolean emailContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getEmail().value, keyphrase);
         boolean phoneContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getPhone().value, keyphrase);
         boolean addressContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getAddress().value, keyphrase);
+        boolean facebookContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getFacebook().value, keyphrase);
         boolean remarkContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getRemark().value, keyphrase);
         boolean tagContainsKeyphrase = StringUtil.caseInsensitiveContains(person.getTags().toString(), keyphrase);
 
         return nameContainsKeyphrase || emailContainsKeyphrase || phoneContainsKeyphrase || addressContainsKeyphrase
-                || remarkContainsKeyphrase || tagContainsKeyphrase;
+                || facebookContainsKeyphrase || remarkContainsKeyphrase || tagContainsKeyphrase;
     }
 }
 ```
-###### \java\seedu\address\model\person\Remark.java
+###### /java/seedu/address/model/person/Remark.java
 ``` java
 package seedu.address.model.person;
 
@@ -414,7 +406,7 @@ public class Remark {
 
 }
 ```
-###### \java\seedu\address\model\user\UserCreds.java
+###### /java/seedu/address/model/user/UserCreds.java
 ``` java
 package seedu.address.model.user;
 
@@ -496,18 +488,18 @@ public class UserCreds {
 
 }
 ```
-###### \java\seedu\address\storage\Storage.java
+###### /java/seedu/address/storage/Storage.java
 ``` java
     @Override
     Optional<UserCreds> readUserCreds() throws DataConversionException, IOException;
 
 ```
-###### \java\seedu\address\storage\Storage.java
+###### /java/seedu/address/storage/Storage.java
 ``` java
     @Override
     void saveUserCreds(UserCreds userCreds) throws IOException;
 ```
-###### \java\seedu\address\storage\StorageManager.java
+###### /java/seedu/address/storage/StorageManager.java
 ``` java
     @Override
     public String getUserCredsFilePath() {
@@ -515,7 +507,7 @@ public class UserCreds {
     }
 
 ```
-###### \java\seedu\address\storage\StorageManager.java
+###### /java/seedu/address/storage/StorageManager.java
 ``` java
     @Override
     public Optional<UserCreds> readUserCreds() throws DataConversionException, IOException {
@@ -523,14 +515,14 @@ public class UserCreds {
     }
 
 ```
-###### \java\seedu\address\storage\StorageManager.java
+###### /java/seedu/address/storage/StorageManager.java
 ``` java
     @Override
     public void saveUserCreds(UserCreds userCreds) throws IOException {
         userCredsStorage.saveUserCreds(userCreds);
     }
 ```
-###### \java\seedu\address\ui\PersonProfile.java
+###### /java/seedu/address/ui/PersonProfile.java
 ``` java
 package seedu.address.ui;
 
@@ -575,6 +567,9 @@ public class PersonProfile extends UiPart<Region> {
     private Label name;
 
     @FXML
+    private Label birthday;
+
+    @FXML
     private Label remark;
 
     @FXML
@@ -597,6 +592,7 @@ public class PersonProfile extends UiPart<Region> {
     private void initPersonProfile(ReadOnlyPerson person) {
         profile.setText("PROFILE");
         name.setText(person.getName().toString());
+        birthday.setText(person.getBirthday().toString());
         remark.setText(person.getRemark().toString());
         tags.getChildren().clear(); // clear existing tags
         person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
@@ -606,11 +602,10 @@ public class PersonProfile extends UiPart<Region> {
      * Retrieves a profile picture from Facebook {@see Facebook#getPictureURL}and sets that image as the contact image
      * for the Person's profile. A default image would be assigned if no picture is retrieved from Facebook.
      */
-    private void setProfilePicture() {
+    private void setProfilePicture(ReadOnlyPerson person) {
         Image profilePic;
         try {
-            // TODO: Replace hardcoded userID with Dynamically get Facebook userId
-            profilePic = new Image(facebook.getPictureURL("1253844668", PictureSize.large).toString());
+            profilePic = new Image(facebook.getPictureURL(person.getFacebook().value, PictureSize.large).toString());
         } catch (FacebookException fbe) {
             profilePic = new Image(defaultProfilePicture);
             fbe.printStackTrace();
@@ -621,8 +616,9 @@ public class PersonProfile extends UiPart<Region> {
     @Subscribe
     private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        initPersonProfile(event.getNewSelection().person);
-        setProfilePicture();
+        ReadOnlyPerson selectedPerson = event.getNewSelection().person;
+        initPersonProfile(selectedPerson);
+        setProfilePicture(selectedPerson);
     }
 
     @Override
@@ -644,19 +640,21 @@ public class PersonProfile extends UiPart<Region> {
     }
 }
 ```
-###### \java\seedu\address\ui\UiManager.java
+###### /java/seedu/address/ui/UiManager.java
 ``` java
     @Subscribe
     private void handleUserCredsChangedEvent(UserCredsChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        mainWindow.fillInnerParts();
+        mainWindow.fillRestOfInnerParts();
     }
 }
 ```
-###### \resources\view\PersonProfile.fxml
+###### /resources/view/PersonProfile.fxml
 ``` fxml
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
@@ -664,42 +662,115 @@ public class PersonProfile extends UiPart<Region> {
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints maxHeight="230.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="455.0" minHeight="10.0" prefHeight="443.0" vgrow="SOMETIMES" />
+  </rowConstraints>
    <children>
-      <GridPane prefHeight="324.0" prefWidth="550.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
+      <Label fx:id="profile" />
+      <VBox prefHeight="482.0" prefWidth="306.0" styleClass="profile-wrapper" GridPane.rowIndex="1">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <ImageView fx:id="profilePicture" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" translateX="93.0">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></ImageView>
+            <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="300.0" styleClass="name" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin></Label>
+            <HBox prefHeight="30.0" prefWidth="300.0" styleClass="birthday">
                <children>
-                  <Label fx:id="profile" />
-                  <ImageView fx:id="profilePicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <Label text="Birthday: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="birthday" styleClass="birthday-field">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" styleClass="remarks">
+               <children>
+                  <Label text="Remarks:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
                      <VBox.margin>
-                        <Insets />
+                        <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
-                  </ImageView>
-                  <Label fx:id="name" textAlignment="JUSTIFY">
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="remark" alignment="TOP_LEFT" prefHeight="71.0" prefWidth="286.0" styleClass="remarks-content">
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
                      <VBox.margin>
-                        <Insets />
+                        <Insets left="5.0" right="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="remark" textAlignment="JUSTIFY" />
-                  <FlowPane fx:id="tags" prefHeight="200.0" prefWidth="200.0" />
                </children>
-               <GridPane.margin>
-                  <Insets top="210.0" />
-               </GridPane.margin>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </VBox>
+            <VBox prefHeight="140.0" prefWidth="306.0" styleClass="tags-box">
+               <children>
+                  <HBox prefHeight="44.0" prefWidth="306.0">
+                     <children>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/tags.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label text="Tags" translateX="5.0" translateY="4.0" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <FlowPane fx:id="tags" prefHeight="76.0" prefWidth="296.0">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding></FlowPane>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
             </VBox>
          </children>
-      </GridPane>
+      </VBox>
    </children>
-</HBox>
+</GridPane>
 ```

@@ -5,6 +5,7 @@ import static junit.framework.TestCase.assertTrue;
 
 import org.junit.Test;
 
+//@@author HanYaodong
 public class FacebookTest {
 
     @Test
