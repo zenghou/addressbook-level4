@@ -153,7 +153,7 @@ _Figure 2.2.1 : Structure of the UI Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `PersonProfile` `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -379,6 +379,39 @@ After a `SearchCommand` is returned to the `LogicManager`, it will be executed. 
 **Pros:** Easier for developers to override and add methods +
 **Cons:** Internal attributes are of different types and it might be more cumbersome to manipulate the data type.
 // end::search[]
+
+// tag::sort[]
+=== Sort mechanism
+
+The sort mechanism is similar to that of list command. The sort mechanism is to sort and list the person(s) in the addressbook according to the attribute enetered by the user.
+
+// need to add
+image::SearchCommandSequenceDiagram.png[width="800"]
+_Figure 3.3.1 : Sequence Diagram of the Sort Command_
+
+When the `sort` command is being entered, followed by a non-empty keyphrase, `AddressBookParser` in `LogicManager` will return a `SortCommandParser`, which will parse the keyphrase. The keyphrase will have trailing and preceding white spaces removed, and be ensured that it is not empty String. The parser will return a `SortCommand` object.
+
+After a `SortCommand` is returned to the `LogicManager`, it will be executed. The method will call `sortComparatorByPrefix` method, which will sort the Persons in ascending or descending order depending on the attribute entered, and update the model accordingly. A successful command message will be returned if there are no errors thrown and the UI will be updated accordingly.
+
+==== Design Considerations
+
+**Aspect:** Attribute +
+**Alternative 1:** Can only sort by name +
+**Pros:** Users can sort in alphabetical order (A-Z or Z-A) +
+**Cons:** Sorted command is still not able to sort a filtered list. Instead it will list all contacts +
+**Alternative 2:** Allow filtered sort +
+**Pros:** User can sort the Persons in the Address Book after they filter them through search + 
+
+---
+
+**Aspect:** Order +
+**Alternative 1:** use comparator `sortComparatorByPrefix`  to sort +
+**Pros:** User can sort the address book both ascending and descending order +
+**Cons:** Not able to stable sort +
+**Alternative 2:** Input more than one attribute for sorting +
+**Pros:** Sort according to the first attribute and when encounter same value of the first attribute, will the sort person according to second attribute +
+**Cons:** Unable to know the optimum number of attribute to stable sort the Persons in the AddressBook.
+// end::sort[]
 
 // tag::exportimport[]
 === Export/Import mechanism
