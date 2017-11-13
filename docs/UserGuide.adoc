@@ -105,6 +105,7 @@ Shows a list of all persons in the address book. +
 Format: `list` +
 Shorthand for list: `l`
 
+// tag::sort[]
 === Sorting persons list : `sort`
 
 Sorts the persons list according to the attribute specified in ascending or descending order. +
@@ -116,7 +117,9 @@ Sort function will sort the attribute in ascending order by default
 Examples:
 
 * `sort name reverse`
-* `sort phone`
+* `sort name`
+
+// end::sort[]
 
 === Editing a person : `edit`
 
