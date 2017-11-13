@@ -86,6 +86,7 @@ public class EditPersonDescriptorBuilder {
         return this;
     }
 
+    //@@author zenghou
     /**
      * Sets the {@code Remark} of the {@code EditPersonDescriptor} that we are building.
      */
@@ -97,6 +98,7 @@ public class EditPersonDescriptorBuilder {
         }
         return this;
     }
+    //@@author
 
     /**
      * Sets the {@code Birthday} of the {@code EditPersonDescriptor} that we are building.
