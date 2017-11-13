@@ -400,7 +400,7 @@ After a `SortCommand` is returned to the `LogicManager`, it will be executed. Th
 **Pros:** Users can sort in alphabetical order (A-Z or Z-A) +
 **Cons:** Sorted command is still not able to sort a filtered list. Instead it will list all contacts +
 **Alternative 2:** Allow filtered sort +
-**Pros:** User can sort the Persons in the Address Book after they filter them through search + 
+**Pros:** User can sort the Persons in the Address Book after they filter them through search +
 
 ---
 

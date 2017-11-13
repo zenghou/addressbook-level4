@@ -23,7 +23,7 @@ include::../UserGuide.adoc[tag=sort]
 
 ==== Justification
 
-It is one of the basic necessity of most tools to be able to sort their values according to the attribute the user are interested in. 
+It is one of the basic necessity of most tools to be able to sort their values according to the attribute the user are interested in.
 
 ==== Implementation
 
@@ -40,7 +40,7 @@ include::../DeveloperGuide.adoc[tag=sort]
 
 ==== Justification
 
-As our main targeted user consist of millenials, storing birthday (for celebration purposes) is just as important as storing address. 
+As our main targeted user consist of millenials, storing birthday (for celebration purposes) is just as important as storing address.
 
 ==== Implementation
 
@@ -55,5 +55,5 @@ include::../DeveloperGuide.adoc[tag=sort]
 
 === Other contributions
 
-* Update AddressBook Pro UI to a cleaner and more modern look (Pull requests https://github.com/CS2103AUG2017-F11-B4/main/pull/45[#45], https://github.com/CS2103AUG2017-F11-B4/main/pull/61[#61]) 
+* Update AddressBook Pro UI to a cleaner and more modern look (Pull requests https://github.com/CS2103AUG2017-F11-B4/main/pull/45[#45], https://github.com/CS2103AUG2017-F11-B4/main/pull/61[#61])
 
