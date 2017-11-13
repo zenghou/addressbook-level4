@@ -139,7 +139,7 @@ public class AutoComplete {
      */
     private static String editCommandAutoComplete(String args, List<ReadOnlyPerson> filteredPersonList) {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
-            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_BIRTHDAY, PREFIX_FACEBOOK, PREFIX_TAG, PREFIX_REMARK);
+            PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_REMARK, PREFIX_BIRTHDAY, PREFIX_FACEBOOK, PREFIX_TAG);
 
         String indexString = argMultimap.getPreamble();
         Index index;
@@ -159,10 +159,10 @@ public class AutoComplete {
                 + formatPrefixWithArgs(argMultimap, PREFIX_PHONE, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_EMAIL, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_ADDRESS, person) + " "
+                + formatPrefixWithArgs(argMultimap, PREFIX_REMARK, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_BIRTHDAY, person) + " "
                 + formatPrefixWithArgs(argMultimap, PREFIX_FACEBOOK, person) + " "
-                + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person) + " "
-                + formatPrefixWithArgs(argMultimap, PREFIX_REMARK, person);
+                + formatPrefixWithArgs(argMultimap, PREFIX_TAG, person) + " ";
         } catch (IndexOutOfBoundsException e) {
             String restArgs = args.replaceFirst(indexString, "").trim();
             return EditCommand.COMMAND_WORD + " " + formatSingleIndexString(indexString) + " " + restArgs;

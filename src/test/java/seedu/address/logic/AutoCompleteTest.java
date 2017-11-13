@@ -145,7 +145,7 @@ public class AutoCompleteTest {
     public void autoCompleteEdit_firstIndexInvalidField_autoFillFields() {
         ReadOnlyPerson firstPerson = getTypicalPersons().get(INDEX_FIRST_PERSON.getZeroBased());
         String expected = EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
-            + " " + getPersonDetails(firstPerson).trim() + " r/";
+            + " " + getPersonDetails(firstPerson).trim() + " ";
 
         // empty field
         String command = "edit 1 n/";
@@ -169,7 +169,7 @@ public class AutoCompleteTest {
         Person expectedPerson = new Person(firstPerson);
         expectedPerson.setName(new Name(validName));
         String expected = EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
-            + " " + getPersonDetails(expectedPerson).trim() + " r/";
+            + " " + getPersonDetails(expectedPerson).trim() + " ";
         assertAutoComplete(command, expected);
 
         String validPhone = "1234567";
@@ -177,7 +177,7 @@ public class AutoCompleteTest {
         expectedPerson = new Person(firstPerson);
         expectedPerson.setPhone(new Phone(validPhone));
         expected = EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
-            + " " + getPersonDetails(expectedPerson).trim() + " r/";
+            + " " + getPersonDetails(expectedPerson).trim() + " ";
         assertAutoComplete(command, expected);
 
         // index out of boundary -> leave the args
